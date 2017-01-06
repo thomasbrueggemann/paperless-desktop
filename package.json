@@ -1,0 +1,54 @@
+{
+  "name": "paperless-desktop",
+  "version": "1.0.0",
+  "description": "Desktop app that uses the paperless API to manage your documents Edit",
+  "main": "main.js",
+  "scripts": {
+	"start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasbrueggemann/paperless-desktop.git"
+  },
+  "dependencies": {
+	"alt": "^0.17.4",
+	"async": "^1.4.2",
+	"babel": "^5.8.23",
+	"react": "^0.14.0",
+	"react-dom": "^0.14.0",
+	"react-router": "^1.0.0-rc3",
+	"history": "^1.12.5",
+	"swig": "^1.4.2",
+	"underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "electron": "^1.4.13",
+	"babelify": "^6.3.0",
+	"bower": "^1.6.3",
+	"browserify": "^11.2.0",
+	"gulp": "^3.9.0",
+	"gulp-autoprefixer": "^3.1.0",
+	"gulp-concat": "^2.6.0",
+	"gulp-cssmin": "^0.1.7",
+	"gulp-if": "^2.0.0",
+	"gulp-less": "^3.0.3",
+	"gulp-plumber": "^1.0.1",
+	"gulp-streamify": "1.0.2",
+	"gulp-uglify": "^1.4.2",
+	"gulp-util": "^3.0.6",
+	"vinyl-source-stream": "^1.1.0",
+	"watchify": "^3.4.0"
+  },
+  "keywords": [
+    "paperless",
+    "desktop",
+    "electron"
+  ],
+  "author": "Thomas Brüggemann",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/thomasbrueggemann/paperless-desktop/issues"
+  },
+  "homepage": "https://github.com/thomasbrueggemann/paperless-desktop#readme"
+}
