@@ -16,7 +16,7 @@ class Sidebar extends React.Component {
 		return (
 			<div className="pane pane-sm sidebar">
             <nav className="nav-group">
-              <h5 className="nav-group-title">Favorites</h5>
+              <h5 className="nav-group-title">Correspondents</h5>
               <span className="nav-group-item">
                 <span className="icon icon-home"></span>
                 connors

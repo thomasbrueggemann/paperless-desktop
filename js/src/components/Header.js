@@ -15,36 +15,30 @@ class Header extends React.Component {
 
 		return (
 			<header className="toolbar toolbar-header">
-			  <h1 className="title">Header with actions</h1>
+			  	<h1 className="title">Paperless</h1>
 
-			  <div className="toolbar-actions">
-			    <div className="btn-group">
-			      <button className="btn btn-default">
-			        <span className="icon icon-home"></span>
-			      </button>
-			      <button className="btn btn-default">
-			        <span className="icon icon-folder"></span>
-			      </button>
-			      <button className="btn btn-default active">
-			        <span className="icon icon-cloud"></span>
-			      </button>
-			      <button className="btn btn-default">
-			        <span className="icon icon-popup"></span>
-			      </button>
-			      <button className="btn btn-default">
-			        <span className="icon icon-shuffle"></span>
-			      </button>
-			    </div>
+			  	<div className="toolbar-actions">
+					<div className="btn-group">
+						<button className="btn btn-default" title="Correspondents">
+							<span className="icon icon-users"></span>
+						</button>
+						<button className="btn btn-default active" title="Documents">
+							<span className="icon icon-newspaper"></span>
+						</button>
+						<button className="btn btn-default" title="Tags">
+							<span className="icon icon-tag"></span>
+						</button>
+					</div>
 
-			    <button className="btn btn-default">
-			      <span className="icon icon-home icon-text"></span>
-			      Filters
-			    </button>
-
-			    <button className="btn btn-default btn-dropdown pull-right">
-			      <span className="icon icon-megaphone"></span>
-			    </button>
-			  </div>
+					<div className="btn-group">
+						<button className="btn btn-default">
+							<span className="icon icon-cog"></span>
+						</button>
+						<button className="btn btn-default" title="Logs">
+							<span className="icon icon-menu"></span>
+						</button>
+					</div>
+			  	</div>
 			</header>
 
 		);

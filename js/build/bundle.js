@@ -109,7 +109,7 @@ var Header = (function (_React$Component) {
 				_react2["default"].createElement(
 					"h1",
 					{ className: "title" },
-					"Header with actions"
+					"Paperless"
 				),
 				_react2["default"].createElement(
 					"div",
@@ -119,40 +119,33 @@ var Header = (function (_React$Component) {
 						{ className: "btn-group" },
 						_react2["default"].createElement(
 							"button",
-							{ className: "btn btn-default" },
-							_react2["default"].createElement("span", { className: "icon icon-home" })
+							{ className: "btn btn-default", title: "Correspondents" },
+							_react2["default"].createElement("span", { className: "icon icon-users" })
 						),
 						_react2["default"].createElement(
 							"button",
-							{ className: "btn btn-default" },
-							_react2["default"].createElement("span", { className: "icon icon-folder" })
+							{ className: "btn btn-default active", title: "Documents" },
+							_react2["default"].createElement("span", { className: "icon icon-newspaper" })
 						),
 						_react2["default"].createElement(
 							"button",
-							{ className: "btn btn-default active" },
-							_react2["default"].createElement("span", { className: "icon icon-cloud" })
-						),
-						_react2["default"].createElement(
-							"button",
-							{ className: "btn btn-default" },
-							_react2["default"].createElement("span", { className: "icon icon-popup" })
-						),
-						_react2["default"].createElement(
-							"button",
-							{ className: "btn btn-default" },
-							_react2["default"].createElement("span", { className: "icon icon-shuffle" })
+							{ className: "btn btn-default", title: "Tags" },
+							_react2["default"].createElement("span", { className: "icon icon-tag" })
 						)
 					),
 					_react2["default"].createElement(
-						"button",
-						{ className: "btn btn-default" },
-						_react2["default"].createElement("span", { className: "icon icon-home icon-text" }),
-						"Filters"
-					),
-					_react2["default"].createElement(
-						"button",
-						{ className: "btn btn-default btn-dropdown pull-right" },
-						_react2["default"].createElement("span", { className: "icon icon-megaphone" })
+						"div",
+						{ className: "btn-group" },
+						_react2["default"].createElement(
+							"button",
+							{ className: "btn btn-default" },
+							_react2["default"].createElement("span", { className: "icon icon-cog" })
+						),
+						_react2["default"].createElement(
+							"button",
+							{ className: "btn btn-default", title: "Logs" },
+							_react2["default"].createElement("span", { className: "icon icon-menu" })
+						)
 					)
 				)
 			);
@@ -275,7 +268,7 @@ var Sidebar = (function (_React$Component) {
           _react2["default"].createElement(
             "h5",
             { className: "nav-group-title" },
-            "Favorites"
+            "Correspondents"
           ),
           _react2["default"].createElement(
             "span",
