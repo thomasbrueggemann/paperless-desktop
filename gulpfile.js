@@ -19,7 +19,8 @@ var dependencies = [
 	"alt",
 	"react",
 	"react-dom",
-	"react-router"
+	"react-router",
+	"axios"
 ];
 
 /*
@@ -75,7 +76,7 @@ gulp.task("browserify", ["browserify-vendor"], function() {
  | Same as browserify task, but will also watch for changes and re-compile.
  |--------------------------------------------------------------------------
  */
-/*gulp.task("browserify-watch", ["browserify-vendor"], function() {
+gulp.task("browserify-watch", ["browserify-vendor"], function() {
 	var bundler = watchify(browserify("main.js", watchify.args));
 	bundler.external(dependencies);
 	bundler.transform(babelify);
@@ -94,7 +95,7 @@ gulp.task("browserify", ["browserify-vendor"], function() {
 			.pipe(source("bundle.js"))
 			.pipe(gulp.dest("js/"));
 	}
-});*/
+});
 
 gulp.task("default", ["browserify-vendor", "browserify"]);
 //gulp.task("build", ["vendor", "browserify"]);

@@ -17,11 +17,14 @@ function createWindow () {
 
   	// Create the browser window.
   	mainWindow = new BrowserWindow({
-		width: 1000,
-		height: 500,
+		width: 1200,
+		height: 700,
 		minHeight: 200,
 		minWidth: 400,
-	    titleBarStyle: "hidden"
+	    titleBarStyle: "hidden",
+		webPreferences: {
+		    webSecurity: false
+		}
  	});
 
 	// and load the index.html of the app.
