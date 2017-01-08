@@ -266,29 +266,48 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require("react-router");
 
-var DocumentItem = (function (_React$Component) {
-	_inherits(DocumentItem, _React$Component);
+var _PaperlessComponent2 = require("./PaperlessComponent");
+
+var _PaperlessComponent3 = _interopRequireDefault(_PaperlessComponent2);
+
+var _axios = require("axios");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var DocumentItem = (function (_PaperlessComponent) {
+	_inherits(DocumentItem, _PaperlessComponent);
 
 	function DocumentItem(props) {
 		_classCallCheck(this, DocumentItem);
 
 		_get(Object.getPrototypeOf(DocumentItem.prototype), "constructor", this).call(this, props);
+		this.state = {};
 	}
 
 	// COMPONENT DID MOUNT
 
 	_createClass(DocumentItem, [{
 		key: "componentDidMount",
-		value: function componentDidMount() {}
+		value: function componentDidMount() {
+			var that = this;
+
+			_get(Object.getPrototypeOf(DocumentItem.prototype), "getDataUri", this).call(this, _get(Object.getPrototypeOf(DocumentItem.prototype), "getHost", this).call(this) + this.props.document.thumbnail_url.replace("\\", ""), function (result) {
+				that.setState({
+					"data": result
+				});
+			});
+		}
 
 		// RENDER
 	}, {
 		key: "render",
 		value: function render() {
 
-			var divStyle = {
-				backgroundImage: 'url(' + localStorage.getItem("settings.host") + this.props.document.thumbnail_url.replace("\\", "") + ')'
-			};
+			var divStyle = {};
+
+			if ("data" in this.state) {
+				divStyle["backgroundImage"] = "url(" + this.state.data + ")";
+			}
 
 			return _react2["default"].createElement(
 				_reactRouter.Link,
@@ -304,12 +323,12 @@ var DocumentItem = (function (_React$Component) {
 	}]);
 
 	return DocumentItem;
-})(_react2["default"].Component);
+})(_PaperlessComponent3["default"]);
 
 exports["default"] = DocumentItem;
 module.exports = exports["default"];
 
-},{"react":"react","react-router":"react-router"}],7:[function(require,module,exports){
+},{"./PaperlessComponent":10,"axios":"axios","react":"react","react-router":"react-router"}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -408,7 +427,7 @@ var Documents = (function (_React$Component) {
 exports["default"] = Documents;
 module.exports = exports["default"];
 
-},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":16,"./DocumentItem":6,"./Sidebar":10,"react":"react"}],8:[function(require,module,exports){
+},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":17,"./DocumentItem":6,"./Sidebar":11,"react":"react"}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -682,6 +701,77 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var PaperlessComponent = (function (_React$Component) {
+	_inherits(PaperlessComponent, _React$Component);
+
+	function PaperlessComponent(props) {
+		_classCallCheck(this, PaperlessComponent);
+
+		_get(Object.getPrototypeOf(PaperlessComponent.prototype), "constructor", this).call(this, props);
+	}
+
+	// GET HOST
+
+	_createClass(PaperlessComponent, [{
+		key: "getHost",
+		value: function getHost() {
+
+			var host = localStorage.getItem("settings.host");
+			host = host.replace("http://", "http://" + localStorage.getItem("settings.auth.username") + ":" + localStorage.getItem("settings.auth.password") + "@");
+
+			host = host.replace("https://", "https://" + localStorage.getItem("settings.auth.username") + ":" + localStorage.getItem("settings.auth.password") + "@");
+
+			return host;
+		}
+
+		// GET DATA URI
+	}, {
+		key: "getDataUri",
+		value: function getDataUri(url, callback) {
+			var image = new Image();
+
+			image.onload = function () {
+				var canvas = document.createElement('canvas');
+				canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+				canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+				canvas.getContext('2d').drawImage(this, 0, 0);
+
+				// ... or get as Data URI
+				callback(canvas.toDataURL('image/png'));
+			};
+
+			image.src = url;
+		}
+	}]);
+
+	return PaperlessComponent;
+})(_react2["default"].Component);
+
+exports["default"] = PaperlessComponent;
+module.exports = exports["default"];
+
+},{"react":"react"}],11:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
 var _SidebarTags = require("./SidebarTags");
 
 var _SidebarTags2 = _interopRequireDefault(_SidebarTags);
@@ -725,7 +815,7 @@ var Sidebar = (function (_React$Component) {
 exports["default"] = Sidebar;
 module.exports = exports["default"];
 
-},{"./SidebarCorrespondents":11,"./SidebarTags":12,"react":"react"}],11:[function(require,module,exports){
+},{"./SidebarCorrespondents":12,"./SidebarTags":13,"react":"react"}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -822,7 +912,7 @@ var SidebarCorrespondents = (function (_React$Component) {
 exports["default"] = SidebarCorrespondents;
 module.exports = exports["default"];
 
-},{"../actions/CorrespondentsActions":1,"../stores/CorrespondentsStore":15,"react":"react"}],12:[function(require,module,exports){
+},{"../actions/CorrespondentsActions":1,"../stores/CorrespondentsStore":16,"react":"react"}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -930,7 +1020,7 @@ var SidebarTags = (function (_React$Component) {
 exports["default"] = SidebarTags;
 module.exports = exports["default"];
 
-},{"../actions/TagsActions":3,"../stores/TagsStore":17,"react":"react"}],13:[function(require,module,exports){
+},{"../actions/TagsActions":3,"../stores/TagsStore":18,"react":"react"}],14:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -955,7 +1045,7 @@ _reactDom2["default"].render(_react2["default"].createElement(
   _routes2["default"]
 ), document.getElementById("app"));
 
-},{"./routes":14,"react":"react","react-dom":"react-dom","react-router":"react-router"}],14:[function(require,module,exports){
+},{"./routes":15,"react":"react","react-dom":"react-dom","react-router":"react-router"}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -990,7 +1080,7 @@ exports["default"] = _react2["default"].createElement(
 );
 module.exports = exports["default"];
 
-},{"./components/App":5,"./components/Documents":7,"./components/Login":9,"react":"react","react-router":"react-router"}],15:[function(require,module,exports){
+},{"./components/App":5,"./components/Documents":7,"./components/Login":9,"react":"react","react-router":"react-router"}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1043,7 +1133,7 @@ var CorrespondentsStore = (function () {
 exports["default"] = _alt2["default"].createStore(CorrespondentsStore);
 module.exports = exports["default"];
 
-},{"../actions/CorrespondentsActions":1,"../alt":4}],16:[function(require,module,exports){
+},{"../actions/CorrespondentsActions":1,"../alt":4}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1096,7 +1186,7 @@ var DocumentsStore = (function () {
 exports["default"] = _alt2["default"].createStore(DocumentsStore);
 module.exports = exports["default"];
 
-},{"../actions/DocumentsActions":2,"../alt":4}],17:[function(require,module,exports){
+},{"../actions/DocumentsActions":2,"../alt":4}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1149,4 +1239,4 @@ var TagsStore = (function () {
 exports["default"] = _alt2["default"].createStore(TagsStore);
 module.exports = exports["default"];
 
-},{"../actions/TagsActions":3,"../alt":4}]},{},[13]);
+},{"../actions/TagsActions":3,"../alt":4}]},{},[14]);

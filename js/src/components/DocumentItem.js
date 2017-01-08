@@ -1,22 +1,34 @@
 import React from "react";
 import {Link} from "react-router";
+import PaperlessComponent from "./PaperlessComponent";
+import axios from "axios";
 
-class DocumentItem extends React.Component {
+class DocumentItem extends PaperlessComponent {
 
 	constructor(props) {
 		super(props);
+		this.state = {};
 	}
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+		var that = this;
+
+		super.getDataUri(super.getHost() + this.props.document.thumbnail_url.replace("\\", ""), function(result) {
+			that.setState({
+				"data": result
+			});
+		});
 	}
 
 	// RENDER
 	render() {
 
-		var divStyle = {
-            backgroundImage: 'url(' + localStorage.getItem("settings.host") + this.props.document.thumbnail_url.replace("\\", "") + ')'
-        }
+		var divStyle = {};
+
+		if("data" in this.state) {
+			divStyle["backgroundImage"] = "url(" + this.state.data + ")";
+		}
 
 		return (
 			<Link className="document-item" to={"/document/" + this.props.document.id}>
