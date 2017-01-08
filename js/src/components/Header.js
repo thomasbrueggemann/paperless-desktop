@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router";
 
 class Header extends React.Component {
 
@@ -22,9 +23,9 @@ class Header extends React.Component {
 						<button className="btn btn-default" title="Correspondents">
 							<span className="icon icon-users"></span>
 						</button>
-						<button className="btn btn-default active" title="Documents">
+						<Link className="btn btn-default active" title="Documents" to={"/documents"}>
 							<span className="icon icon-newspaper"></span>
-						</button>
+						</Link>
 						<button className="btn btn-default" title="Tags">
 							<span className="icon icon-tag"></span>
 						</button>
@@ -34,9 +35,9 @@ class Header extends React.Component {
 						<button className="btn btn-default">
 							<span className="icon icon-cog"></span>
 						</button>
-						<button className="btn btn-default" title="Logs">
+						<Link className="btn btn-default" title="Logs" to={"/logs"}>
 							<span className="icon icon-menu"></span>
-						</button>
+						</Link>
 					</div>
 			  	</div>
 			</header>

@@ -53,7 +53,7 @@ var CorrespondentsActions = (function () {
 exports["default"] = _alt2["default"].createActions(CorrespondentsActions);
 module.exports = exports["default"];
 
-},{"../alt":4,"axios":"axios"}],2:[function(require,module,exports){
+},{"../alt":5,"axios":"axios"}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -132,7 +132,62 @@ var DocumentsActions = (function () {
 exports["default"] = _alt2["default"].createActions(DocumentsActions);
 module.exports = exports["default"];
 
-},{"../alt":4,"axios":"axios"}],3:[function(require,module,exports){
+},{"../alt":5,"axios":"axios"}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _alt = require("../alt");
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _axios = require("axios");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+// LOGS ACTIONS
+
+var LogsActions = (function () {
+    function LogsActions() {
+        _classCallCheck(this, LogsActions);
+
+        this.generateActions("getLogsSuccess", "getLogsFail");
+    }
+
+    // GET LOGS
+
+    _createClass(LogsActions, [{
+        key: "getLogs",
+        value: function getLogs() {
+
+            var url = localStorage.getItem("settings.host") + "/api/logs/";
+
+            (0, _axios2["default"])({
+                "method": "get",
+                "url": url,
+                "auth": {
+                    "username": localStorage.getItem("settings.auth.username"),
+                    "password": localStorage.getItem("settings.auth.password")
+                }
+            }).then(this.actions.getLogsSuccess)["catch"](this.actions.getLogsFail);
+        }
+    }]);
+
+    return LogsActions;
+})();
+
+exports["default"] = _alt2["default"].createActions(LogsActions);
+module.exports = exports["default"];
+
+},{"../alt":5,"axios":"axios"}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -187,7 +242,7 @@ var TagsActions = (function () {
 exports["default"] = _alt2["default"].createActions(TagsActions);
 module.exports = exports["default"];
 
-},{"../alt":4,"axios":"axios"}],4:[function(require,module,exports){
+},{"../alt":5,"axios":"axios"}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -203,7 +258,7 @@ var _alt2 = _interopRequireDefault(_alt);
 exports["default"] = new _alt2["default"]();
 module.exports = exports["default"];
 
-},{"alt":"alt"}],5:[function(require,module,exports){
+},{"alt":"alt"}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -267,7 +322,58 @@ var App = (function (_React$Component) {
 exports["default"] = App;
 module.exports = exports["default"];
 
-},{"./Header":8,"react":"react"}],6:[function(require,module,exports){
+},{"./Header":10,"react":"react"}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var DocumentDetail = (function (_React$Component) {
+	_inherits(DocumentDetail, _React$Component);
+
+	function DocumentDetail(props) {
+		_classCallCheck(this, DocumentDetail);
+
+		_get(Object.getPrototypeOf(DocumentDetail.prototype), "constructor", this).call(this, props);
+	}
+
+	// COMPONENT DID MOUNT
+
+	_createClass(DocumentDetail, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {}
+
+		// RENDER
+	}, {
+		key: "render",
+		value: function render() {
+
+			return _react2["default"].createElement("div", null);
+		}
+	}]);
+
+	return DocumentDetail;
+})(_react2["default"].Component);
+
+exports["default"] = DocumentDetail;
+module.exports = exports["default"];
+
+},{"react":"react"}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -353,7 +459,7 @@ var DocumentItem = (function (_PaperlessComponent) {
 exports["default"] = DocumentItem;
 module.exports = exports["default"];
 
-},{"./PaperlessComponent":10,"axios":"axios","react":"react","react-router":"react-router"}],7:[function(require,module,exports){
+},{"./PaperlessComponent":13,"axios":"axios","react":"react","react-router":"react-router"}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -481,7 +587,7 @@ var Documents = (function (_React$Component) {
 exports["default"] = Documents;
 module.exports = exports["default"];
 
-},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":19,"./DocumentItem":6,"./Sidebar":11,"react":"react","react-pure-render/function":21}],8:[function(require,module,exports){
+},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":22,"./DocumentItem":8,"./Sidebar":14,"react":"react","react-pure-render/function":25}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -501,6 +607,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require("react-router");
 
 var Header = (function (_React$Component) {
 	_inherits(Header, _React$Component);
@@ -542,8 +650,8 @@ var Header = (function (_React$Component) {
 							_react2["default"].createElement("span", { className: "icon icon-users" })
 						),
 						_react2["default"].createElement(
-							"button",
-							{ className: "btn btn-default active", title: "Documents" },
+							_reactRouter.Link,
+							{ className: "btn btn-default active", title: "Documents", to: "/documents" },
 							_react2["default"].createElement("span", { className: "icon icon-newspaper" })
 						),
 						_react2["default"].createElement(
@@ -561,8 +669,8 @@ var Header = (function (_React$Component) {
 							_react2["default"].createElement("span", { className: "icon icon-cog" })
 						),
 						_react2["default"].createElement(
-							"button",
-							{ className: "btn btn-default", title: "Logs" },
+							_reactRouter.Link,
+							{ className: "btn btn-default", title: "Logs", to: "/logs" },
 							_react2["default"].createElement("span", { className: "icon icon-menu" })
 						)
 					)
@@ -577,7 +685,7 @@ var Header = (function (_React$Component) {
 exports["default"] = Header;
 module.exports = exports["default"];
 
-},{"react":"react"}],9:[function(require,module,exports){
+},{"react":"react","react-router":"react-router"}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -734,7 +842,136 @@ var Login = (function (_React$Component) {
 exports["default"] = Login;
 module.exports = exports["default"];
 
-},{"./Header":8,"react":"react"}],10:[function(require,module,exports){
+},{"./Header":10,"react":"react"}],12:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _actionsLogsActions = require("../actions/LogsActions");
+
+var _actionsLogsActions2 = _interopRequireDefault(_actionsLogsActions);
+
+var _storesLogsStore = require("../stores/LogsStore");
+
+var _storesLogsStore2 = _interopRequireDefault(_storesLogsStore);
+
+var _moment = require("moment");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var Logs = (function (_React$Component) {
+	_inherits(Logs, _React$Component);
+
+	function Logs(props) {
+		_classCallCheck(this, Logs);
+
+		_get(Object.getPrototypeOf(Logs.prototype), "constructor", this).call(this, props);
+		this.state = _storesLogsStore2["default"].getState();
+		this.onChange = this.onChange.bind(this);
+	}
+
+	// COMPONENT DID MOUNT
+
+	_createClass(Logs, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			_storesLogsStore2["default"].listen(this.onChange);
+			_actionsLogsActions2["default"].getLogs();
+		}
+
+		// COMPONENT WILL UNMOUNT
+	}, {
+		key: "componentWillUnmount",
+		value: function componentWillUnmount() {
+			_storesLogsStore2["default"].unlisten(this.onChange);
+		}
+
+		// ON CHANGE
+	}, {
+		key: "onChange",
+		value: function onChange(state) {
+			this.setState(state);
+		}
+
+		// RENDER
+	}, {
+		key: "render",
+		value: function render() {
+
+			if (!this.state.logs || !("results" in this.state.logs)) return null;
+
+			return _react2["default"].createElement(
+				"div",
+				{ className: "pane" },
+				_react2["default"].createElement(
+					"table",
+					{ className: "table-striped" },
+					_react2["default"].createElement(
+						"thead",
+						null,
+						_react2["default"].createElement(
+							"tr",
+							null,
+							_react2["default"].createElement(
+								"th",
+								null,
+								"Date"
+							),
+							_react2["default"].createElement(
+								"th",
+								null,
+								"Log"
+							)
+						)
+					),
+					_react2["default"].createElement(
+						"tbody",
+						null,
+						this.state.logs.results.map(function (l) {
+							return _react2["default"].createElement(
+								"tr",
+								{ key: l.time },
+								_react2["default"].createElement(
+									"td",
+									null,
+									(0, _moment2["default"])(l.time).format("LLLL")
+								),
+								_react2["default"].createElement(
+									"td",
+									null,
+									l.messages
+								)
+							);
+						})
+					)
+				)
+			);
+		}
+	}]);
+
+	return Logs;
+})(_react2["default"].Component);
+
+exports["default"] = Logs;
+module.exports = exports["default"];
+
+},{"../actions/LogsActions":3,"../stores/LogsStore":23,"moment":"moment","react":"react"}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -805,7 +1042,7 @@ var PaperlessComponent = (function (_React$Component) {
 exports["default"] = PaperlessComponent;
 module.exports = exports["default"];
 
-},{"react":"react"}],11:[function(require,module,exports){
+},{"react":"react"}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -869,7 +1106,7 @@ var Sidebar = (function (_React$Component) {
 exports["default"] = Sidebar;
 module.exports = exports["default"];
 
-},{"./SidebarCorrespondents":13,"./SidebarTags":15,"react":"react"}],12:[function(require,module,exports){
+},{"./SidebarCorrespondents":16,"./SidebarTags":18,"react":"react"}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -978,7 +1215,7 @@ var SidebarCorrespondentItem = (function (_React$Component) {
 exports["default"] = SidebarCorrespondentItem;
 module.exports = exports["default"];
 
-},{"jquery":"jquery","react":"react"}],13:[function(require,module,exports){
+},{"jquery":"jquery","react":"react"}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1074,7 +1311,7 @@ var SidebarCorrespondents = (function (_React$Component) {
 exports["default"] = SidebarCorrespondents;
 module.exports = exports["default"];
 
-},{"../actions/CorrespondentsActions":1,"../stores/CorrespondentsStore":18,"./SidebarCorrespondentItem":12,"react":"react"}],14:[function(require,module,exports){
+},{"../actions/CorrespondentsActions":1,"../stores/CorrespondentsStore":21,"./SidebarCorrespondentItem":15,"react":"react"}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1193,7 +1430,7 @@ var SidebarTagItem = (function (_React$Component) {
 exports["default"] = SidebarTagItem;
 module.exports = exports["default"];
 
-},{"jquery":"jquery","react":"react"}],15:[function(require,module,exports){
+},{"jquery":"jquery","react":"react"}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1289,7 +1526,7 @@ var SidebarTags = (function (_React$Component) {
 exports["default"] = SidebarTags;
 module.exports = exports["default"];
 
-},{"../actions/TagsActions":3,"../stores/TagsStore":20,"./SidebarTagItem":14,"react":"react"}],16:[function(require,module,exports){
+},{"../actions/TagsActions":4,"../stores/TagsStore":24,"./SidebarTagItem":17,"react":"react"}],19:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -1314,7 +1551,7 @@ _reactDom2["default"].render(_react2["default"].createElement(
   _routes2["default"]
 ), document.getElementById("app"));
 
-},{"./routes":17,"react":"react","react-dom":"react-dom","react-router":"react-router"}],17:[function(require,module,exports){
+},{"./routes":20,"react":"react","react-dom":"react-dom","react-router":"react-router"}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1341,15 +1578,25 @@ var _componentsLogin = require("./components/Login");
 
 var _componentsLogin2 = _interopRequireDefault(_componentsLogin);
 
+var _componentsDocumentDetail = require("./components/DocumentDetail");
+
+var _componentsDocumentDetail2 = _interopRequireDefault(_componentsDocumentDetail);
+
+var _componentsLogs = require("./components/Logs");
+
+var _componentsLogs2 = _interopRequireDefault(_componentsLogs);
+
 exports["default"] = _react2["default"].createElement(
 	_reactRouter.Route,
 	{ path: "/", component: _componentsApp2["default"] },
 	_react2["default"].createElement(_reactRouter.IndexRoute, { component: _componentsLogin2["default"] }),
-	_react2["default"].createElement(_reactRouter.Route, { path: "/documents", component: _componentsDocuments2["default"] })
+	_react2["default"].createElement(_reactRouter.Route, { path: "/documents", component: _componentsDocuments2["default"] }),
+	_react2["default"].createElement(_reactRouter.Route, { path: "/document/:id", component: _componentsDocumentDetail2["default"] }),
+	_react2["default"].createElement(_reactRouter.Route, { path: "/logs", component: _componentsLogs2["default"] })
 );
 module.exports = exports["default"];
 
-},{"./components/App":5,"./components/Documents":7,"./components/Login":9,"react":"react","react-router":"react-router"}],18:[function(require,module,exports){
+},{"./components/App":6,"./components/DocumentDetail":7,"./components/Documents":9,"./components/Login":11,"./components/Logs":12,"react":"react","react-router":"react-router"}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1402,7 +1649,7 @@ var CorrespondentsStore = (function () {
 exports["default"] = _alt2["default"].createStore(CorrespondentsStore);
 module.exports = exports["default"];
 
-},{"../actions/CorrespondentsActions":1,"../alt":4}],19:[function(require,module,exports){
+},{"../actions/CorrespondentsActions":1,"../alt":5}],22:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1455,7 +1702,61 @@ var DocumentsStore = (function () {
 exports["default"] = _alt2["default"].createStore(DocumentsStore);
 module.exports = exports["default"];
 
-},{"../actions/DocumentsActions":2,"../alt":4}],20:[function(require,module,exports){
+},{"../actions/DocumentsActions":2,"../alt":5}],23:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _alt = require("../alt");
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _actionsLogsActions = require("../actions/LogsActions");
+
+var _actionsLogsActions2 = _interopRequireDefault(_actionsLogsActions);
+
+// LOGS STORE
+
+var LogsStore = (function () {
+	function LogsStore() {
+		_classCallCheck(this, LogsStore);
+
+		this.bindActions(_actionsLogsActions2["default"]);
+		this.logs = [];
+	}
+
+	// GET LOGS SUCCESS
+
+	_createClass(LogsStore, [{
+		key: "getLogsSuccess",
+		value: function getLogsSuccess(result) {
+			console.log(result);
+			this.logs = result.data;
+		}
+
+		// GET LOGS FAIL
+	}, {
+		key: "getLogsFail",
+		value: function getLogsFail(err) {
+			console.error(err);
+		}
+	}]);
+
+	return LogsStore;
+})();
+
+exports["default"] = _alt2["default"].createStore(LogsStore);
+module.exports = exports["default"];
+
+},{"../actions/LogsActions":3,"../alt":5}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1508,7 +1809,7 @@ var TagsStore = (function () {
 exports["default"] = _alt2["default"].createStore(TagsStore);
 module.exports = exports["default"];
 
-},{"../actions/TagsActions":3,"../alt":4}],21:[function(require,module,exports){
+},{"../actions/TagsActions":4,"../alt":5}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1525,7 +1826,7 @@ function shouldPureComponentUpdate(nextProps, nextState) {
 }
 
 module.exports = exports['default'];
-},{"./shallowEqual":22}],22:[function(require,module,exports){
+},{"./shallowEqual":26}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1559,4 +1860,4 @@ function shallowEqual(objA, objB) {
 }
 
 module.exports = exports['default'];
-},{}]},{},[16]);
+},{}]},{},[19]);
