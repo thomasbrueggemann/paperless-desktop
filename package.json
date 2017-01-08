@@ -18,8 +18,10 @@
     "babel": "^5.8.23",
     "electron-json-storage": "^2.1.0",
     "history": "^1.12.5",
+    "jquery": "^3.1.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-pure-render": "^1.0.2",
     "react-router": "^1.0.0-rc3",
     "swig": "^1.4.2",
     "underscore": "^1.8.3"

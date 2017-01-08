@@ -3,6 +3,7 @@ import DocumentsActions from "../actions/DocumentsActions";
 import DocumentsStore from "../stores/DocumentsStore";
 import Sidebar from "./Sidebar";
 import DocumentItem from "./DocumentItem";
+import shouldPureComponentUpdate from "react-pure-render/function";
 
 class Documents extends React.Component {
 
@@ -11,6 +12,9 @@ class Documents extends React.Component {
 		this.state = DocumentsStore.getState();
 		this.onChange = this.onChange.bind(this);
 	}
+
+	// SHOULD COMPONENT UPDATE
+	shouldComponentUpdate = shouldPureComponentUpdate;
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
@@ -28,6 +32,24 @@ class Documents extends React.Component {
 		this.setState(state);
 	}
 
+	// SET TAG FILTER
+	setTagFilter(tag) {
+		this.setState({
+			"tag": tag
+		});
+
+		DocumentsActions.getDocuments(this.state.correspondent, tag);
+	}
+
+	// SET CORRESPONDENT FILTER
+	setCorrespondentFilter(correspondent) {
+		this.setState({
+			"correspondent": correspondent
+		});
+
+		DocumentsActions.getDocuments(correspondent, this.state.tag);
+	}
+
 	// RENDER
 	render() {
 
@@ -35,7 +57,7 @@ class Documents extends React.Component {
 
 		return (
 			<div className="pane-group">
-				<Sidebar />
+				<Sidebar setTagFilter={this.setTagFilter.bind(this)} setCorrespondentFilter={this.setCorrespondentFilter.bind(this)} />
 				<div className="pane">
 					{this.state.documents.results.map(d => {
 						return <DocumentItem document={d} key={d.id} />

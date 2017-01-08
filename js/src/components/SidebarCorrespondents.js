@@ -1,6 +1,7 @@
 import React from "react";
 import CorrespondentsActions from "../actions/CorrespondentsActions";
 import CorrespondentsStore from "../stores/CorrespondentsStore";
+import SidebarCorrespondentItem from "./SidebarCorrespondentItem";
 
 class SidebarCorrespondents extends React.Component {
 
@@ -34,14 +35,8 @@ class SidebarCorrespondents extends React.Component {
 		return (
 			<nav className="nav-group">
 				<h5 className="nav-group-title">Correspondents</h5>
-				{this.state.correspondents.results.map(t => {
-
-					return (
-						<span className="nav-group-item" key={t.id}>
-			                <span className="icon icon-user"></span>
-							{t.name}
-						</span>
-					);
+				{this.state.correspondents.results.map(c => {
+					return <SidebarCorrespondentItem correspondent={c} key={c.id} setCorrespondentFilter={this.props.setCorrespondentFilter} />;
 				})}
 			</nav>
 		);

@@ -12,10 +12,34 @@ class DocumentsActions {
     }
 
     // GET DOCS
-    getDocuments() {
+    getDocuments(correspondent, tag) {
+
+		var toQueryString = function(obj) {
+		    var parts = [];
+		    for (var i in obj) {
+		        if (obj.hasOwnProperty(i) && obj[i]) {
+		            parts.push(encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]));
+		        }
+		    }
+		    return parts.join("&");
+		};
 
 		var url = localStorage.getItem("settings.host") + "/api/documents/";
 
+		// add parameters to url
+		var parameters = toQueryString({
+			"correspondent__slug_0": correspondent,
+			"correspondent__slug_1": "contains",
+			"tags__slug_0": tag,
+			"tags__slug_1": "contains"
+		});
+
+		// attach parameters if availble
+		if(parameters.length > 0) {
+			url += "?" + parameters;
+		}
+
+		// fetch documents
 		axios({
 			"method": "get",
 			"url": url,

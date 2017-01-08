@@ -57,7 +57,7 @@ module.exports = exports["default"];
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -77,32 +77,56 @@ var _axios2 = _interopRequireDefault(_axios);
 // DOCUMENTS ACTIONS
 
 var DocumentsActions = (function () {
-    function DocumentsActions() {
-        _classCallCheck(this, DocumentsActions);
+	function DocumentsActions() {
+		_classCallCheck(this, DocumentsActions);
 
-        this.generateActions("getDocumentsSuccess", "getDocumentsFail");
-    }
+		this.generateActions("getDocumentsSuccess", "getDocumentsFail");
+	}
 
-    // GET DOCS
+	// GET DOCS
 
-    _createClass(DocumentsActions, [{
-        key: "getDocuments",
-        value: function getDocuments() {
+	_createClass(DocumentsActions, [{
+		key: "getDocuments",
+		value: function getDocuments(correspondent, tag) {
 
-            var url = localStorage.getItem("settings.host") + "/api/documents/";
+			var toQueryString = function toQueryString(obj) {
+				var parts = [];
+				for (var i in obj) {
+					if (obj.hasOwnProperty(i) && obj[i]) {
+						parts.push(encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]));
+					}
+				}
+				return parts.join("&");
+			};
 
-            (0, _axios2["default"])({
-                "method": "get",
-                "url": url,
-                "auth": {
-                    "username": localStorage.getItem("settings.auth.username"),
-                    "password": localStorage.getItem("settings.auth.password")
-                }
-            }).then(this.actions.getDocumentsSuccess)["catch"](this.actions.getDocumentsFail);
-        }
-    }]);
+			var url = localStorage.getItem("settings.host") + "/api/documents/";
 
-    return DocumentsActions;
+			// add parameters to url
+			var parameters = toQueryString({
+				"correspondent__slug_0": correspondent,
+				"correspondent__slug_1": "contains",
+				"tags__slug_0": tag,
+				"tags__slug_1": "contains"
+			});
+
+			// attach parameters if availble
+			if (parameters.length > 0) {
+				url += "?" + parameters;
+			}
+
+			// fetch documents
+			(0, _axios2["default"])({
+				"method": "get",
+				"url": url,
+				"auth": {
+					"username": localStorage.getItem("settings.auth.username"),
+					"password": localStorage.getItem("settings.auth.password")
+				}
+			}).then(this.actions.getDocumentsSuccess)["catch"](this.actions.getDocumentsFail);
+		}
+	}]);
+
+	return DocumentsActions;
 })();
 
 exports["default"] = _alt2["default"].createActions(DocumentsActions);
@@ -291,6 +315,7 @@ var DocumentItem = (function (_PaperlessComponent) {
 		value: function componentDidMount() {
 			var that = this;
 
+			// load the image base64 data
 			_get(Object.getPrototypeOf(DocumentItem.prototype), "getDataUri", this).call(this, _get(Object.getPrototypeOf(DocumentItem.prototype), "getHost", this).call(this) + this.props.document.thumbnail_url.replace("\\", ""), function (result) {
 				that.setState({
 					"data": result
@@ -365,6 +390,10 @@ var _DocumentItem = require("./DocumentItem");
 
 var _DocumentItem2 = _interopRequireDefault(_DocumentItem);
 
+var _reactPureRenderFunction = require("react-pure-render/function");
+
+var _reactPureRenderFunction2 = _interopRequireDefault(_reactPureRenderFunction);
+
 var Documents = (function (_React$Component) {
 	_inherits(Documents, _React$Component);
 
@@ -372,14 +401,17 @@ var Documents = (function (_React$Component) {
 		_classCallCheck(this, Documents);
 
 		_get(Object.getPrototypeOf(Documents.prototype), "constructor", this).call(this, props);
+		this.shouldComponentUpdate = _reactPureRenderFunction2["default"];
 		this.state = _storesDocumentsStore2["default"].getState();
 		this.onChange = this.onChange.bind(this);
 	}
 
-	// COMPONENT DID MOUNT
+	// SHOULD COMPONENT UPDATE
 
 	_createClass(Documents, [{
 		key: "componentDidMount",
+
+		// COMPONENT DID MOUNT
 		value: function componentDidMount() {
 			_storesDocumentsStore2["default"].listen(this.onChange);
 			_actionsDocumentsActions2["default"].getDocuments();
@@ -399,6 +431,28 @@ var Documents = (function (_React$Component) {
 			this.setState(state);
 		}
 
+		// SET TAG FILTER
+	}, {
+		key: "setTagFilter",
+		value: function setTagFilter(tag) {
+			this.setState({
+				"tag": tag
+			});
+
+			_actionsDocumentsActions2["default"].getDocuments(this.state.correspondent, tag);
+		}
+
+		// SET CORRESPONDENT FILTER
+	}, {
+		key: "setCorrespondentFilter",
+		value: function setCorrespondentFilter(correspondent) {
+			this.setState({
+				"correspondent": correspondent
+			});
+
+			_actionsDocumentsActions2["default"].getDocuments(correspondent, this.state.tag);
+		}
+
 		// RENDER
 	}, {
 		key: "render",
@@ -409,7 +463,7 @@ var Documents = (function (_React$Component) {
 			return _react2["default"].createElement(
 				"div",
 				{ className: "pane-group" },
-				_react2["default"].createElement(_Sidebar2["default"], null),
+				_react2["default"].createElement(_Sidebar2["default"], { setTagFilter: this.setTagFilter.bind(this), setCorrespondentFilter: this.setCorrespondentFilter.bind(this) }),
 				_react2["default"].createElement(
 					"div",
 					{ className: "pane" },
@@ -427,7 +481,7 @@ var Documents = (function (_React$Component) {
 exports["default"] = Documents;
 module.exports = exports["default"];
 
-},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":17,"./DocumentItem":6,"./Sidebar":11,"react":"react"}],8:[function(require,module,exports){
+},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":19,"./DocumentItem":6,"./Sidebar":11,"react":"react","react-pure-render/function":21}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -803,8 +857,8 @@ var Sidebar = (function (_React$Component) {
 			return _react2["default"].createElement(
 				"div",
 				{ className: "pane pane-sm sidebar" },
-				_react2["default"].createElement(_SidebarCorrespondents2["default"], null),
-				_react2["default"].createElement(_SidebarTags2["default"], null)
+				_react2["default"].createElement(_SidebarCorrespondents2["default"], { setCorrespondentFilter: this.props.setCorrespondentFilter }),
+				_react2["default"].createElement(_SidebarTags2["default"], { setTagFilter: this.props.setTagFilter })
 			);
 		}
 	}]);
@@ -815,7 +869,116 @@ var Sidebar = (function (_React$Component) {
 exports["default"] = Sidebar;
 module.exports = exports["default"];
 
-},{"./SidebarCorrespondents":12,"./SidebarTags":13,"react":"react"}],12:[function(require,module,exports){
+},{"./SidebarCorrespondents":13,"./SidebarTags":15,"react":"react"}],12:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var SidebarCorrespondentItem = (function (_React$Component) {
+	_inherits(SidebarCorrespondentItem, _React$Component);
+
+	function SidebarCorrespondentItem(props) {
+		_classCallCheck(this, SidebarCorrespondentItem);
+
+		_get(Object.getPrototypeOf(SidebarCorrespondentItem.prototype), "constructor", this).call(this, props);
+		this.state = {
+			"active": false
+		};
+	}
+
+	// COMPONENT DID MOUNT
+
+	_createClass(SidebarCorrespondentItem, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			(0, _jquery2["default"])(window).on("changeExternCorrespendent", this.changeExternCorrespendent.bind(this));
+		}
+
+		// COMPONENT WILL UNMOUNT
+	}, {
+		key: "componentWillUnmount",
+		value: function componentWillUnmount() {
+			(0, _jquery2["default"])(window).off("changeExternCorrespendent");
+		}
+
+		// SET CORRESPONDENT FILTER
+	}, {
+		key: "setCorrespondentFilter",
+		value: function setCorrespondentFilter() {
+
+			(0, _jquery2["default"])(window).trigger("changeExternCorrespendent", { "correspondent": this.props.correspondent.slug });
+
+			// set or unset the tag
+			if (this.state.active === true) {
+				this.props.setCorrespondentFilter(null);
+			} else {
+				this.props.setCorrespondentFilter(this.props.correspondent.slug);
+			}
+
+			// toggle active state
+			this.setState({
+				"active": !this.state.active
+			});
+		}
+
+		// CHANGE EXTERN CORRESPONDENT
+	}, {
+		key: "changeExternCorrespendent",
+		value: function changeExternCorrespendent(e, data) {
+
+			if (this.props.correspondent.slug !== data.correspondent) {
+				this.setState({
+					"active": false
+				});
+			}
+		}
+
+		// RENDER
+	}, {
+		key: "render",
+		value: function render() {
+
+			var itemClass = "nav-group-item";
+			if (this.state.active === true) {
+				itemClass += " active";
+			}
+
+			return _react2["default"].createElement(
+				"span",
+				{ className: itemClass, key: this.props.correspondent.id, onClick: this.setCorrespondentFilter.bind(this) },
+				_react2["default"].createElement("span", { className: "icon icon-user" }),
+				this.props.correspondent.name
+			);
+		}
+	}]);
+
+	return SidebarCorrespondentItem;
+})(_react2["default"].Component);
+
+exports["default"] = SidebarCorrespondentItem;
+module.exports = exports["default"];
+
+},{"jquery":"jquery","react":"react"}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -843,6 +1006,10 @@ var _actionsCorrespondentsActions2 = _interopRequireDefault(_actionsCorresponden
 var _storesCorrespondentsStore = require("../stores/CorrespondentsStore");
 
 var _storesCorrespondentsStore2 = _interopRequireDefault(_storesCorrespondentsStore);
+
+var _SidebarCorrespondentItem = require("./SidebarCorrespondentItem");
+
+var _SidebarCorrespondentItem2 = _interopRequireDefault(_SidebarCorrespondentItem);
 
 var SidebarCorrespondents = (function (_React$Component) {
 	_inherits(SidebarCorrespondents, _React$Component);
@@ -882,6 +1049,7 @@ var SidebarCorrespondents = (function (_React$Component) {
 	}, {
 		key: "render",
 		value: function render() {
+			var _this = this;
 
 			if (!this.state.correspondents || !("results" in this.state.correspondents)) return null;
 
@@ -893,14 +1061,8 @@ var SidebarCorrespondents = (function (_React$Component) {
 					{ className: "nav-group-title" },
 					"Correspondents"
 				),
-				this.state.correspondents.results.map(function (t) {
-
-					return _react2["default"].createElement(
-						"span",
-						{ className: "nav-group-item", key: t.id },
-						_react2["default"].createElement("span", { className: "icon icon-user" }),
-						t.name
-					);
+				this.state.correspondents.results.map(function (c) {
+					return _react2["default"].createElement(_SidebarCorrespondentItem2["default"], { correspondent: c, key: c.id, setCorrespondentFilter: _this.props.setCorrespondentFilter });
 				})
 			);
 		}
@@ -912,7 +1074,126 @@ var SidebarCorrespondents = (function (_React$Component) {
 exports["default"] = SidebarCorrespondents;
 module.exports = exports["default"];
 
-},{"../actions/CorrespondentsActions":1,"../stores/CorrespondentsStore":16,"react":"react"}],13:[function(require,module,exports){
+},{"../actions/CorrespondentsActions":1,"../stores/CorrespondentsStore":18,"./SidebarCorrespondentItem":12,"react":"react"}],14:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var SidebarTagItem = (function (_React$Component) {
+	_inherits(SidebarTagItem, _React$Component);
+
+	function SidebarTagItem(props) {
+		_classCallCheck(this, SidebarTagItem);
+
+		_get(Object.getPrototypeOf(SidebarTagItem.prototype), "constructor", this).call(this, props);
+		this.state = {
+			"active": false
+		};
+	}
+
+	// COMPONENT DID MOUNT
+
+	_createClass(SidebarTagItem, [{
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			(0, _jquery2["default"])(window).on("changeExternTag", this.changeExternTag.bind(this));
+		}
+
+		// COMPONENT WILL UNMOUNT
+	}, {
+		key: "componentWillUnmount",
+		value: function componentWillUnmount() {
+			(0, _jquery2["default"])(window).off("changeExternTag");
+		}
+
+		// GET TAG COLOR
+	}, {
+		key: "getTagColor",
+		value: function getTagColor(idx) {
+			var colors = ["#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a", "#b15928", "#000000", "#cccccc"];
+			return colors[idx - 1];
+		}
+
+		// SET TAG FILTER
+	}, {
+		key: "setTagFilter",
+		value: function setTagFilter() {
+
+			(0, _jquery2["default"])(window).trigger("changeExternTag", { "tag": this.props.tag.slug });
+
+			// set or unset the tag
+			if (this.state.active === true) {
+				this.props.setTagFilter(null);
+			} else {
+				this.props.setTagFilter(this.props.tag.slug);
+			}
+
+			// toggle active state
+			this.setState({
+				"active": !this.state.active
+			});
+		}
+
+		// CHANGE EXTERN TAG
+	}, {
+		key: "changeExternTag",
+		value: function changeExternTag(e, data) {
+
+			if (this.props.tag.slug !== data.tag) {
+				this.setState({
+					"active": false
+				});
+			}
+		}
+
+		// RENDER
+	}, {
+		key: "render",
+		value: function render() {
+
+			var itemClass = "nav-group-item";
+			if (this.state.active === true) {
+				itemClass += " active";
+			}
+
+			return _react2["default"].createElement(
+				"span",
+				{ className: itemClass, key: this.props.tag.id, onClick: this.setTagFilter.bind(this) },
+				_react2["default"].createElement("span", { className: "icon icon-record", style: {
+						color: this.getTagColor(this.props.tag.colour)
+					} }),
+				this.props.tag.name
+			);
+		}
+	}]);
+
+	return SidebarTagItem;
+})(_react2["default"].Component);
+
+exports["default"] = SidebarTagItem;
+module.exports = exports["default"];
+
+},{"jquery":"jquery","react":"react"}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -941,6 +1222,10 @@ var _storesTagsStore = require("../stores/TagsStore");
 
 var _storesTagsStore2 = _interopRequireDefault(_storesTagsStore);
 
+var _SidebarTagItem = require("./SidebarTagItem");
+
+var _SidebarTagItem2 = _interopRequireDefault(_SidebarTagItem);
+
 var SidebarTags = (function (_React$Component) {
 	_inherits(SidebarTags, _React$Component);
 
@@ -968,14 +1253,6 @@ var SidebarTags = (function (_React$Component) {
 			_storesTagsStore2["default"].unlisten(this.onChange);
 		}
 
-		// GET TAG COLOR
-	}, {
-		key: "getTagColor",
-		value: function getTagColor(idx) {
-			var colors = ["#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a", "#b15928", "#000000", "#cccccc"];
-			return colors[idx - 1];
-		}
-
 		// ON CHANGE
 	}, {
 		key: "onChange",
@@ -1000,15 +1277,7 @@ var SidebarTags = (function (_React$Component) {
 					"Tags"
 				),
 				this.state.tags.results.map(function (t) {
-
-					return _react2["default"].createElement(
-						"span",
-						{ className: "nav-group-item", key: t.id },
-						_react2["default"].createElement("span", { className: "icon icon-record", style: {
-								"color": _this.getTagColor(t.colour)
-							} }),
-						t.name
-					);
+					return _react2["default"].createElement(_SidebarTagItem2["default"], { tag: t, key: t.id, setTagFilter: _this.props.setTagFilter });
 				})
 			);
 		}
@@ -1020,7 +1289,7 @@ var SidebarTags = (function (_React$Component) {
 exports["default"] = SidebarTags;
 module.exports = exports["default"];
 
-},{"../actions/TagsActions":3,"../stores/TagsStore":18,"react":"react"}],14:[function(require,module,exports){
+},{"../actions/TagsActions":3,"../stores/TagsStore":20,"./SidebarTagItem":14,"react":"react"}],16:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -1045,7 +1314,7 @@ _reactDom2["default"].render(_react2["default"].createElement(
   _routes2["default"]
 ), document.getElementById("app"));
 
-},{"./routes":15,"react":"react","react-dom":"react-dom","react-router":"react-router"}],15:[function(require,module,exports){
+},{"./routes":17,"react":"react","react-dom":"react-dom","react-router":"react-router"}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1080,7 +1349,7 @@ exports["default"] = _react2["default"].createElement(
 );
 module.exports = exports["default"];
 
-},{"./components/App":5,"./components/Documents":7,"./components/Login":9,"react":"react","react-router":"react-router"}],16:[function(require,module,exports){
+},{"./components/App":5,"./components/Documents":7,"./components/Login":9,"react":"react","react-router":"react-router"}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1133,7 +1402,7 @@ var CorrespondentsStore = (function () {
 exports["default"] = _alt2["default"].createStore(CorrespondentsStore);
 module.exports = exports["default"];
 
-},{"../actions/CorrespondentsActions":1,"../alt":4}],17:[function(require,module,exports){
+},{"../actions/CorrespondentsActions":1,"../alt":4}],19:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1186,7 +1455,7 @@ var DocumentsStore = (function () {
 exports["default"] = _alt2["default"].createStore(DocumentsStore);
 module.exports = exports["default"];
 
-},{"../actions/DocumentsActions":2,"../alt":4}],18:[function(require,module,exports){
+},{"../actions/DocumentsActions":2,"../alt":4}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1239,4 +1508,55 @@ var TagsStore = (function () {
 exports["default"] = _alt2["default"].createStore(TagsStore);
 module.exports = exports["default"];
 
-},{"../actions/TagsActions":3,"../alt":4}]},{},[14]);
+},{"../actions/TagsActions":3,"../alt":4}],21:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+exports['default'] = shouldPureComponentUpdate;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _shallowEqual = require('./shallowEqual');
+
+var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
+
+function shouldPureComponentUpdate(nextProps, nextState) {
+  return !(0, _shallowEqual2['default'])(this.props, nextProps) || !(0, _shallowEqual2['default'])(this.state, nextState);
+}
+
+module.exports = exports['default'];
+},{"./shallowEqual":22}],22:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+exports['default'] = shallowEqual;
+
+function shallowEqual(objA, objB) {
+  if (objA === objB) {
+    return true;
+  }
+
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false;
+  }
+
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+
+  // Test for A's keys different from B.
+  var bHasOwnProperty = Object.prototype.hasOwnProperty.bind(objB);
+  for (var i = 0; i < keysA.length; i++) {
+    if (!bHasOwnProperty(keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+module.exports = exports['default'];
+},{}]},{},[16]);

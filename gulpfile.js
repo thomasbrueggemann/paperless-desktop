@@ -20,7 +20,8 @@ var dependencies = [
 	"react",
 	"react-dom",
 	"react-router",
-	"axios"
+	"axios",
+	"jquery"
 ];
 
 /*

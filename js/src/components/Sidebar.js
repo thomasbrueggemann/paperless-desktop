@@ -18,8 +18,8 @@ class Sidebar extends React.Component {
 		return (
 
 			<div className="pane pane-sm sidebar">
-	            <SidebarCorrespondents />
-				<SidebarTags />
+	            <SidebarCorrespondents setCorrespondentFilter={this.props.setCorrespondentFilter} />
+				<SidebarTags setTagFilter={this.props.setTagFilter} />
 			</div>
 		);
 	}
