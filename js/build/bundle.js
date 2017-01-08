@@ -807,7 +807,7 @@ var SidebarCorrespondents = (function (_React$Component) {
 
 					return _react2["default"].createElement(
 						"span",
-						{ className: "nav-group-item" },
+						{ className: "nav-group-item", key: t.id },
 						_react2["default"].createElement("span", { className: "icon icon-user" }),
 						t.name
 					);
@@ -913,7 +913,7 @@ var SidebarTags = (function (_React$Component) {
 
 					return _react2["default"].createElement(
 						"span",
-						{ className: "nav-group-item" },
+						{ className: "nav-group-item", key: t.id },
 						_react2["default"].createElement("span", { className: "icon icon-record", style: {
 								"color": _this.getTagColor(t.colour)
 							} }),

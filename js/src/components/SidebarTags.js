@@ -43,7 +43,7 @@ class SidebarTags extends React.Component {
 				{this.state.tags.results.map(t => {
 
 					return (
-						<span className="nav-group-item">
+						<span className="nav-group-item" key={t.id}>
 			                <span className="icon icon-record" style={{
 								"color": this.getTagColor(t.colour)
 							}}></span>

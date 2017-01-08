@@ -37,7 +37,7 @@ class SidebarCorrespondents extends React.Component {
 				{this.state.correspondents.results.map(t => {
 
 					return (
-						<span className="nav-group-item">
+						<span className="nav-group-item" key={t.id}>
 			                <span className="icon icon-user"></span>
 							{t.name}
 						</span>
