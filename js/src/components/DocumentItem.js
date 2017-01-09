@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 import PaperlessComponent from "./PaperlessComponent";
-import axios from "axios";
+import moment from "moment";
 
 class DocumentItem extends PaperlessComponent {
 
@@ -26,7 +26,6 @@ class DocumentItem extends PaperlessComponent {
 	render() {
 
 		var divStyle = {};
-
 		if("data" in this.state) {
 			divStyle["backgroundImage"] = "url(" + this.state.data + ")";
 		}
@@ -35,6 +34,7 @@ class DocumentItem extends PaperlessComponent {
 			<Link className="document-item" to={"/document/" + this.props.document.id}>
 				<div className="document-item-thumbnail" style={divStyle}></div>
 				<div className="document-item-title">{this.props.document.title}</div>
+				<small title={moment(this.props.document.created).format("LLLL")}>{moment(this.props.document.created).fromNow()}</small>
 			</Link>
 		);
 	}

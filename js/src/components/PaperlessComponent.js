@@ -33,17 +33,26 @@ class PaperlessComponent extends React.Component {
 
 	// GET DATA URI
 	getDataUri(url, callback) {
+
+		if(localStorage.getItem(url)) {
+			return callback(localStorage.getItem(url));
+		}
+
 	    var image = new Image();
+		var that = this;
 
 	    image.onload = function () {
-	        var canvas = document.createElement('canvas');
+	        var canvas = document.createElement("canvas");
 	        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
 	        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
 
-	        canvas.getContext('2d').drawImage(this, 0, 0);
+	        canvas.getContext("2d").drawImage(this, 0, 0);
 
 	        // ... or get as Data URI
-	        callback(canvas.toDataURL('image/png'));
+			var d = canvas.toDataURL("image/png");
+			
+			localStorage.setItem(url, d);
+	        return callback(d);
 	    };
 
 	    image.src = url;

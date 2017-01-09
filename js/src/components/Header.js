@@ -27,6 +27,18 @@ class Header extends React.Component {
 		});
 	}
 
+	// HANDLE SEARCH INPUT CHANGED
+	handleSearchInputChanged(event) {
+		var v = event.target.value;
+
+		if(v.length === 0) {
+			this.props.history.push("/documents");
+		}
+		else {
+			this.props.history.push("/documents/search/" + v);
+		}
+	}
+
 	// RENDER
 	render() {
 
@@ -63,7 +75,7 @@ class Header extends React.Component {
 					</div>
 
 					<div className="search-bar pull-right">
-						<input type="search" className="form-control" placeholder="Search" />
+						<input type="search" onKeyDown={this.handleSearchInputChanged.bind(this)} className="form-control" placeholder="Search" />
 					</div>
 			  	</div>
 			</header>

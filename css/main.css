@@ -18,6 +18,10 @@
 	text-decoration: none!important;
 }
 
+.document-item small {
+	color:#ccc;
+}
+
 .document-item-thumbnail {
 	width:200px;
 	height:300px;
@@ -37,7 +41,7 @@
 }
 
 .search-bar > input[type="search"] {
-    padding-top: 0;
+    padding-top: 3px;
     margin: 1px 6px;
 
     outline: none;
@@ -52,7 +56,7 @@
 	background: linear-gradient(to bottom,  #fdfdfd 0%,#f1f1f1 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#f1f1f1',GradientType=0 );
 
-    height: 22px;
+    height: 19px;
 	width: 300px;
 }
 
@@ -68,3 +72,8 @@
 
 .search-bar > input[type="search"]:focus { background-color: white; }
 .search-bar > input[type="search"]:not(:placeholder-shown) { background-color: white; } /* Needs to be a separate rule. See http://webkit.org/b/118162 */
+
+.SimplePDF {
+  width: 100%;
+  height: 100%;
+}

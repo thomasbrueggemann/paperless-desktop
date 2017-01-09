@@ -51,6 +51,41 @@ class DocumentsActions {
 		.then(this.actions.getDocumentsSuccess)
 		.catch(this.actions.getDocumentsFail);
     }
+
+	// SEARCH DOCUMENTS
+	searchDocuments(query) {
+
+		var url = localStorage.getItem("settings.host") + "/api/documents/?search=" + query;
+
+		// fetch documents
+		axios({
+			"method": "get",
+			"url": url,
+			"auth": {
+				"username": localStorage.getItem("settings.auth.username"),
+    			"password": localStorage.getItem("settings.auth.password")
+			}
+		})
+		.then(this.actions.getDocumentsSuccess)
+		.catch(this.actions.getDocumentsFail);
+	}
+
+	// GET DOC
+	getDocument(id) {
+		var url = localStorage.getItem("settings.host") + "/api/documents/" + id;
+
+		// fetch documents
+		axios({
+			"method": "get",
+			"url": url,
+			"auth": {
+				"username": localStorage.getItem("settings.auth.username"),
+    			"password": localStorage.getItem("settings.auth.password")
+			}
+		})
+		.then(this.actions.getDocumentsSuccess)
+		.catch(this.actions.getDocumentsFail);
+	}
 }
 
 export default alt.createActions(DocumentsActions);

@@ -24,6 +24,7 @@
     "react-dom": "^0.14.0",
     "react-pure-render": "^1.0.2",
     "react-router": "^1.0.0-rc3",
+    "simple-react-pdf": "^1.0.6",
     "swig": "^1.4.2",
     "underscore": "^1.8.3"
   },

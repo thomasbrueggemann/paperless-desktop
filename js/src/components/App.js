@@ -16,7 +16,7 @@ class App extends React.Component {
 
 		return (
 			<div className="window">
-				<Header />
+				<Header history={this.props.history} />
 				<div className="window-content">
 					{this.props.children}
 				</div>
