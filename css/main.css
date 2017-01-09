@@ -35,3 +35,36 @@
 	color:black!important;
 	text-decoration: none!important;
 }
+
+.search-bar > input[type="search"] {
+    padding-top: 0;
+    margin: 1px 6px;
+
+    outline: none;
+
+    -webkit-appearance: none;
+
+    border: 1px solid rgb(216, 214, 216);
+    border-radius: 4px;
+	background: #fdfdfd;
+	background: -moz-linear-gradient(top,  #fdfdfd 0%, #f1f1f1 100%);
+	background: -webkit-linear-gradient(top,  #fdfdfd 0%,#f1f1f1 100%);
+	background: linear-gradient(to bottom,  #fdfdfd 0%,#f1f1f1 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#f1f1f1',GradientType=0 );
+
+    height: 22px;
+	width: 300px;
+}
+
+.search-bar > input[type="search"]::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.35);
+	text-align: center;
+}
+
+.search-bar > input[type="search"]:focus::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.35);
+	text-align: left;
+}
+
+.search-bar > input[type="search"]:focus { background-color: white; }
+.search-bar > input[type="search"]:not(:placeholder-shown) { background-color: white; } /* Needs to be a separate rule. See http://webkit.org/b/118162 */

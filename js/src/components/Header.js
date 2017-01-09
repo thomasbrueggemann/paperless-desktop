@@ -1,18 +1,40 @@
 import React from "react";
 import {Link} from "react-router";
+import $ from "jquery";
 
 class Header extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {"active": "documents"};
 	}
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+		$(window).on("headerActiveItem", this.handleActiveHeaderChanged.bind(this));
+	}
+
+	// COMPONENT WILL UNMOUNT
+	componentWillUnmount() {
+		$(window).off("headerActiveItem");
+	}
+
+	// HANDLE ACTIVE HEADER CHANGED
+	handleActiveHeaderChanged(e, data) {
+
+		this.setState({
+			"active": data.item
+		});
 	}
 
 	// RENDER
 	render() {
+
+		var documentsClass = "btn btn-default";
+		if(this.state.active === "documents") documentsClass += " active";
+
+		var logsClass = "btn btn-default";
+		if(this.state.active === "logs") logsClass += " active";
 
 		return (
 			<header className="toolbar toolbar-header">
@@ -23,7 +45,7 @@ class Header extends React.Component {
 						<button className="btn btn-default" title="Correspondents">
 							<span className="icon icon-users"></span>
 						</button>
-						<Link className="btn btn-default active" title="Documents" to={"/documents"}>
+						<Link className={documentsClass} title="Documents" to={"/documents"}>
 							<span className="icon icon-newspaper"></span>
 						</Link>
 						<button className="btn btn-default" title="Tags">
@@ -35,9 +57,13 @@ class Header extends React.Component {
 						<button className="btn btn-default">
 							<span className="icon icon-cog"></span>
 						</button>
-						<Link className="btn btn-default" title="Logs" to={"/logs"}>
+						<Link className={logsClass} title="Logs" to={"/logs"}>
 							<span className="icon icon-menu"></span>
 						</Link>
+					</div>
+
+					<div className="search-bar pull-right">
+						<input type="search" className="form-control" placeholder="Search" />
 					</div>
 			  	</div>
 			</header>

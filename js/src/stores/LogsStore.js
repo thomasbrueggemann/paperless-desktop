@@ -11,7 +11,6 @@ class LogsStore {
 
 	// GET LOGS SUCCESS
   	getLogsSuccess(result) {
-		console.log(result);
 		this.logs = result.data;
   	}
 

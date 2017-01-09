@@ -4,6 +4,7 @@ import DocumentsStore from "../stores/DocumentsStore";
 import Sidebar from "./Sidebar";
 import DocumentItem from "./DocumentItem";
 import shouldPureComponentUpdate from "react-pure-render/function";
+import $ from "jquery";
 
 class Documents extends React.Component {
 
@@ -18,6 +19,7 @@ class Documents extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+		$(window).trigger("headerActiveItem", {"item": "documents"});
 		DocumentsStore.listen(this.onChange);
 		DocumentsActions.getDocuments();
 	}

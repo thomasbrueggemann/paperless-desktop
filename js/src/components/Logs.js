@@ -2,6 +2,7 @@ import React from "react";
 import LogsActions from "../actions/LogsActions";
 import LogsStore from "../stores/LogsStore";
 import moment from "moment";
+import $ from "jquery";
 
 class Logs extends React.Component {
 
@@ -13,6 +14,7 @@ class Logs extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+		$(window).trigger("headerActiveItem", {"item": "logs"});
 		LogsStore.listen(this.onChange);
 		LogsActions.getLogs();
 	}

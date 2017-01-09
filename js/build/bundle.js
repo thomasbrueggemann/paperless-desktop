@@ -500,6 +500,10 @@ var _reactPureRenderFunction = require("react-pure-render/function");
 
 var _reactPureRenderFunction2 = _interopRequireDefault(_reactPureRenderFunction);
 
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var Documents = (function (_React$Component) {
 	_inherits(Documents, _React$Component);
 
@@ -519,6 +523,7 @@ var Documents = (function (_React$Component) {
 
 		// COMPONENT DID MOUNT
 		value: function componentDidMount() {
+			(0, _jquery2["default"])(window).trigger("headerActiveItem", { "item": "documents" });
 			_storesDocumentsStore2["default"].listen(this.onChange);
 			_actionsDocumentsActions2["default"].getDocuments();
 		}
@@ -587,7 +592,7 @@ var Documents = (function (_React$Component) {
 exports["default"] = Documents;
 module.exports = exports["default"];
 
-},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":22,"./DocumentItem":8,"./Sidebar":14,"react":"react","react-pure-render/function":25}],10:[function(require,module,exports){
+},{"../actions/DocumentsActions":2,"../stores/DocumentsStore":22,"./DocumentItem":8,"./Sidebar":14,"jquery":"jquery","react":"react","react-pure-render/function":25}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -610,6 +615,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require("react-router");
 
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var Header = (function (_React$Component) {
 	_inherits(Header, _React$Component);
 
@@ -617,18 +626,44 @@ var Header = (function (_React$Component) {
 		_classCallCheck(this, Header);
 
 		_get(Object.getPrototypeOf(Header.prototype), "constructor", this).call(this, props);
+		this.state = { "active": "documents" };
 	}
 
 	// COMPONENT DID MOUNT
 
 	_createClass(Header, [{
 		key: "componentDidMount",
-		value: function componentDidMount() {}
+		value: function componentDidMount() {
+			(0, _jquery2["default"])(window).on("headerActiveItem", this.handleActiveHeaderChanged.bind(this));
+		}
+
+		// COMPONENT WILL UNMOUNT
+	}, {
+		key: "componentWillUnmount",
+		value: function componentWillUnmount() {
+			(0, _jquery2["default"])(window).off("headerActiveItem");
+		}
+
+		// HANDLE ACTIVE HEADER CHANGED
+	}, {
+		key: "handleActiveHeaderChanged",
+		value: function handleActiveHeaderChanged(e, data) {
+
+			this.setState({
+				"active": data.item
+			});
+		}
 
 		// RENDER
 	}, {
 		key: "render",
 		value: function render() {
+
+			var documentsClass = "btn btn-default";
+			if (this.state.active === "documents") documentsClass += " active";
+
+			var logsClass = "btn btn-default";
+			if (this.state.active === "logs") logsClass += " active";
 
 			return _react2["default"].createElement(
 				"header",
@@ -651,7 +686,7 @@ var Header = (function (_React$Component) {
 						),
 						_react2["default"].createElement(
 							_reactRouter.Link,
-							{ className: "btn btn-default active", title: "Documents", to: "/documents" },
+							{ className: documentsClass, title: "Documents", to: "/documents" },
 							_react2["default"].createElement("span", { className: "icon icon-newspaper" })
 						),
 						_react2["default"].createElement(
@@ -670,9 +705,14 @@ var Header = (function (_React$Component) {
 						),
 						_react2["default"].createElement(
 							_reactRouter.Link,
-							{ className: "btn btn-default", title: "Logs", to: "/logs" },
+							{ className: logsClass, title: "Logs", to: "/logs" },
 							_react2["default"].createElement("span", { className: "icon icon-menu" })
 						)
+					),
+					_react2["default"].createElement(
+						"div",
+						{ className: "search-bar pull-right" },
+						_react2["default"].createElement("input", { type: "search", className: "form-control", placeholder: "Search" })
 					)
 				)
 			);
@@ -685,7 +725,7 @@ var Header = (function (_React$Component) {
 exports["default"] = Header;
 module.exports = exports["default"];
 
-},{"react":"react","react-router":"react-router"}],11:[function(require,module,exports){
+},{"jquery":"jquery","react":"react","react-router":"react-router"}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -875,6 +915,10 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var Logs = (function (_React$Component) {
 	_inherits(Logs, _React$Component);
 
@@ -891,6 +935,7 @@ var Logs = (function (_React$Component) {
 	_createClass(Logs, [{
 		key: "componentDidMount",
 		value: function componentDidMount() {
+			(0, _jquery2["default"])(window).trigger("headerActiveItem", { "item": "logs" });
 			_storesLogsStore2["default"].listen(this.onChange);
 			_actionsLogsActions2["default"].getLogs();
 		}
@@ -971,7 +1016,7 @@ var Logs = (function (_React$Component) {
 exports["default"] = Logs;
 module.exports = exports["default"];
 
-},{"../actions/LogsActions":3,"../stores/LogsStore":23,"moment":"moment","react":"react"}],13:[function(require,module,exports){
+},{"../actions/LogsActions":3,"../stores/LogsStore":23,"jquery":"jquery","moment":"moment","react":"react"}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1738,7 +1783,6 @@ var LogsStore = (function () {
 	_createClass(LogsStore, [{
 		key: "getLogsSuccess",
 		value: function getLogsSuccess(result) {
-			console.log(result);
 			this.logs = result.data;
 		}
 
