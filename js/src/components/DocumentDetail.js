@@ -56,11 +56,16 @@ class DocumentDetail extends PaperlessComponent {
 
 		return (
 			<div className="pane-group">
-				<div className="pane">
+				<div className="pane-two-third">
 					<spdf.SimplePDF file={super.getHost() + doc.download_url.replace("\\", "")}/>
 				</div>
-				<div className="pane pane-sm">
-					Sidebar
+				<div className="pane pane-one-third">
+					<form>
+						<div class="form-group">
+							<label>Title</label>
+							<input type="text" class="form-control" placeholder="Title" />
+						</div>
+					</form>
 				</div>
 			</div>
 		);

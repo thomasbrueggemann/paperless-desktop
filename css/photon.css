@@ -676,6 +676,10 @@ textarea {
   width: 33.3%;
 }
 
+.pane-two-third {
+	width:66.6%;
+}
+
 img {
   -webkit-user-drag: text;
 }

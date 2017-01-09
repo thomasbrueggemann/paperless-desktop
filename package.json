@@ -6,7 +6,7 @@
   "scripts": {
     "start": "gulp && electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package:mac": "electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --version 1.4.13 --overwrite --icon=./icon.icns"
+    "package:mac": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --version 1.4.13 --overwrite --icon=./icon.icns"
   },
   "repository": {
     "type": "git",
