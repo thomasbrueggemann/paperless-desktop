@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./Header";
+import Tabs from "./Tabs";
 
 class App extends React.Component {
 
@@ -17,6 +18,7 @@ class App extends React.Component {
 		return (
 			<div className="window">
 				<Header history={this.props.history} />
+				<Tabs />
 				<div className="window-content">
 					{this.props.children}
 				</div>
