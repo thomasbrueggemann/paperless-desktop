@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "gulp && electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package:mac": "electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --version 1.4.13 --overwrite --icon=./icon.icns"
   },
   "repository": {
     "type": "git",
@@ -16,7 +17,8 @@
     "async": "^1.4.2",
     "axios": "^0.15.3",
     "babel": "^5.8.23",
-    "electron-json-storage": "^2.1.0",
+    "electron-packager": "^8.4.0",
+    "electron-prebuilt": "^1.4.13",
     "history": "^1.12.5",
     "jquery": "^3.1.1",
     "moment": "^2.17.1",
