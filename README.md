@@ -7,7 +7,7 @@ Desktop app that uses the [paperless](https://github.com/danielquinn/paperless) 
 
 ## Dependencies
 
-- Running [paperless](https://github.com/danielquinn/paperless) instance of at least v0.34
+- Needs a running [paperless](https://github.com/danielquinn/paperless) instance of at least v0.3.4
 
 ## Credits
 - &copy; icon design by [@pdiegmann](https://github.com/pdiegmann)
