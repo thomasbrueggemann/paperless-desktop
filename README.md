@@ -10,10 +10,10 @@ Desktop app that uses the [paperless](https://github.com/danielquinn/paperless) 
 - Running [paperless](https://github.com/danielquinn/paperless) instance of at least v0.34
 
 ## Credits
-- (c) Logo design by @pdiegmann
-- https://github.com/connors/photon
-- react
-- electron
+- (c) Logo design by [@pdiegmann](https://github.com/pdiegmann)
+- [photon](https://github.com/connors/photon)
+- [react](https://facebook.github.io/react/)
+- [electron](http://electron.atom.io/)
 
 ## How to use
 
