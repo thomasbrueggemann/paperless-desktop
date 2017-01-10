@@ -27,6 +27,7 @@ class Tabs extends React.Component {
 	// ROUTE CHANGED
 	routeChanged() {
 		var route = location.hash.replace("#", "").split("?")[0];
+		console.log(route);
 		this.setActive(route);
 	}
 

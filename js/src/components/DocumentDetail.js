@@ -26,6 +26,15 @@ class DocumentDetail extends PaperlessComponent {
 		DocumentStore.unlisten(this.onChange);
 	}
 
+	// COMPONENT WILL UPDATE
+	componentWillUpdate(nextProps, nextState) {
+
+		// something changed in the state id
+		if(nextProps.params.id !== this.props.params.id) {
+			DocumentActions.getDocument(nextProps.params.id);
+		}
+	}
+
 	// ON CHANGE
 	onChange(state) {
 
