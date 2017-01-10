@@ -14,7 +14,15 @@ class Logs extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
-		$(window).trigger("headerActiveItem", {"item": "logs"});
+		$(window).trigger("tabs.replace", {
+			"idx": 0,
+			"tab": {
+				"title": "Logs",
+				"route": "/logs"
+			}
+		});
+		$(window).trigger("header.activeItem", {"item": "logs"});
+		
 		LogsStore.listen(this.onChange);
 		LogsActions.getLogs();
 	}

@@ -11,12 +11,12 @@ class Header extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
-		$(window).on("headerActiveItem", this.handleActiveHeaderChanged.bind(this));
+		$(window).on("header.activeItem", this.handleActiveHeaderChanged.bind(this));
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
-		$(window).off("headerActiveItem");
+		$(window).off("header.activeItem");
 	}
 
 	// HANDLE ACTIVE HEADER CHANGED

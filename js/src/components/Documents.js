@@ -19,7 +19,14 @@ class Documents extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
-		$(window).trigger("headerActiveItem", {"item": "documents"});
+		$(window).trigger("tabs.replace", {
+			"idx": 0,
+			"tab": {
+				"title": "Documents",
+				"route": "/documents"
+			}
+		});
+		$(window).trigger("header.activeItem", {"item": "documents"});
 		DocumentsStore.listen(this.onChange);
 		DocumentsActions.getDocuments();
 	}
