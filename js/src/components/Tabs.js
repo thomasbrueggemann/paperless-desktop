@@ -11,12 +11,30 @@ class Tabs extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+		$(window).on("tabs.push", this.pushTab.bind(this));
+		$(window).on("tabs.replace", this.replaceTab.bind(this));
+	}
+
+	// COMPONENT WILL UNMOUNT
+	componentWillUnmount() {
+		$(window).off("tabs.push");
+		$(window).off("tabs.replace");
+	}
+
+	// PUSH TAB
+	pushTab() {
+
+	}
+
+	// REPLACE TAB
+	replaceTab() {
+
 	}
 
 	// RENDER
 	render() {
 
-		if(this.state.tabs.length === 0) return null;
+		if(this.state.tabs.length <= 1) return null;
 
 		return (
 			<div className="tab-group">
