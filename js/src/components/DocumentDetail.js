@@ -31,6 +31,16 @@ class DocumentDetail extends PaperlessComponent {
 
 		// something changed in the state id
 		if(nextProps.params.id !== this.props.params.id) {
+			console.log("will", nextProps.params.id);
+			DocumentActions.getDocument(nextProps.params.id);
+		}
+	}
+
+	componentDidUpdate(nextProps, nextState) {
+
+		// something changed in the state id
+		if(nextProps.params.id !== this.props.params.id) {
+			console.log("did", nextProps.params.id);
 			DocumentActions.getDocument(nextProps.params.id);
 		}
 	}
@@ -79,7 +89,7 @@ class DocumentDetail extends PaperlessComponent {
 					<form className="form-detail-info">
 						<div className="form-group">
 							<label>Title</label>
-							<input type="text" className="form-control" placeholder="Title" defaultValue={this.state.doc.title} />
+							<input type="text" className="form-control" placeholder="Title" value={this.state.doc.title} />
 						</div>
 					</form>
 				</div>

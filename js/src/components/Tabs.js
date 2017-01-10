@@ -105,6 +105,9 @@ class Tabs extends React.Component {
 		this.setState({
 			"tabs": newTabs
 		});
+
+		// set first tab as active
+		this.setActive(newTabs[0].route);
 	}
 
 	// RENDER

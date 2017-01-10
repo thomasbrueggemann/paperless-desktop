@@ -81,3 +81,7 @@
 .form-detail-info {
 	margin:15px;
 }
+
+.icon-close-tab {
+	z-index: 9999999;
+}
