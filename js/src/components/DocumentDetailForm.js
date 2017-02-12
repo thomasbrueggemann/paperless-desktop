@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import TagsInput from "./TagsInput";
 
 class DocumentDetailForm extends React.Component {
 
@@ -25,7 +26,8 @@ class DocumentDetailForm extends React.Component {
 	// RENDER
 	render() {
 
-		var created = moment.parseZone(this.state.doc.created).local().format("YYYY-MM-DD[T]hh:mm");
+		// convert the date to local time
+		var created = moment.utc(this.state.doc.created).local().format("YYYY-MM-DD[T]HH:mm");
 
 		return (
 			<form className="form-detail-info">
@@ -46,7 +48,7 @@ class DocumentDetailForm extends React.Component {
 
 				<div className="form-group">
 					<label>Tags</label>
-					<input type="text" className="form-control" name="tags" placeholder="Tags" value={this.state.doc.tags} onChange={this.handleDetailChange.bind(this)} />
+					<TagsInput tags={this.state.doc.tags} />
 				</div>
 
 				<div className="form-group">

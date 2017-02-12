@@ -6,7 +6,7 @@ class TagsStore {
 
 	constructor() {
 		this.bindActions(TagsActions);
-		this.tags = [];
+		this.tags = null;
 	}
 
 	// GET TAGS SUCCESS
