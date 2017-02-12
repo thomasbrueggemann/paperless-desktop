@@ -4,6 +4,7 @@ import DocumentStore from "../stores/DocumentStore";
 import Sidebar from "./Sidebar";
 import spdf from "simple-react-pdf";
 import PaperlessComponent from "./PaperlessComponent";
+import DocumentDetailForm from "./DocumentDetailForm";
 import $ from "jquery";
 
 class DocumentDetail extends PaperlessComponent {
@@ -64,12 +65,9 @@ class DocumentDetail extends PaperlessComponent {
 					<spdf.SimplePDF file={super.getHost() + this.state.doc.download_url.replace("\\", "")}/>
 				</div>
 				<div className="pane pane-one-third">
-					<form className="form-detail-info">
-						<div className="form-group">
-							<label>Title</label>
-							<input type="text" className="form-control" placeholder="Title" value={this.state.doc.title} />
-						</div>
-					</form>
+					<DocumentDetailForm doc={this.state.doc} />
+
+					<button className="btn btn-default">Download File</button>
 				</div>
 			</div>
 		);

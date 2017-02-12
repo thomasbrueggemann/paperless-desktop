@@ -14,8 +14,7 @@ class DocumentActions {
 	// GET DOC
 	getDocument(id) {
 		var url = localStorage.getItem("settings.host") + "/api/documents/" + id;
-		console.log(url);
-		
+
 		// fetch documents
 		axios({
 			"method": "get",
