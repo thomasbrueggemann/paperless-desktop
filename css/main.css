@@ -90,3 +90,22 @@
 	z-index: 9999999;
 	display:block;
 }
+
+.select-wrapper {
+	width:100%;
+	display: inline-block;
+}
+
+/** SELECT2 OVERRIDE */
+.select2-container--default .select2-selection--multiple {
+	border: 1px solid #ddd;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+	border-color: #6db3fd;
+    box-shadow: 3px 3px 0 #6db3fd, -3px -3px 0 #6db3fd, -3px 3px 0 #6db3fd, 3px -3px 0 #6db3fd;
+}
+
+.select2-container--default .select2-container--below {
+	width:none;
+}

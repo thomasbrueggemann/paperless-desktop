@@ -48,7 +48,9 @@ class DocumentDetailForm extends React.Component {
 
 				<div className="form-group">
 					<label>Tags</label>
-					<TagsInput tags={this.state.doc.tags} />
+					<div className="select-wrapper">
+						<TagsInput tags={this.state.doc.tags} />
+					</div>
 				</div>
 
 				<div className="form-group">

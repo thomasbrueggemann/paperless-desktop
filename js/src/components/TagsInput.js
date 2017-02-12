@@ -1,12 +1,12 @@
 import React from "react";
 import TagsActions from "../actions/TagsActions";
 import TagsStore from "../stores/TagsStore";
+import Select2 from "react-select2-wrapper";
 
 class TagsInput extends React.Component {
 
 	// CONSTRUCTOR
 	constructor(props) {
-
 		super(props);
 
 		this.state = TagsStore.getState();
@@ -34,40 +34,59 @@ class TagsInput extends React.Component {
 		this.setState(state);
 	}
 
-	// HANDLE DETAIL CHANGE
-	handleDetailChange(e) {
+	// Add SELECTION
+	addSelection(e) {
+		var id = parseInt(e.target.value);
+		var selection = this.state.selection;
 
-		// retranslate the names into ids
+		if(selection.indexOf(id) === -1) {
+			selection.push(id);
 
-		/*this.setState({
-			"selection": e.target.value
-		});*/
+			console.log(selection);
+			this.setState({
+				"selection": selection
+			});
+		}
+	}
+
+	// REMOVE SELECTION
+	removeSelection(e) {
+		var id = parseInt(e.target.value);
+
+		var selection = this.state.selection;
+		this.setState({
+			"selection": selection.splice(selection.indexOf(id), 1)
+		});
 	}
 
 	// RENDER
 	render() {
 
-		var value = "";
-
-		console.log(this.state.tags);
+		var possibles = [];
 
 		// prepare the selection tag ids
 		if(this.state.tags && this.state.tags.count > 0) {
 
-			// remap ids to names
-			var names = this.state.selection.map(s => {
-
-				// find the matching tag
-				return this.state.tags.results.find(t => {
-					return t.id === s;
-				}).name;
+			// possible tags
+			possibles = this.state.tags.results.map(t => {
+				return {
+					"text": t.name,
+					"id": t.id
+				}
 			});
-
-			value = names.join(",");
 		}
 
 		return (
-			<input type="text" className="form-control" name="selection" placeholder="Tags" value={value} onChange={this.handleDetailChange.bind(this)} />
+			<Select2
+				multiple
+				data={possibles}
+				onSelect={this.addSelection.bind(this)}
+				onUnselect={this.removeSelection.bind(this)}
+				defaultValue={this.state.selection}
+				options={{
+				  placeholder: "Tags",
+				}}
+			/>
 		);
 	}
 }
