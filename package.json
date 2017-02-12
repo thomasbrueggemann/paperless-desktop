@@ -17,6 +17,7 @@
     "async": "^1.4.2",
     "axios": "^0.15.3",
     "babel": "^5.8.23",
+    "btoa": "^1.1.2",
     "electron-packager": "^8.4.0",
     "electron-prebuilt": "^1.4.13",
     "history": "^1.12.5",

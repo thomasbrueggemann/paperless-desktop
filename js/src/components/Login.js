@@ -1,7 +1,10 @@
 import React from "react";
 import Header from "./Header";
-import {ipcRenderer} from "electron";
-import fs from 'fs';
+
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const fs = electron.remote.require("fs");
+const ipcRenderer  = electron.ipcRenderer;
 
 class Login extends React.Component {
 

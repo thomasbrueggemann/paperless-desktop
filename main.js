@@ -1,4 +1,5 @@
 const electron = require("electron");
+const btoa = require("btoa");
 
 // Module to control application life.
 const app = electron.app;
@@ -11,16 +12,18 @@ const url = require("url");
 const session = electron.session;
 const ipcMain = electron.ipcMain;
 
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+var mainWindow;
 
-// Listen for async message from renderer process
-ipcMain.on("login", function(event, arg) {  
-    console.log(arg);
+// authentication object
+var auth = null;
+
+// listen for login message from the renderer
+ipcMain.on("login", function(event, arg) {
+    if(typeof arg === "string") arg = JSON.parse(arg);
+	auth = arg;
 });
-
 
 function createWindow () {
 
@@ -43,9 +46,15 @@ function createWindow () {
 		slashes: true
 	}));
 
-	session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-	  details.requestHeaders['Authorization'] = 'Basic dGhvbWFzOmhvZmhvZkJSR0VUMzI3MjN2dzUh';
-	  callback({ cancel: false, requestHeaders: details.requestHeaders });
+	// ON BEFORE SEND HEADERS
+	session.defaultSession.webRequest.onBeforeSendHeaders(function(details, callback) {
+
+		// check if the auth information is present
+		if(auth !== null) {
+			details.requestHeaders["Authorization"] = "Basic " + btoa(auth.username + ":" + auth.password);
+		}
+
+	  	callback({ cancel: false, requestHeaders: details.requestHeaders });
 	});
 
 	// Open the DevTools.

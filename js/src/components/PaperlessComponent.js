@@ -10,24 +10,6 @@ class PaperlessComponent extends React.Component {
 	getHost() {
 
 		var host = localStorage.getItem("settings.host");
-		host = host.replace(
-			"http://",
-			"http://" +
-				localStorage.getItem("settings.auth.username") +
-				":" +
-				localStorage.getItem("settings.auth.password") +
-				"@"
-		);
-
-		host = host.replace(
-			"https://",
-			"https://" +
-				localStorage.getItem("settings.auth.username") +
-				":" +
-				localStorage.getItem("settings.auth.password") +
-				"@"
-		);
-
 		return host;
 	}
 
@@ -50,7 +32,7 @@ class PaperlessComponent extends React.Component {
 
 	        // ... or get as Data URI
 			var d = canvas.toDataURL("image/png");
-			
+
 			localStorage.setItem(url, d);
 	        return callback(d);
 	    };
