@@ -4,7 +4,10 @@ import {Link} from "react-router";
 class TabItem extends React.Component {
 
 	// REMOVE TAB
-	removeTab() {
+	removeTab(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
 		this.props.removeTab(this.props.tab.route);
 	}
 

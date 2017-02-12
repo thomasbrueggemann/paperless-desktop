@@ -13,7 +13,7 @@ var browserify = require("browserify");
 var watchify = require("watchify");
 var uglify = require("gulp-uglify");
 
-var production = process.env.NODE_ENV === "production";
+var production = false;//process.env.NODE_ENV === "production";
 
 var dependencies = [
 	"alt",
@@ -22,7 +22,8 @@ var dependencies = [
 	"react-router",
 	"axios",
 	"jquery",
-	"moment"
+	"moment",
+	"simple-react-pdf"
 ];
 
 /*

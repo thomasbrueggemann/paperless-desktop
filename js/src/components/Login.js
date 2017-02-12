@@ -1,5 +1,7 @@
 import React from "react";
 import Header from "./Header";
+import {ipcRenderer} from "electron";
+import fs from 'fs';
 
 class Login extends React.Component {
 
@@ -13,6 +15,11 @@ class Login extends React.Component {
 		if (localStorage.getItem("settings.auth.username") && localStorage.getItem("settings.auth.username").length > 0 &&
 			localStorage.getItem("settings.auth.password") && localStorage.getItem("settings.auth.password").length > 0 &&
 			localStorage.getItem("settings.host") && localStorage.getItem("settings.host").length > 0) {
+
+			ipcRenderer.send("login", {
+				"username": localStorage.getItem("settings.auth.username"),
+				"password": localStorage.getItem("settings.auth.password")
+			});
 
 			this.goHome();
 		}
@@ -52,6 +59,11 @@ class Login extends React.Component {
 		localStorage.setItem("settings.auth.username", this.state.username);
 		localStorage.setItem("settings.auth.password", this.state.password);
 		localStorage.setItem("settings.host", host);
+
+		ipcRenderer.send("login", {
+			"username": localStorage.getItem("settings.auth.username"),
+			"password": localStorage.getItem("settings.auth.password")
+		});
 
 		alert("Logged in!");
 		this.goHome();

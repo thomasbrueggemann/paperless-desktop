@@ -8,10 +8,19 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require("path");
 const url = require("url");
+const session = electron.session;
+const ipcMain = electron.ipcMain;
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+// Listen for async message from renderer process
+ipcMain.on("login", function(event, arg) {  
+    console.log(arg);
+});
+
 
 function createWindow () {
 
@@ -33,6 +42,11 @@ function createWindow () {
 		protocol: "file:",
 		slashes: true
 	}));
+
+	session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+	  details.requestHeaders['Authorization'] = 'Basic dGhvbWFzOmhvZmhvZkJSR0VUMzI3MjN2dzUh';
+	  callback({ cancel: false, requestHeaders: details.requestHeaders });
+	});
 
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
@@ -67,6 +81,3 @@ app.on("activate", function () {
 		createWindow();
 	}
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

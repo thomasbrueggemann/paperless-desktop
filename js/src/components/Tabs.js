@@ -94,11 +94,19 @@ class Tabs extends React.Component {
 
 	// REMOVE TAB
 	removeTab(route) {
+
 		var tabs = this.state.tabs;
 		var newTabs = [];
+		var idxRemoved = null;
+
 		for(var i in tabs) {
-			if(tabs[i].route !== route) {
+			if(tabs[i].route != route) {
 				newTabs.push(tabs[i]);
+			}
+			else {
+				// store the index that was removed, to
+				// determine the i - 1 next active tab
+				idxRemoved = i;
 			}
 		}
 
@@ -106,8 +114,15 @@ class Tabs extends React.Component {
 			"tabs": newTabs
 		});
 
+		if(idxRemoved !== null) {
+			var newActiveIdx = Math.max(0, idxRemoved - 1);
+
+			var r = newTabs[newActiveIdx].route;
+			this.props.history.replace(r);
+		}
+
 		// set first tab as active
-		this.setActive(newTabs[0].route);
+		//this.setActive(newTabs[0].route);
 	}
 
 	// RENDER
