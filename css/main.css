@@ -82,6 +82,10 @@
 	margin:15px;
 }
 
+.form-detail-info label {
+	font-weight: bold;
+}
+
 .icon-close-tab {
 	z-index: 9999999;
 	display:block;

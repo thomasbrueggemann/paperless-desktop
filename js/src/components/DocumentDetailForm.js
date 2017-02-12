@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 class DocumentDetailForm extends React.Component {
 
@@ -23,6 +24,9 @@ class DocumentDetailForm extends React.Component {
 
 	// RENDER
 	render() {
+
+		var created = moment.parseZone(this.state.doc.created).local().format("YYYY-MM-DD[T]hh:mm");
+
 		return (
 			<form className="form-detail-info">
 				<div className="form-group">
@@ -47,7 +51,7 @@ class DocumentDetailForm extends React.Component {
 
 				<div className="form-group">
 					<label>Created</label>
-					<input type="text" className="form-control" name="created" placeholder="Tags" value={this.state.doc.created} onChange={this.handleDetailChange.bind(this)} />
+					<input type="datetime-local" className="form-control" name="created" placeholder="Tags" value={created} onChange={this.handleDetailChange.bind(this)} />
 				</div>
 			</form>
 		);

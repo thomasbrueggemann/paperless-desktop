@@ -67,7 +67,9 @@ class DocumentDetail extends PaperlessComponent {
 				<div className="pane pane-one-third">
 					<DocumentDetailForm doc={this.state.doc} />
 
-					<button className="btn btn-default">Download File</button>
+					<button className="btn btn-default">
+						<span className="icon icon-download"></span> Download
+					</button>
 				</div>
 			</div>
 		);
