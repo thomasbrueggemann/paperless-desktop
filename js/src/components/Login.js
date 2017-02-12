@@ -15,10 +15,13 @@ class Login extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+
+		// already logged in?
 		if (localStorage.getItem("settings.auth.username") && localStorage.getItem("settings.auth.username").length > 0 &&
 			localStorage.getItem("settings.auth.password") && localStorage.getItem("settings.auth.password").length > 0 &&
 			localStorage.getItem("settings.host") && localStorage.getItem("settings.host").length > 0) {
 
+			// send login information down the wire to the main process
 			ipcRenderer.send("login", {
 				"username": localStorage.getItem("settings.auth.username"),
 				"password": localStorage.getItem("settings.auth.password")

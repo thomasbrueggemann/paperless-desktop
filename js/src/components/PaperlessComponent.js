@@ -8,9 +8,7 @@ class PaperlessComponent extends React.Component {
 
 	// GET HOST
 	getHost() {
-
-		var host = localStorage.getItem("settings.host");
-		return host;
+		return localStorage.getItem("settings.host");
 	}
 
 	// GET DATA URI

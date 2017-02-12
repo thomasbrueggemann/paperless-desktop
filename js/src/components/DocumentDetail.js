@@ -4,7 +4,6 @@ import DocumentStore from "../stores/DocumentStore";
 import Sidebar from "./Sidebar";
 import spdf from "simple-react-pdf";
 import PaperlessComponent from "./PaperlessComponent";
-import shouldPureComponentUpdate from "react-pure-render/function";
 import $ from "jquery";
 
 class DocumentDetail extends PaperlessComponent {
@@ -15,14 +14,10 @@ class DocumentDetail extends PaperlessComponent {
 		this.onChange = this.onChange.bind(this);
 	}
 
-	// SHOULD COMPONENT UPDATE
-	shouldComponentUpdate = shouldPureComponentUpdate;
-
 	// COMPONENT DID MOUNT
 	componentDidMount() {
 
 		DocumentStore.listen(this.onChange);
-		console.log("detil mount", this.props.params.id);
 		DocumentActions.getDocument(this.props.params.id);
 	}
 
@@ -32,23 +27,19 @@ class DocumentDetail extends PaperlessComponent {
 	}
 
 	// COMPONENT WILL UPDATE
-	/*componentWillUpdate(nextProps, nextState) {
+	componentWillUpdate(nextProps, nextState) {
 
 		// something changed in the state id
 		if(nextProps.params.id !== this.props.params.id) {
-			console.log("will", nextProps.params.id);
+
+			this.setState({
+				"doc": null
+			});
+
+			// fetch new document
 			DocumentActions.getDocument(nextProps.params.id);
 		}
 	}
-
-	componentDidUpdate(nextProps, nextState) {
-
-		// something changed in the state id
-		if(nextProps.params.id !== this.props.params.id) {
-			console.log("did", nextProps.params.id);
-			DocumentActions.getDocument(nextProps.params.id);
-		}
-	}*/
 
 	// ON CHANGE
 	onChange(state) {
@@ -62,29 +53,10 @@ class DocumentDetail extends PaperlessComponent {
 		this.setState(state);
 	}
 
-	// SET TAG FILTER
-	setTagFilter(tag) {
-		this.setState({
-			"tag": tag
-		});
-
-		//DocumentsActions.getDocuments(this.state.correspondent, tag);
-	}
-
-	// SET CORRESPONDENT FILTER
-	setCorrespondentFilter(correspondent) {
-		this.setState({
-			"correspondent": correspondent
-		});
-
-		//DocumentsActions.getDocuments(correspondent, this.state.tag);
-	}
-
 	// RENDER
 	render() {
 
 		if(!this.state.doc) return null;
-		console.log("render", this.state.doc.download_url);
 
 		return (
 			<div className="pane-group">
