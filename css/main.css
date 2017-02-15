@@ -109,3 +109,11 @@
 .select2-container--default .select2-container--below {
 	width:none;
 }
+
+.btn-primary .icon {
+	color:white!important;
+}
+
+.btn .icon {
+	margin-right:3px;
+}

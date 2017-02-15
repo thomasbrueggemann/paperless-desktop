@@ -1,8 +1,14 @@
 import React from "react";
 import moment from "moment";
 import TagsInput from "./TagsInput";
+import PaperlessComponent from "./PaperlessComponent";
 
-class DocumentDetailForm extends React.Component {
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const fs = electron.remote.require("fs");
+const ipcRenderer  = electron.ipcRenderer;
+
+class DocumentDetailForm extends PaperlessComponent {
 
 	// CONSTRUCTOR
 	constructor(props) {
@@ -21,6 +27,23 @@ class DocumentDetailForm extends React.Component {
 		this.setState({
 			"doc": doc
 		});
+	}
+
+	// DOWNLOAD
+	download(e) {
+		e.preventDefault();
+
+		// downstream the download command
+		console.log(this.state.doc);
+
+		ipcRenderer.send("download", {
+			"url": super.getHost() + this.state.doc.download_url.replace("\\", "")
+		});
+	}
+
+	// SAVE
+	save(e) {
+		e.preventDefault();
 	}
 
 	// RENDER
@@ -56,6 +79,20 @@ class DocumentDetailForm extends React.Component {
 				<div className="form-group">
 					<label>Created</label>
 					<input type="datetime-local" className="form-control" name="created" placeholder="Tags" value={created} onChange={this.handleDetailChange.bind(this)} />
+				</div>
+
+				<div className="form-group">
+					<label>Action</label>
+					<div>
+						<div className="btn-group">
+							<button className="btn btn-large btn-default" onClick={this.download.bind(this)}>
+								<span className="icon icon-download"></span> Download
+							</button>
+							<button className="btn btn-large btn-primary" onClick={this.save.bind(this)}>
+								<span className="icon icon-floppy"></span> Save
+							</button>
+						</div>
+					</div>
 				</div>
 			</form>
 		);

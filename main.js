@@ -1,5 +1,6 @@
 const electron = require("electron");
 const btoa = require("btoa");
+const {download} = require("electron-dl");
 
 // Module to control application life.
 const app = electron.app;
@@ -23,6 +24,13 @@ var auth = null;
 ipcMain.on("login", function(event, arg) {
     if(typeof arg === "string") arg = JSON.parse(arg);
 	auth = arg;
+});
+
+// listen or URL download requests
+ipcMain.on("download", (e, args) => {
+    download(BrowserWindow.getFocusedWindow(), args.url)
+        .then(dl => console.log(dl.getSavePath()))
+        .catch(console.error);
 });
 
 function createWindow () {
@@ -58,7 +66,7 @@ function createWindow () {
 	});
 
 	// Open the DevTools.
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on("closed", function () {
