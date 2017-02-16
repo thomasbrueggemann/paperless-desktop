@@ -110,6 +110,10 @@
 	width:none;
 }
 
+.btn {
+	cursor: pointer;
+}
+
 .btn-primary .icon {
 	color:white!important;
 }

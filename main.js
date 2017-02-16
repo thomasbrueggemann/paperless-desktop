@@ -27,7 +27,7 @@ ipcMain.on("login", function(event, arg) {
 });
 
 // listen or URL download requests
-ipcMain.on("download", (e, args) => {
+ipcMain.on("download", function(e, args) {
     download(BrowserWindow.getFocusedWindow(), args.url)
         .then(dl => console.log(dl.getSavePath()))
         .catch(console.error);
