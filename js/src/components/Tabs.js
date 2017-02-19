@@ -2,6 +2,11 @@ import React from "react";
 import $ from "jquery";
 import TabItem from "./TabItem";
 
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const fs = electron.remote.require("fs");
+const ipcRenderer  = electron.ipcRenderer;
+
 class Tabs extends React.Component {
 
 	constructor(props) {
@@ -16,6 +21,23 @@ class Tabs extends React.Component {
 		$(window).on("tabs.push", this.pushTab.bind(this));
 		$(window).on("tabs.replace", this.replaceTab.bind(this));
 		$(window).on("hashchange", this.routeChanged.bind(this));
+
+		var that = this;
+
+		// close Tab event
+		ipcRenderer.on("closeTab", function(ev, msg) {
+
+			if(that.state.tabs.length > 1) {
+
+				// find current route
+				var currTabRoute = that.state.tabs.find(tab => {
+					return tab.active === true;
+				});
+
+				// remove the current tab
+				that.removeTab(currTabRoute.route);
+			}
+		});
 	}
 
 	// COMPONENT WILL UNMOUNT

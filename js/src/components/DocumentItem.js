@@ -3,6 +3,10 @@ import {Link} from "react-router";
 import PaperlessComponent from "./PaperlessComponent";
 import moment from "moment";
 
+String.prototype.trunc = String.prototype.trunc || function(n){
+	return (this.length > n) ? this.substr(0, n-1) + '&hellip;' : this;
+};
+
 class DocumentItem extends PaperlessComponent {
 
 	constructor(props) {
@@ -33,7 +37,7 @@ class DocumentItem extends PaperlessComponent {
 		return (
 			<Link className="document-item" to={"/document/" + this.props.document.id}>
 				<div className="document-item-thumbnail" style={divStyle}></div>
-				<div className="document-item-title">{this.props.document.title}</div>
+				<div className="document-item-title">{this.props.document.title.trunc(100)}</div>
 				<small title={moment(this.props.document.created).format("LLLL")}>{moment(this.props.document.created).fromNow()}</small>
 			</Link>
 		);

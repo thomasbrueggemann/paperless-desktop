@@ -1,24 +1,36 @@
-const electron = require("electron");
+const {app, Menu, BrowserWindow, session, ipcMain} = require("electron");
 const btoa = require("btoa");
 const {download} = require("electron-dl");
-
-// Module to control application life.
-const app = electron.app;
-
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
-
 const path = require("path");
 const url = require("url");
-const session = electron.session;
-const ipcMain = electron.ipcMain;
 
-// Keep a global reference of the window object, if you don't, the window will
+// keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow;
 
 // authentication object
 var auth = null;
+
+// create menu template
+var menu = Menu.buildFromTemplate([{
+    "label": app.getName(),
+    "submenu": [{
+		"label": "About App",
+		"selector": "orderFrontStandardAboutPanel:"
+	},{
+		"label": "Close Tab",
+        "accelerator": "CmdOrCtrl+W",
+		"click": function() {
+			mainWindow.webContents.send("closeTab", true);
+		}
+	}, {
+        "label": "Quit",
+        "accelerator": "CmdOrCtrl+Q",
+        "click": function() {
+            app.quit();
+        }
+    }]
+}]);
 
 // listen for login message from the renderer
 ipcMain.on("login", function(event, arg) {
@@ -34,6 +46,8 @@ ipcMain.on("download", function(e, args) {
 });
 
 function createWindow () {
+
+	Menu.setApplicationMenu(menu);
 
   	// Create the browser window.
   	mainWindow = new BrowserWindow({
