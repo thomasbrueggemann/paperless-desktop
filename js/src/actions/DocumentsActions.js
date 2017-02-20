@@ -1,18 +1,22 @@
 import alt from "../alt";
 import axios from "axios";
+import async from "async";
 
 // DOCUMENTS ACTIONS
 class DocumentsActions {
 
     constructor() {
+
         this.generateActions(
             "getDocumentsSuccess",
-            "getDocumentsFail"
+            "getDocumentsFail",
+			"deleteDocumentsSuccess",
+			"deleteDocumentsFail"
         );
     }
 
     // GET DOCS
-    getDocuments(correspondent, tag) {
+    getDocuments(correspondent, tag, page = 1) {
 
 		var toQueryString = function(obj) {
 		    var parts = [];
@@ -32,7 +36,8 @@ class DocumentsActions {
 			"correspondent__slug_1": "contains",
 			"tags__slug_0": tag,
 			"tags__slug_1": "contains",
-			"ordering": "-created"
+			"ordering": "-created",
+			"page": page
 		});
 
 		// attach parameters if availble
@@ -71,21 +76,44 @@ class DocumentsActions {
 		.catch(this.actions.getDocumentsFail);
 	}
 
-	// GET DOC
-	getDocument(id) {
-		var url = localStorage.getItem("settings.host") + "/api/documents/" + id;
+	// DELETE DOCUMENT
+	deleteDocuments(ids) {
 
-		// fetch documents
-		axios({
-			"method": "get",
-			"url": url,
-			"auth": {
-				"username": localStorage.getItem("settings.auth.username"),
-    			"password": localStorage.getItem("settings.auth.password")
+		var that = this;
+
+		document.cookie = "csrftoken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+
+		// asyncroniously delete all document ids
+		async.every(ids, function(id, callback) {
+
+			var url = localStorage.getItem("settings.host") + "/api/documents/" + id;
+
+			// delete document
+			axios({
+				"method": "delete",
+				"url": url,
+				"auth": {
+					"username": localStorage.getItem("settings.auth.username"),
+					"password": localStorage.getItem("settings.auth.password")
+				}
+			})
+			.then(r => {
+				return callback(null, r);
+			})
+			.catch(e => {
+				return callback(e);
+			});
+
+		}, function(err, result) {
+
+			if(err) {
+				return that.actions.deleteDocumentsFail(err);
 			}
-		})
-		.then(this.actions.getDocumentsSuccess)
-		.catch(this.actions.getDocumentsFail);
+
+		    // if result is true then every file exists
+			return that.actions.deleteDocumentsSuccess(result);
+		});
+
 	}
 }
 

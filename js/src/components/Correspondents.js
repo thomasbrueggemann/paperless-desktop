@@ -1,14 +1,14 @@
 import React from "react";
-import TagsActions from "../actions/TagsActions";
-import TagsStore from "../stores/TagsStore";
+import CorrespondentsActions from "../actions/CorrespondentsActions";
+import CorrespondentsStore from "../stores/CorrespondentsStore";
 import $ from "jquery";
 import PaperlessComponent from "./PaperlessComponent";
 
-class Tags extends PaperlessComponent {
+class Correspondents extends PaperlessComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = TagsStore.getState();
+		this.state = CorrespondentsStore.getState();
 		this.onChange = this.onChange.bind(this);
 	}
 
@@ -21,15 +21,15 @@ class Tags extends PaperlessComponent {
 				"route": "/tags"
 			}
 		});
-		$(window).trigger("header.activeItem", {"item": "tags"});
+		$(window).trigger("header.activeItem", {"item": "correspondents"});
 
-		TagsStore.listen(this.onChange);
-		TagsActions.getTags();
+		CorrespondentsStore.listen(this.onChange);
+		CorrespondentsActions.getTags();
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
-		TagsStore.unlisten(this.onChange);
+		CorrespondentsStore.unlisten(this.onChange);
 	}
 
 	// ON CHANGE
@@ -40,7 +40,7 @@ class Tags extends PaperlessComponent {
 	// RENDER
 	render() {
 
-		if(!this.state.tags || !("results" in this.state.tags)) return null;
+		if(!this.state.correspondents || !("results" in this.state.correspondents)) return null;
 
 		return (
 			<div className="pane">
@@ -48,7 +48,6 @@ class Tags extends PaperlessComponent {
 					<thead>
 						<tr>
 							<th></th>
-							<th>Color</th>
 							<th>Name</th>
 							<th>Match</th>
 							<th>Matching Algorithm</th>
@@ -56,18 +55,13 @@ class Tags extends PaperlessComponent {
 					</thead>
 					<tbody>
 
-					{this.state.tags.results.map(t => {
+					{this.state.correspondents.results.map(c => {
 						return (
-							<tr key={t.id}>
+							<tr key={c.id}>
 								<td><input type="checkbox" /></td>
-								<td>
-									<span className="icon icon-record" style={{
-										color: super.getTagColor(t.colour)
-									}}></span>
-								</td>
-								<td>{t.name}</td>
-								<td>{t.match}</td>
-								<td>{t.matching_algorithm}</td>
+								<td>{c.name}</td>
+								<td>{c.match}</td>
+								<td>{c.matching_algorithm}</td>
 							</tr>
 						);
 					})}
@@ -79,4 +73,4 @@ class Tags extends PaperlessComponent {
 	}
 }
 
-export default Tags;
+export default Correspondents;

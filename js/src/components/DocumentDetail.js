@@ -1,11 +1,20 @@
 import React from "react";
 import DocumentActions from "../actions/DocumentActions";
+import DocumentsActions from "../actions/DocumentsActions";
 import DocumentStore from "../stores/DocumentStore";
 import Sidebar from "./Sidebar";
 import spdf from "simple-react-pdf";
 import PaperlessComponent from "./PaperlessComponent";
 import DocumentDetailForm from "./DocumentDetailForm";
+import ToolbarActions from "../actions/ToolbarActions";
 import $ from "jquery";
+
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const fs = electron.remote.require("fs");
+const ipcRenderer  = electron.ipcRenderer;
+const remote = electron.remote;
+const dialog = remote.dialog;
 
 class DocumentDetail extends PaperlessComponent {
 
@@ -20,10 +29,53 @@ class DocumentDetail extends PaperlessComponent {
 
 		DocumentStore.listen(this.onChange);
 		DocumentActions.getDocument(this.props.params.id);
+
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
+		// toolbar: save button
+		ToolbarActions.addItem("floppy", "Save", "primary", "right", () => {
+
+		});
+
+		// toolbar: download file
+		ToolbarActions.addItem("download", "Download File", "default", "left", () => {
+
+			// downstream the download command
+			if(this.state.doc.download_url) {
+				ipcRenderer.send("download", {
+					"url": super.getHost() + this.state.doc.download_url.replace("\\", "")
+				});
+			}
+		});
+
+		// toolbar: delete document
+		ToolbarActions.addItem("trash", "Delete document", "default", "right", () => {
+
+			// ask user if he really wants to delete the document
+    		var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
+                "type": "question",
+                "buttons": ["Yes", "No"],
+                "title": "It'll be gone forever!",
+                "message": "Are you sure you want to delete this document?"
+            }) === 0;
+
+			// yes, delete this thing!
+			if(choice === true) {
+				DocumentsActions.deleteDocuments([this.props.params.id]);
+
+				// reload documents store
+				DocumentsActions.getDocuments();
+
+				// emit event to close this tab, since the document is just deleted
+				$(window).trigger("tabs.closeCurrent");
+			}
+		});
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
+		ToolbarActions.clearItems();
 		DocumentStore.unlisten(this.onChange);
 	}
 

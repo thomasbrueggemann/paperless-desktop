@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import DocumentItem from "./DocumentItem";
 import shouldPureComponentUpdate from "react-pure-render/function";
 import $ from "jquery";
+import ToolbarActions from "../actions/ToolbarActions";
 
 class Documents extends React.Component {
 
@@ -27,12 +28,34 @@ class Documents extends React.Component {
 			}
 		});
 		$(window).trigger("header.activeItem", {"item": "documents"});
+
+		// load all documents event
+		$(window).on("loadAllDocuments", function() {
+			DocumentsActions.getDocuments();
+		});
+
+		// search documents
+		$(window).on("searchDocuments", function(e, data) {
+			DocumentsActions.searchDocuments(data.query);
+		});
+
 		DocumentsStore.listen(this.onChange);
 		DocumentsActions.getDocuments();
+
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
+		// toolbar: save button
+		ToolbarActions.addItem("plus", "Add document", "primary", "right", () => {
+
+			// add document
+		});
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
+		$(window).off("loadAllDocuments");
+		$(window).off("searchDocuments");
 		DocumentsStore.unlisten(this.onChange);
 	}
 

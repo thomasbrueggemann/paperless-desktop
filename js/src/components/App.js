@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./Header";
+import Footer from "./Footer";
 import Tabs from "./Tabs";
 
 class App extends React.Component {
@@ -22,6 +23,7 @@ class App extends React.Component {
 				<div className="window-content">
 					{this.props.children}
 				</div>
+				<Footer />
 			</div>
 		);
 	}

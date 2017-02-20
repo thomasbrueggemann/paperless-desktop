@@ -32,10 +32,14 @@ class Header extends React.Component {
 		var v = event.target.value;
 
 		if(v.length === 0) {
-			this.props.history.push("/documents");
+			$(window).trigger("loadAllDocuments");
 		}
 		else {
-			this.props.history.push("/documents/search/" + v);
+			if(v.length > 2) {
+				$(window).trigger("searchDocuments", {
+					"query": v
+				});
+			}
 		}
 	}
 
@@ -48,21 +52,27 @@ class Header extends React.Component {
 		var logsClass = "btn btn-default";
 		if(this.state.active === "logs") logsClass += " active";
 
+		var tagsClass = "btn btn-default";
+		if(this.state.active == "tags") tagsClass += " active";
+
+		var correspondentsClass = "btn btn-default";
+		if(this.state.active == "correspondents") correspondentsClass += " active";
+
 		return (
 			<header className="toolbar toolbar-header">
 			  	<h1 className="title">Paperless</h1>
 
 			  	<div className="toolbar-actions">
 					<div className="btn-group">
-						<button className="btn btn-default" title="Correspondents">
-							<span className="icon icon-users"></span>
-						</button>
 						<Link className={documentsClass} title="Documents" to={"/documents"}>
 							<span className="icon icon-newspaper"></span>
 						</Link>
-						<button className="btn btn-default" title="Tags">
+						<Link className={correspondentsClass} title="Correspondents" to={"/correspondents"}>
+							<span className="icon icon-users"></span>
+						</Link>
+						<Link className={tagsClass} title="Tags" to={"/tags"}>
 							<span className="icon icon-tag"></span>
-						</button>
+						</Link>
 					</div>
 
 					<div className="btn-group">
@@ -75,11 +85,10 @@ class Header extends React.Component {
 					</div>
 
 					<div className="search-bar pull-right">
-						<input type="search" onKeyDown={this.handleSearchInputChanged.bind(this)} className="form-control" placeholder="Search" />
+						<input type="search" onKeyUp={this.handleSearchInputChanged.bind(this)} className="form-control" placeholder="Search" />
 					</div>
 			  	</div>
 			</header>
-
 		);
 	}
 }

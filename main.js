@@ -21,7 +21,7 @@ var menu = Menu.buildFromTemplate([{
 		"label": "Close Tab",
         "accelerator": "CmdOrCtrl+W",
 		"click": function() {
-			mainWindow.webContents.send("closeTab", true);
+			mainWindow.webContents.send("closeCurrentTab", true);
 		}
 	}, {
         "label": "Quit",
@@ -75,6 +75,9 @@ function createWindow () {
 		if(auth !== null) {
 			details.requestHeaders["Authorization"] = "Basic " + btoa(auth.username + ":" + auth.password);
 		}
+
+		// drop all cookie information, we authenticate just via HTTP Basic
+		delete details.requestHeaders["Cookie"];
 
 	  	callback({ cancel: false, requestHeaders: details.requestHeaders });
 	});

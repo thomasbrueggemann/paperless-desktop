@@ -21,35 +21,38 @@ class Tabs extends React.Component {
 		$(window).on("tabs.push", this.pushTab.bind(this));
 		$(window).on("tabs.replace", this.replaceTab.bind(this));
 		$(window).on("hashchange", this.routeChanged.bind(this));
-
-		var that = this;
+		$(window).on("tabs.closeCurrent", this.closeCurrent.bind(this));
 
 		// close Tab event
-		ipcRenderer.on("closeTab", function(ev, msg) {
-
-			if(that.state.tabs.length > 1) {
-
-				// find current route
-				var currTabRoute = that.state.tabs.find(tab => {
-					return tab.active === true;
-				});
-
-				// remove the current tab
-				that.removeTab(currTabRoute.route);
-			}
-		});
+		ipcRenderer.on("closeCurrentTab", this.closeCurrent.bind(this));
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
 		$(window).off("tabs.push");
 		$(window).off("tabs.replace");
+		$(window).off("tabs.closeCurrent");
 	}
 
 	// ROUTE CHANGED
 	routeChanged() {
+		
 		var route = location.hash.replace("#", "").split("?")[0];
 		this.setActive(route);
+	}
+
+	// CLOSE CURRENT
+	closeCurrent() {
+		if(this.state.tabs.length > 1) {
+
+			// find current route
+			var currTabRoute = this.state.tabs.find(tab => {
+				return tab.active === true;
+			});
+
+			// remove the current tab
+			this.removeTab(currTabRoute.route);
+		}
 	}
 
 	// PUSH TAB
