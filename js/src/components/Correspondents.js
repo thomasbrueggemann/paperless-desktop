@@ -3,6 +3,7 @@ import CorrespondentsActions from "../actions/CorrespondentsActions";
 import CorrespondentsStore from "../stores/CorrespondentsStore";
 import $ from "jquery";
 import PaperlessComponent from "./PaperlessComponent";
+import ToolbarActions from "../actions/ToolbarActions";
 
 class Correspondents extends PaperlessComponent {
 
@@ -25,10 +26,23 @@ class Correspondents extends PaperlessComponent {
 
 		CorrespondentsStore.listen(this.onChange);
 		CorrespondentsActions.getTags();
+
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
+		// toolbar: add button
+		ToolbarActions.addItem("plus", "Add correspondent", "primary", "right", () => {
+
+			// add correspondent
+		});
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
+
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
 		CorrespondentsStore.unlisten(this.onChange);
 	}
 

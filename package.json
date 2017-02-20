@@ -26,6 +26,7 @@
     "moment": "^2.17.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-file-drop": "^0.1.8",
     "react-pure-render": "^1.0.2",
     "react-router": "^1.0.0-rc3",
     "react-select2-wrapper": "^1.0.4-beta2",

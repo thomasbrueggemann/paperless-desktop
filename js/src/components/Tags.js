@@ -25,10 +25,23 @@ class Tags extends PaperlessComponent {
 
 		TagsStore.listen(this.onChange);
 		TagsActions.getTags();
+
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
+		// toolbar: add button
+		ToolbarActions.addItem("plus", "Add tag", "primary", "right", () => {
+
+			// add tag
+		});
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
+
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
 		TagsStore.unlisten(this.onChange);
 	}
 

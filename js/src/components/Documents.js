@@ -6,6 +6,7 @@ import DocumentItem from "./DocumentItem";
 import shouldPureComponentUpdate from "react-pure-render/function";
 import $ from "jquery";
 import ToolbarActions from "../actions/ToolbarActions";
+import FileDrop from "react-file-drop";
 
 class Documents extends React.Component {
 
@@ -54,6 +55,10 @@ class Documents extends React.Component {
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
+
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
 		$(window).off("loadAllDocuments");
 		$(window).off("searchDocuments");
 		DocumentsStore.unlisten(this.onChange);
@@ -82,6 +87,11 @@ class Documents extends React.Component {
 		DocumentsActions.getDocuments(correspondent, this.state.tag);
 	}
 
+	// HANDLE FILE DROP
+	handleFileDrop(files, event) {
+		console.log(files, event);
+	}
+
 	// RENDER
 	render() {
 
@@ -94,6 +104,10 @@ class Documents extends React.Component {
 					{this.state.documents.results.map(d => {
 						return <DocumentItem document={d} key={d.id} />
 					})}
+
+					<FileDrop frame={document} onDrop={this.handleFileDrop}>
+                        Drop some files here!
+                    </FileDrop>
 				</div>
 			</div>
 		);

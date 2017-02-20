@@ -24,7 +24,8 @@ var dependencies = [
 	"jquery",
 	"moment",
 	"simple-react-pdf",
-	"react-select2-wrapper"
+	"react-select2-wrapper",
+	"react-file-drop"
 ];
 
 /*
