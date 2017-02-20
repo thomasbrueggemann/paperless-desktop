@@ -35,7 +35,7 @@ class Header extends React.Component {
 			$(window).trigger("loadAllDocuments");
 		}
 		else {
-			if(v.length > 2) {
+			if(v.length > 2 && event.keyCode === 13) {
 				$(window).trigger("searchDocuments", {
 					"query": v
 				});
