@@ -6,17 +6,31 @@ class Header extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {"active": "documents"};
+		this.state = {
+			"active": "documents",
+			"route": "/documents"
+		};
 	}
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
 		$(window).on("header.activeItem", this.handleActiveHeaderChanged.bind(this));
+		$(window).on("hashchange", this.routeChanged.bind(this));
 	}
 
 	// COMPONENT WILL UNMOUNT
 	componentWillUnmount() {
 		$(window).off("header.activeItem");
+		$(window).off("hashchange");
+	}
+
+	// ROUTE CHANGED
+	routeChanged() {
+
+		var route = location.hash.replace("#", "").split("?")[0];
+		this.setState({
+			"route": route
+		});
 	}
 
 	// HANDLE ACTIVE HEADER CHANGED
@@ -58,6 +72,13 @@ class Header extends React.Component {
 		var correspondentsClass = "btn btn-default";
 		if(this.state.active == "correspondents") correspondentsClass += " active";
 
+		var searchBar = null;
+		if(this.state.route === "/documents") {
+			searchBar = <div className="search-bar pull-right">
+				<input type="search" onKeyUp={this.handleSearchInputChanged.bind(this)} className="form-control" placeholder="Search" />
+			</div>;
+		}
+
 		return (
 			<header className="toolbar toolbar-header">
 			  	<h1 className="title">Paperless</h1>
@@ -84,9 +105,7 @@ class Header extends React.Component {
 						</Link>
 					</div>
 
-					<div className="search-bar pull-right">
-						<input type="search" onKeyUp={this.handleSearchInputChanged.bind(this)} className="form-control" placeholder="Search" />
-					</div>
+					{searchBar}
 			  	</div>
 			</header>
 		);

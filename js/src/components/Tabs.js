@@ -32,11 +32,12 @@ class Tabs extends React.Component {
 		$(window).off("tabs.push");
 		$(window).off("tabs.replace");
 		$(window).off("tabs.closeCurrent");
+		$(window).off("hashchange");
 	}
 
 	// ROUTE CHANGED
 	routeChanged() {
-		
+
 		var route = location.hash.replace("#", "").split("?")[0];
 		this.setActive(route);
 	}
