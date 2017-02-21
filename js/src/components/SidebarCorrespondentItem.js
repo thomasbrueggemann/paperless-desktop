@@ -42,11 +42,9 @@ class SidebarCorrespondentItem extends React.Component {
 	// CHANGE EXTERN CORRESPONDENT
 	changeExternCorrespendent(e, data) {
 
-		if(this.props.correspondent.slug !== data.correspondent) {
-			this.setState({
-				"active": false
-			});
-		}
+		this.setState({
+			"active": this.props.correspondent.slug === data.correspondent
+		});
 	}
 
 	// RENDER

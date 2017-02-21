@@ -21,6 +21,7 @@ class Documents extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+
 		$(window).trigger("tabs.replace", {
 			"idx": 0,
 			"tab": {
@@ -41,7 +42,19 @@ class Documents extends React.Component {
 		});
 
 		DocumentsStore.listen(this.onChange);
-		DocumentsActions.getDocuments();
+		DocumentsActions.getDocuments(this.state.correspondent, this.state.tag);
+
+		// populate the selected correspondent
+		if(this.state.correspondent !== null) {
+			$(window).trigger("changeExternCorrespendent", {"correspondent": this.state.correspondent});
+		}
+
+		// populate the selected tag
+		if(this.state.tag !== null) {
+			$(window).trigger("changeExternTag", {"tag": this.state.tag});
+		}
+
+		console.log(this.state);
 
 		// clear toolbar to add new items
 		ToolbarActions.clearItems();
@@ -105,9 +118,7 @@ class Documents extends React.Component {
 						return <DocumentItem document={d} key={d.id} />
 					})}
 
-					<FileDrop frame={document} onDrop={this.handleFileDrop}>
-                        Drop some files here!
-                    </FileDrop>
+
 				</div>
 			</div>
 		);

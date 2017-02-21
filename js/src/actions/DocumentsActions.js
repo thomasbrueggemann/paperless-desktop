@@ -54,7 +54,13 @@ class DocumentsActions {
     			"password": localStorage.getItem("settings.auth.password")
 			}
 		})
-		.then(this.actions.getDocumentsSuccess)
+		.then(result => {
+			return this.actions.getDocumentsSuccess({
+				"data": result.data,
+				"correspondent": correspondent,
+				"tag": tag
+			});
+		})
 		.catch(this.actions.getDocumentsFail);
     }
 
@@ -72,7 +78,13 @@ class DocumentsActions {
     			"password": localStorage.getItem("settings.auth.password")
 			}
 		})
-		.then(this.actions.getDocumentsSuccess)
+		.then(result => {
+			return this.actions.getDocumentsSuccess({
+				"data": result.data,
+				"correspondent": null,
+				"tag": null
+			})
+		})
 		.catch(this.actions.getDocumentsFail);
 	}
 
@@ -80,8 +92,6 @@ class DocumentsActions {
 	deleteDocuments(ids) {
 
 		var that = this;
-
-		document.cookie = "csrftoken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 
 		// asyncroniously delete all document ids
 		async.every(ids, function(id, callback) {

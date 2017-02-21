@@ -7,11 +7,15 @@ class DocumentsStore {
 	constructor() {
 		this.bindActions(DocumentsActions);
 		this.documents = [];
+		this.correspondent = null;
+		this.tag = null;
 	}
 
 	// GET DOCUMENTS SUCCESS
   	getDocumentsSuccess(result) {
 		this.documents = result.data;
+		this.correspondent = result.correspondent;
+		this.tag = result.tag;
   	}
 
 	// GET DOCUMENTS FAIL

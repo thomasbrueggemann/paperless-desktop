@@ -43,11 +43,9 @@ class SidebarTagItem extends PaperlessComponent {
 	// CHANGE EXTERN TAG
 	changeExternTag(e, data) {
 
-		if(this.props.tag.slug !== data.tag) {
-			this.setState({
-				"active": false
-			});
-		}
+		this.setState({
+			"active": this.props.tag.slug === data.tag
+		});
 	}
 
 	// RENDER
