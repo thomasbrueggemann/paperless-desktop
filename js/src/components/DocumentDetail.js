@@ -34,12 +34,12 @@ class DocumentDetail extends PaperlessComponent {
 		ToolbarActions.clearItems();
 
 		// toolbar: save button
-		ToolbarActions.addItem("floppy", "Save", "primary", "right", () => {
+		ToolbarActions.addItem("save-detail", "floppy", "Save", "primary", "right", () => {
 
 		});
 
 		// toolbar: download file
-		ToolbarActions.addItem("download", "Download File", "default", "left", () => {
+		ToolbarActions.addItem("download-file", "download", "Download File", "default", "left", () => {
 
 			// downstream the download command
 			if(this.state.doc.download_url) {
@@ -50,7 +50,7 @@ class DocumentDetail extends PaperlessComponent {
 		});
 
 		// toolbar: delete document
-		ToolbarActions.addItem("trash", "Delete document", "default", "right", () => {
+		ToolbarActions.addItem("delete-document", "trash", "Delete document", "default", "right", () => {
 
 			// ask user if he really wants to delete the document
     		var choice = dialog.showMessageBox(remote.getCurrentWindow(), {

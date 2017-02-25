@@ -115,10 +115,10 @@
 	cursor: pointer;
 }
 
-.btn-primary .icon {
-	color:white!important;
-}
-
 .btn .icon {
 	margin-right:3px;
+}
+
+.btn-primary *, .btn-negative * {
+	color:white!important;
 }

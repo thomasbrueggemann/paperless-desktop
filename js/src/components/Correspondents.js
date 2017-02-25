@@ -31,7 +31,7 @@ class Correspondents extends PaperlessComponent {
 		ToolbarActions.clearItems();
 
 		// toolbar: add button
-		ToolbarActions.addItem("plus", "Add correspondent", "primary", "right", () => {
+		ToolbarActions.addItem("add-correspondent", "plus", "Add correspondent", "primary", "right", () => {
 
 			// add correspondent
 		});

@@ -60,7 +60,7 @@ class Documents extends React.Component {
 		ToolbarActions.clearItems();
 
 		// toolbar: save button
-		ToolbarActions.addItem("plus", "Add document", "primary", "right", () => {
+		ToolbarActions.addItem("add-document", "plus", "Add document", "primary", "right", () => {
 
 			// add document
 		});

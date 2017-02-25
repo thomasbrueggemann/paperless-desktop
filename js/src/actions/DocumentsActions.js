@@ -123,7 +123,6 @@ class DocumentsActions {
 		    // if result is true then every file exists
 			return that.actions.deleteDocumentsSuccess(result);
 		});
-
 	}
 }
 

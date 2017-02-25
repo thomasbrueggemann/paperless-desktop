@@ -6,7 +6,8 @@ class TagsStore {
 
 	constructor() {
 		this.bindActions(TagsActions);
-		this.tags = null;
+		this.tags = [];
+		this.selection = [];
 	}
 
 	// GET TAGS SUCCESS
@@ -18,6 +19,14 @@ class TagsStore {
   	getTagsFail(err) {
 		console.error(err);
   	}
+
+	deleteTagsSuccess(result) {
+		this.selection = [];
+	}
+
+	deleteTagsFail(err) {
+		console.error(err);
+	}
 }
 
 export default alt.createStore(TagsStore);

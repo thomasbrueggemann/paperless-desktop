@@ -3,6 +3,14 @@ import TagsActions from "../actions/TagsActions";
 import TagsStore from "../stores/TagsStore";
 import $ from "jquery";
 import PaperlessComponent from "./PaperlessComponent";
+import ToolbarActions from "../actions/ToolbarActions";
+import TagsListItem from "./TagsListItem";
+
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const fs = electron.remote.require("fs");
+const remote = electron.remote;
+const dialog = remote.dialog;
 
 class Tags extends PaperlessComponent {
 
@@ -30,9 +38,10 @@ class Tags extends PaperlessComponent {
 		ToolbarActions.clearItems();
 
 		// toolbar: add button
-		ToolbarActions.addItem("plus", "Add tag", "primary", "right", () => {
+		ToolbarActions.addItem("add-tag", "plus", "Add tag", "primary", "right", () => {
 
 			// add tag
+			console.log("hi there");
 		});
 	}
 
@@ -48,6 +57,68 @@ class Tags extends PaperlessComponent {
 	// ON CHANGE
 	onChange(state) {
 		this.setState(state);
+	}
+
+	// CHANGE SELECTION
+	changeSelection(id, checked) {
+
+		console.log(id, checked);
+
+		var selection = this.state.selection || [];
+
+		// push or slice out an element
+		if(checked === true) {
+			selection.push(id);
+		} else {
+			selection.splice(selection.indexOf(id), 1);
+		}
+
+		this.setState({
+			"selection": selection
+		});
+
+		// adjust toolbar based on selection
+		if(selection.length > 0) {
+			ToolbarActions.addItem("remove-tags", "trash", "Delete", "negative", "left", this.deleteSelection.bind(this));
+		} else {
+			ToolbarActions.removeItem("remove-tags");
+		}
+	}
+
+	// DELETE SELECTION
+	deleteSelection() {
+
+		var message;
+		if(this.state.selection.length === 1) {
+			message = "Are you sure you want to delete this tag?";
+		}
+
+		if(this.state.selection.length > 1) {
+			message = "Are you sure you want to delete these tags?";
+		}
+
+		if(this.state.selection === 0) return;
+
+		// ask user if he really wants to delete the document
+		var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
+			"type": "question",
+			"buttons": ["Yes", "No"],
+			"title": "It'll be gone forever!",
+			"message": message
+		}) === 0;
+
+		// yes, delete this thing!
+		if(choice === true) {
+
+			TagsActions.deleteTags(this.state.selection);
+
+			this.setState({
+				"selection": []
+			});
+
+			// reload documents store
+			TagsActions.getTags();
+		}
 	}
 
 	// RENDER
@@ -71,17 +142,7 @@ class Tags extends PaperlessComponent {
 
 					{this.state.tags.results.map(t => {
 						return (
-							<tr key={t.id}>
-								<td><input type="checkbox" /></td>
-								<td>
-									<span className="icon icon-record" style={{
-										color: super.getTagColor(t.colour)
-									}}></span>
-								</td>
-								<td>{t.name}</td>
-								<td>{t.match}</td>
-								<td>{t.matching_algorithm}</td>
-							</tr>
+							<TagsListItem key={t.id} tag={t} changeSelection={this.changeSelection.bind(this)} />
 						);
 					})}
 

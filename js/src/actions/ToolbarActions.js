@@ -6,7 +6,8 @@ class ToolbarActions {
     constructor() {
         this.generateActions(
             "addItemSuccess",
-			"clearItemsSuccess"
+			"clearItemsSuccess",
+			"removeItemSuccess"
         );
     }
 
@@ -16,10 +17,11 @@ class ToolbarActions {
 	}
 
     // ADD ITEM
-    addItem(icon, text, flavor, position, click) {
+    addItem(id, icon, text, flavor, position, click) {
 
 		// add a new item
 		this.actions.addItemSuccess({
+			"id": id,
 			"icon": icon,
 			"text": text,
 			"flavor": flavor,
@@ -27,6 +29,15 @@ class ToolbarActions {
 			"click": click
 		});
     }
+
+	// REMOVE ITEM
+	removeItem(id) {
+
+		// remove an item from toolbar
+		this.actions.removeItemSuccess({
+			"id": id
+		});
+	}
 }
 
 export default alt.createActions(ToolbarActions);
