@@ -5,14 +5,6 @@ import Tabs from "./Tabs";
 
 class App extends React.Component {
 
-	constructor(props) {
-		super(props);
-	}
-
-	// COMPONENT DID MOUNT
-	componentDidMount() {
-	}
-
 	// RENDER
 	render() {
 

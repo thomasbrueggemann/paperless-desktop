@@ -7,11 +7,13 @@ import DocumentDetail from "./components/DocumentDetail";
 import Logs from "./components/Logs";
 import Tags from "./components/Tags";
 import Correspondents from "./components/Correspondents";
+import DocumentAdd from "./components/DocumentAdd";
 
 export default (
 	<Route path="/" component={App}>
 		<IndexRoute component={Login} />
  		<Route path="/documents" component={Documents} />
+		<Route path="/document/add" component={DocumentAdd} />
 		<Route path="/document/:id" component={DocumentDetail} />
 		<Route path="/logs" component={Logs} />
 		<Route path="/tags" component={Tags} />

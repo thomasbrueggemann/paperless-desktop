@@ -122,3 +122,11 @@
 .btn-primary *, .btn-negative * {
 	color:white!important;
 }
+
+.text-bold {
+	font-weight: bold;
+}
+
+.center-center {
+	text-align: center;
+}

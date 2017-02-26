@@ -28,20 +28,17 @@ class Footer extends React.Component {
 	render() {
 
 		if(this.state.items.length === 0) return null;
-		var counter = 0;
 
 		return (
 			<footer className="toolbar toolbar-footer">
   				<div className="toolbar-actions">
 					{this.state.items.map(i => {
-
-						counter++;
 						return (
 							<button
-								key={"toolbar_btn_" + counter}
+								key={i.id}
 								className={"btn btn-" + i.flavor + " pull-" + i.position}
 								onClick={i.click}>
-								<span className={"icon icon-" + i.icon}></span> {i.text}
+								{(i.icon) ? <span className={"icon icon-" + i.icon}></span> : null} {i.text}
 							</button>
 						);
 					})}

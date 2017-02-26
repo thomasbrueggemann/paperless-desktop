@@ -6,7 +6,6 @@ import DocumentItem from "./DocumentItem";
 import shouldPureComponentUpdate from "react-pure-render/function";
 import $ from "jquery";
 import ToolbarActions from "../actions/ToolbarActions";
-import FileDrop from "react-file-drop";
 
 class Documents extends React.Component {
 
@@ -54,8 +53,6 @@ class Documents extends React.Component {
 			$(window).trigger("changeExternTag", {"tag": this.state.tag});
 		}
 
-		console.log(this.state);
-
 		// clear toolbar to add new items
 		ToolbarActions.clearItems();
 
@@ -63,7 +60,14 @@ class Documents extends React.Component {
 		ToolbarActions.addItem("add-document", "plus", "Add document", "primary", "right", () => {
 
 			// add document
-		});
+			this.props.history.replace("/document/add");
+
+			// add new tab
+			$(window).trigger("tabs.push", {
+				"title": "New document...",
+				"route": "/document/add"
+			});
+		}.bind(this));
 	}
 
 	// COMPONENT WILL UNMOUNT
@@ -100,11 +104,6 @@ class Documents extends React.Component {
 		DocumentsActions.getDocuments(correspondent, this.state.tag);
 	}
 
-	// HANDLE FILE DROP
-	handleFileDrop(files, event) {
-		console.log(files, event);
-	}
-
 	// RENDER
 	render() {
 
@@ -117,8 +116,6 @@ class Documents extends React.Component {
 					{this.state.documents.results.map(d => {
 						return <DocumentItem document={d} key={d.id} />
 					})}
-
-
 				</div>
 			</div>
 		);

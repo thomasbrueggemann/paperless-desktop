@@ -10,10 +10,15 @@ class TagsInput extends React.Component {
 		super(props);
 
 		this.state = TagsStore.getState();
-		this.state.selection = this.props.tags.map(t => {
-			var s = t.replace(/\/$/, "").split("/");
-			return parseInt(s[s.length - 1]);
-		});
+
+		if(this.props.tags) {
+
+			// extract the tags selection
+			this.state.selection = this.props.tags.map(t => {
+				var s = t.replace(/\/$/, "").split("/");
+				return parseInt(s[s.length - 1]);
+			});
+		}
 
 		this.onChange = this.onChange.bind(this);
 	}
