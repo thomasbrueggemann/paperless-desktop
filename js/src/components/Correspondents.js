@@ -4,6 +4,13 @@ import CorrespondentsStore from "../stores/CorrespondentsStore";
 import $ from "jquery";
 import PaperlessComponent from "./PaperlessComponent";
 import ToolbarActions from "../actions/ToolbarActions";
+import CorrespondentsListItem from "./CorrespondentsListItem";
+
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const fs = electron.remote.require("fs");
+const remote = electron.remote;
+const dialog = remote.dialog;
 
 class Correspondents extends PaperlessComponent {
 
@@ -25,7 +32,7 @@ class Correspondents extends PaperlessComponent {
 		$(window).trigger("header.activeItem", {"item": "correspondents"});
 
 		CorrespondentsStore.listen(this.onChange);
-		CorrespondentsActions.getTags();
+		CorrespondentsActions.getCorrespondents();
 
 		// clear toolbar to add new items
 		ToolbarActions.clearItems();
@@ -51,6 +58,66 @@ class Correspondents extends PaperlessComponent {
 		this.setState(state);
 	}
 
+	// CHANGE SELECTION
+	changeSelection(id, checked) {
+
+		var selection = this.state.selection || [];
+
+		// push or slice out an element
+		if(checked === true) {
+			selection.push(id);
+		} else {
+			selection.splice(selection.indexOf(id), 1);
+		}
+
+		this.setState({
+			"selection": selection
+		});
+
+		// adjust toolbar based on selection
+		if(selection.length > 0) {
+			ToolbarActions.addItem("remove-tags", "trash", "Delete", "negative", "left", this.deleteSelection.bind(this));
+		} else {
+			ToolbarActions.removeItem("remove-tags");
+		}
+	}
+
+	// DELETE SELECTION
+	deleteSelection() {
+
+		var message;
+		if(this.state.selection.length === 1) {
+			message = "Are you sure you want to delete this correspondent?";
+		}
+
+		if(this.state.selection.length > 1) {
+			message = "Are you sure you want to delete these correspondents?";
+		}
+
+		if(this.state.selection === 0) return;
+
+		// ask user if he really wants to delete the document
+		var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
+			"type": "question",
+			"buttons": ["Yes", "No"],
+			"title": "It'll be gone forever!",
+			"message": message
+		}) === 0;
+
+		// yes, delete this thing!
+		if(choice === true) {
+
+			CorrespondentsActions.deleteCorrespondents(this.state.selection);
+
+			this.setState({
+				"selection": []
+			});
+
+			// reload documents store
+			CorrespondentsActions.getCorrespondents();
+		}
+	}
+
 	// RENDER
 	render() {
 
@@ -71,12 +138,7 @@ class Correspondents extends PaperlessComponent {
 
 					{this.state.correspondents.results.map(c => {
 						return (
-							<tr key={c.id}>
-								<td><input type="checkbox" /></td>
-								<td>{c.name}</td>
-								<td>{c.match}</td>
-								<td>{c.matching_algorithm}</td>
-							</tr>
+							<CorrespondentsListItem key={c.id} correspondent={c} changeSelection={this.changeSelection.bind(this)} />
 						);
 					})}
 

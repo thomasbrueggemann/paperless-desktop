@@ -62,8 +62,6 @@ class Tags extends PaperlessComponent {
 	// CHANGE SELECTION
 	changeSelection(id, checked) {
 
-		console.log(id, checked);
-
 		var selection = this.state.selection || [];
 
 		// push or slice out an element

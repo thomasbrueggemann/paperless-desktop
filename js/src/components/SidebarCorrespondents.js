@@ -14,7 +14,7 @@ class SidebarCorrespondents extends React.Component {
 	// COMPONENT DID MOUNT
 	componentDidMount() {
 		CorrespondentsStore.listen(this.onChange);
-		CorrespondentsActions.getTags();
+		CorrespondentsActions.getCorrespondents();
 	}
 
 	// COMPONENT WILL UNMOUNT

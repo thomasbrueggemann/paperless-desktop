@@ -18,6 +18,14 @@ class CorrespondentsStore {
   	getCorrespondentsFail(err) {
 		console.error(err);
   	}
+
+	deleteCorrespondentsSuccess(result) {
+		this.selection = [];
+	}
+
+	deleteCorrespondentsFail(err) {
+		console.error(err);
+	}
 }
 
 export default alt.createStore(CorrespondentsStore);

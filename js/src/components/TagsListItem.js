@@ -3,18 +3,6 @@ import PaperlessComponent from "./PaperlessComponent";
 
 class TagsListItem extends PaperlessComponent {
 
-	constructor(props) {
-		super(props);
-	}
-
-	// COMPONENT DID MOUNT
-	componentDidMount() {
-	}
-
-	// COMPONENT WILL UNMOUNT
-	componentWillUnmount() {
-	}
-
 	// CHANGE SELECTION
 	changeSelection(event) {
 
