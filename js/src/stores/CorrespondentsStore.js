@@ -1,5 +1,6 @@
 import alt from "../alt";
 import CorrespondentsActions from "../actions/CorrespondentsActions";
+import ToolbarActions from "../actions/ToolbarActions";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -38,6 +39,9 @@ class CorrespondentsStore {
 				return ids.indexOf(c.id) === -1;
 			});
 		}
+
+		// remove the delete button
+		ToolbarActions.removeItem("remove-tags");
 	}
 
 	// DELETE CORRESPONDENTS FAIL
