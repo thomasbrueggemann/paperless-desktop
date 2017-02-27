@@ -7,7 +7,9 @@ class DocumentActions {
     constructor() {
         this.generateActions(
             "getDocumentSuccess",
-            "getDocumentFail"
+            "getDocumentFail",
+			"updateDocumentSuccess",
+			"updateDocumentFail"
         );
     }
 
@@ -26,6 +28,26 @@ class DocumentActions {
 		})
 		.then(this.actions.getDocumentSuccess)
 		.catch(this.actions.getDocumentFail);
+	}
+
+	// UPDATE DOCUMENT
+	updateDocument(data) {
+		var url = localStorage.getItem("settings.host") + "/api/documents/" + data.id + "/";
+
+		console.log(data);
+
+		// fetch documents
+		axios({
+			"method": "put",
+			"url": url,
+			"data": data,
+			"auth": {
+				"username": localStorage.getItem("settings.auth.username"),
+    			"password": localStorage.getItem("settings.auth.password")
+			}
+		})
+		.then(this.actions.updateDocumentSuccess)
+		.catch(this.actions.updateDocumentFail);
 	}
 }
 

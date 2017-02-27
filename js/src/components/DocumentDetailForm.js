@@ -17,6 +17,8 @@ class DocumentDetailForm extends PaperlessComponent {
 	// HANDLE DETAIL CHANGE
 	handleDetailChange(e) {
 
+		console.log(e.target.name, e.target.value);
+
 		var doc = this.state.doc;
 		doc[e.target.name] = e.target.value;
 
@@ -30,9 +32,6 @@ class DocumentDetailForm extends PaperlessComponent {
 
 		// convert the date to local time
 		var created = moment.utc(this.state.doc.created).local().format("YYYY-MM-DD[T]HH:mm");
-
-		var s = this.state.doc.correspondent.replace(/\/$/, "").split("/");
-		var correspondentId = parseInt(s[s.length - 1]);
 
 		return (
 			<form className="form-detail-info">
@@ -51,7 +50,7 @@ class DocumentDetailForm extends PaperlessComponent {
 				<div className="form-group">
 					<label>Correspondent</label>
 					<CorrespondentSelect
-						value={correspondentId}
+						value={this.state.doc.correspondent}
 						onChange={this.handleDetailChange.bind(this)}
 					/>
 				</div>

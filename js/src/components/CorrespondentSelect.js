@@ -31,14 +31,16 @@ class CorrespondentSelect extends React.Component {
 	// RENDER
 	render() {
 		return (
-			<select className="form-control">
+			<select
+				className="form-control"
+				defaultValue={this.props.value}
+				name="correspondent"
+				onChange={this.props.onChange}>
+				
+				<option></option>
 				{this.state.correspondents.results.map(c => {
-					if(this.props.value === c.id) {
-						return (<option key={c.id} value={c.id} selected="selected">{c.name}</option>);
-					}
-					else {
-						return (<option key={c.id} value={c.id}>{c.name}</option>);
-					}
+					var value = localStorage.getItem("settings.host") + "/api/correspondents/" + c.id + "/";
+					return (<option key={c.id} value={value}>{c.name}</option>);
 				})}
 			</select>
 		);

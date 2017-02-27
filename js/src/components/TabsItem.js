@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 
-class TabItem extends React.Component {
+class TabsItem extends React.Component {
 
 	// REMOVE TAB
 	removeTab(e) {
@@ -28,4 +28,4 @@ class TabItem extends React.Component {
 	}
 }
 
-export default TabItem;
+export default TabsItem;

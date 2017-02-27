@@ -1,4 +1,5 @@
 import alt from "../alt";
+import $ from "jquery";
 import DocumentActions from "../actions/DocumentActions";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
@@ -25,6 +26,22 @@ class DocumentStore {
 		console.error(err);
 		dialog.showErrorBox("Could not load document!", "Please try again.");
   	}
+
+	// UPDATE DOCUMENT SUCCESS
+	updateDocumentSuccess(result) {
+		console.log(result);
+
+		if(result.data) {
+			$(window).trigger("tabs.setActiveTitle", {
+				"title": result.data.title
+			});
+		}
+	}
+
+	// UPDATE DOCUMENT FAIL
+	updateDocumentFail(err) {
+		console.error(err);
+	}
 }
 
 export default alt.createStore(DocumentStore);

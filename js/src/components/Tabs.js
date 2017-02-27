@@ -1,6 +1,6 @@
 import React from "react";
 import $ from "jquery";
-import TabItem from "./TabItem";
+import TabsItem from "./TabsItem";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -22,6 +22,7 @@ class Tabs extends React.Component {
 		$(window).on("tabs.replace", this.replaceTab.bind(this));
 		$(window).on("hashchange", this.routeChanged.bind(this));
 		$(window).on("tabs.closeCurrent", this.closeCurrent.bind(this));
+		$(window).on("tabs.setActiveTitle", this.setActiveTitle.bind(this));
 
 		// close Tab event
 		ipcRenderer.on("closeCurrentTab", this.closeCurrent.bind(this));
@@ -53,6 +54,26 @@ class Tabs extends React.Component {
 
 			// remove the current tab
 			this.removeTab(currTabRoute.route);
+		}
+	}
+
+	// SET ACTIVE TITLE
+	setActiveTitle(e, data) {
+		if(this.state.tabs.length > 1) {
+
+			// update title of current route
+			var tabs = this.state.tabs.map(tab => {
+				if(tab.active === true) {
+					tab.title = data.title;
+				}
+
+				return tab;
+			});
+
+			// remove the current tab
+			this.setState({
+				"tabs": tabs
+			});
 		}
 	}
 
@@ -145,9 +166,6 @@ class Tabs extends React.Component {
 			var r = newTabs[newActiveIdx].route;
 			this.context.router.replace(r);
 		}
-
-		// set first tab as active
-		//this.setActive(newTabs[0].route);
 	}
 
 	// RENDER
@@ -161,7 +179,7 @@ class Tabs extends React.Component {
 				{this.state.tabs.map(t => {
 
 					i++;
-					return (<TabItem tab={t} idx={i} key={i} removeTab={this.removeTab.bind(this)} />);
+					return (<TabsItem tab={t} idx={i} key={i} removeTab={this.removeTab.bind(this)} />);
 				})}
 			</div>
 		);

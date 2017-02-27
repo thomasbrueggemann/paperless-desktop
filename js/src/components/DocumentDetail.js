@@ -34,8 +34,9 @@ class DocumentDetail extends PaperlessComponent {
 		ToolbarActions.clearItems();
 
 		// toolbar: save button
-		ToolbarActions.addItem("save-detail", "floppy", "Save", "primary", "right", () => {
-
+		ToolbarActions.addItem("save-detail", "floppy", "Save", "primary", "right", (e) => {
+			e.preventDefault();
+			this.saveDocument();
 		});
 
 		// toolbar: download file
@@ -106,9 +107,15 @@ class DocumentDetail extends PaperlessComponent {
 		this.setState(state);
 	}
 
+	// SAVE DOCUMENT
+	saveDocument() {
+		DocumentActions.updateDocument(this.state.doc);
+	}
+
 	// RENDER
 	render() {
 
+		// render nothing if document is empty
 		if(!this.state.doc) return null;
 
 		return (
