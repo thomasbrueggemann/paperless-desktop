@@ -10,15 +10,16 @@ const ipcRenderer  = electron.ipcRenderer;
 
 class TagsAdd extends PaperlessComponent {
 
+	// CONSTRUCTOR
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			"name": "",
 			"slug": "",
-			"colour": "",
+			"colour": 1,
 			"match": "",
-			"matching_algorithm": ""
+			"matching_algorithm": 1
 		}
 	}
 
@@ -41,13 +42,16 @@ class TagsAdd extends PaperlessComponent {
 	}
 
 	// SAVE TAG
-	saveTag() {
+	saveTag(e) {
+		e.preventDefault();
+
 		TagsActions.addTag(this.state);
-		this.closeModal();
 	}
 
 	// RENDER
 	render() {
+
+		var colorIdx = 0;
 
 		return (
 			<form className="form-detail-info">
@@ -84,7 +88,7 @@ class TagsAdd extends PaperlessComponent {
 						onChange={this.handleChange.bind(this)}>
 
 						{super.getColors().map(c => {
-							return (<option>{c}</option>);
+							return (<option key={c} value={colorIdx++}>{c}</option>);
 						})}
 					</select>
 				</div>
@@ -107,11 +111,11 @@ class TagsAdd extends PaperlessComponent {
 						className="form-control"
 						name="matching_algorithm"
 						onChange={this.handleChange.bind(this)}>
-						
-					    <option>Any</option>
-					    <option>All</option>
-					    <option>Literal</option>
-					    <option>Regular Expression</option>
+
+					    <option value="1">Any</option>
+					    <option value="2">All</option>
+					    <option value="3">Literal</option>
+					    <option value="4">Regular Expression</option>
 					</select>
 					<small>
 						Which algorithm you want to use when matching text to the OCR'd PDF. Here, "any" looks for any occurrence of any word provided in the PDF, while "all" requires that every word provided appear in the PDF, albeit not in the order provided. A "literal" match means that the text you enter must appear in the PDF exactly as you've entered it, and "regular expression" uses a regex to match the PDF. If you don't know what a regex is, you probably don't want this option.

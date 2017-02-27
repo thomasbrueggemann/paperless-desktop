@@ -1,12 +1,12 @@
 {
   "name": "paperless-desktop",
   "version": "1.0.0",
-  "description": "Desktop app that uses the paperless API to manage your documents Edit",
+  "description": "Desktop app that uses the paperless API to manage your documents",
   "main": "main.js",
   "scripts": {
     "start": "gulp && electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package:mac": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --version 1.4.13 --overwrite --icon=./icon.icns"
+    "package": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --version 1.4.13 --overwrite --icon=./icon.icns"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "react-dom": "^15.4.1",
     "react-file-drop": "^0.1.8",
     "react-pure-render": "^1.0.2",
-    "react-router": "^1.0.0-rc3",
+    "react-router": "^3.0.2",
     "react-select2-wrapper": "^1.0.4-beta2",
     "simple-react-pdf": "^1.0.6",
     "slug": "^0.9.1",

@@ -1,6 +1,6 @@
-const {app, Menu, BrowserWindow, session, ipcMain} = require("electron");
+const { app, Menu, BrowserWindow, session, ipcMain } = require("electron");
 const btoa = require("btoa");
-const {download} = require("electron-dl");
+const { download } = require("electron-dl");
 const path = require("path");
 const url = require("url");
 
@@ -34,18 +34,18 @@ var menu = Menu.buildFromTemplate([{
 }]);
 
 // listen for login message from the renderer
-ipcMain.on("login", function(event, arg) {
+ipcMain.on("login", (event, arg) => {
     if(typeof arg === "string") arg = JSON.parse(arg);
 	auth = arg;
 });
 
 // listen or URL download requests
-ipcMain.on("download", function(e, args) {
+ipcMain.on("download", (e, args) => {
     download(BrowserWindow.getFocusedWindow(), args.url);
 });
 
 // listen to open a modal window
-ipcMain.on("modal", function(e, args) {
+ipcMain.on("modal", (e, args) => {
 
 	// init modal view
 	modalWindow = new BrowserWindow({
@@ -61,16 +61,24 @@ ipcMain.on("modal", function(e, args) {
 		pathname: path.join(__dirname, "index.html"),
 		protocol: "file:",
 		slashes: true
-	}) + "#" + args.route)
+	}) + "#" + args.route);
+
+	modalWindow.webContents.openDevTools();
 
 	// once the modal is ready to show, open it
-	modalWindow.once("ready-to-show", function() {
+	modalWindow.once("ready-to-show", () => {
 		modalWindow.show()
   	});
 });
 
-ipcMain.on("closeModal", function() {
+// listen on close modal
+ipcMain.on("closeModal", () => {
 	modalWindow.hide();
+});
+
+// listen on tag add
+ipcMain.on("tagAdd", (e, args) => {
+	console.log(args);
 });
 
 // CREATE WINDOW
@@ -98,7 +106,7 @@ function createWindow () {
 	}));
 
 	// ON BEFORE SEND HEADERS
-	session.defaultSession.webRequest.onBeforeSendHeaders(function(details, callback) {
+	session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
 
 		// check if the auth information is present
 		if(auth !== null) {
@@ -115,7 +123,7 @@ function createWindow () {
 	mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
-	mainWindow.on("closed", function () {
+	mainWindow.on("closed", () => {
 		// Dereference the window object, usually you would store windows
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
@@ -129,7 +137,7 @@ function createWindow () {
 app.on("ready", createWindow);
 
 // Quit when all windows are closed.
-app.on("window-all-closed", function () {
+app.on("window-all-closed", () => {
 
 	// on OS X it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
@@ -138,7 +146,7 @@ app.on("window-all-closed", function () {
 	}
 });
 
-app.on("activate", function () {
+app.on("activate", () => {
 
 	// on OS X it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.

@@ -34,10 +34,10 @@ class CorrespondentSelect extends React.Component {
 			<select className="form-control">
 				{this.state.correspondents.results.map(c => {
 					if(this.props.value === c.id) {
-						return (<option value={c.id} selected="selected">{c.name}</option>);
+						return (<option key={c.id} value={c.id} selected="selected">{c.name}</option>);
 					}
 					else {
-						return (<option value={c.id}>{c.name}</option>);
+						return (<option key={c.id} value={c.id}>{c.name}</option>);
 					}
 				})}
 			</select>

@@ -77,7 +77,7 @@ class Login extends React.Component {
 
 	// GO HOME
 	goHome() {
-		this.props.history.push("/documents");
+		this.context.router.push("/documents");
 	}
 
 	// RENDER
@@ -129,5 +129,10 @@ class Login extends React.Component {
 		);
 	}
 }
+
+// CONTEXT TYPES
+Login.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default Login;

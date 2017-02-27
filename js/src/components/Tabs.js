@@ -143,7 +143,7 @@ class Tabs extends React.Component {
 			var newActiveIdx = Math.max(0, idxRemoved - 1);
 
 			var r = newTabs[newActiveIdx].route;
-			this.props.history.replace(r);
+			this.context.router.replace(r);
 		}
 
 		// set first tab as active
@@ -167,5 +167,10 @@ class Tabs extends React.Component {
 		);
 	}
 }
+
+// CONTEXT TYPES
+Tabs.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default Tabs;
