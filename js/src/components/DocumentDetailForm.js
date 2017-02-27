@@ -38,17 +38,34 @@ class DocumentDetailForm extends PaperlessComponent {
 			<form className="form-detail-info">
 				<div className="form-group">
 					<label>Title</label>
-					<input type="text" className="form-control" name="title" placeholder="Title" value={this.state.doc.title} onChange={this.handleDetailChange.bind(this)} />
+					<input
+						type="text"
+						className="form-control"
+						name="title"
+						placeholder="Title"
+						value={this.state.doc.title}
+						onChange={this.handleDetailChange.bind(this)}
+					/>
 				</div>
 
 				<div className="form-group">
 					<label>Correspondent</label>
-					<CorrespondentSelect value={correspondentId} onChange={this.handleDetailChange.bind(this)} />
+					<CorrespondentSelect
+						value={correspondentId}
+						onChange={this.handleDetailChange.bind(this)}
+					/>
 				</div>
 
 				<div className="form-group">
 					<label>Content</label>
-					<textarea className="form-control" rows="6" name="content" placeholder="Content" value={this.state.doc.content} onChange={this.handleDetailChange.bind(this)} />
+					<textarea
+						className="form-control"
+						rows="6"
+						name="content"
+						placeholder="Content"
+						value={this.state.doc.content}
+						onChange={this.handleDetailChange.bind(this)}
+					/>
 				</div>
 
 				<div className="form-group">
@@ -60,7 +77,14 @@ class DocumentDetailForm extends PaperlessComponent {
 
 				<div className="form-group">
 					<label>Created</label>
-					<input type="datetime-local" className="form-control" name="created" placeholder="Tags" value={created} onChange={this.handleDetailChange.bind(this)} />
+					<input
+						type="datetime-local"
+						className="form-control"
+						name="created"
+						placeholder="Tags"
+						value={created}
+						onChange={this.handleDetailChange.bind(this)}
+					/>
 				</div>
 			</form>
 		);

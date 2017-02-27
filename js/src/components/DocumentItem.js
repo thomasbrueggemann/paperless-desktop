@@ -38,7 +38,10 @@ class DocumentItem extends PaperlessComponent {
 			<Link className="document-item" to={"/document/" + this.props.document.id}>
 				<div className="document-item-thumbnail" style={divStyle}></div>
 				<div className="document-item-title">{this.props.document.title.trunc(100)}</div>
-				<small title={moment(this.props.document.created).format("LLLL")}>{moment(this.props.document.created).fromNow()}</small>
+				<small
+					title={moment(this.props.document.created).format("LLLL")}>
+					{moment(this.props.document.created).fromNow()}
+				</small>
 			</Link>
 		);
 	}

@@ -98,7 +98,10 @@ class Documents extends React.Component {
 
 		return (
 			<div className="pane-group">
-				<Sidebar setTagFilter={this.setTagFilter.bind(this)} setCorrespondentFilter={this.setCorrespondentFilter.bind(this)} />
+				<Sidebar
+					setTagFilter={this.setTagFilter.bind(this)}
+					setCorrespondentFilter={this.setCorrespondentFilter.bind(this)}
+				/>
 				<div className="pane">
 					{this.state.documents.results.map(d => {
 						return <DocumentItem document={d} key={d.id} />

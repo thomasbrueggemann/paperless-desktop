@@ -56,7 +56,11 @@ class SidebarCorrespondentItem extends React.Component {
 		}
 
 		return (
-			<span className={itemClass} key={this.props.correspondent.id} onClick={this.setCorrespondentFilter.bind(this)}>
+			<span
+				className={itemClass}
+				key={this.props.correspondent.id}
+				onClick={this.setCorrespondentFilter.bind(this)}>
+				
 				<span className="icon icon-user"></span>
 				{this.props.correspondent.name}
 			</span>

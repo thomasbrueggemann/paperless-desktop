@@ -144,7 +144,11 @@ class Correspondents extends PaperlessComponent {
 
 					{this.state.correspondents.results.map(c => {
 						return (
-							<CorrespondentsListItem key={c.id} correspondent={c} changeSelection={this.changeSelection.bind(this)} />
+							<CorrespondentsListItem
+								key={c.id}
+								correspondent={c}
+								changeSelection={this.changeSelection.bind(this)}
+							/>
 						);
 					})}
 

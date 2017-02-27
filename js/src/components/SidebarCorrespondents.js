@@ -36,7 +36,11 @@ class SidebarCorrespondents extends React.Component {
 			<nav className="nav-group">
 				<h5 className="nav-group-title">Correspondents</h5>
 				{this.state.correspondents.results.map(c => {
-					return <SidebarCorrespondentItem correspondent={c} key={c.id} setCorrespondentFilter={this.props.setCorrespondentFilter} />;
+					return <SidebarCorrespondentItem
+						correspondent={c}
+						key={c.id}
+						setCorrespondentFilter={this.props.setCorrespondentFilter}
+					/>;
 				})}
 			</nav>
 		);

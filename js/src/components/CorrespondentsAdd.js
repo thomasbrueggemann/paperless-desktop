@@ -45,12 +45,26 @@ class CorrespondentsAdd extends PaperlessComponent {
 				<h3>Add Correspondent</h3>
 				<div className="form-group">
 					<label>Name</label>
-					<input type="text" className="form-control" name="name" placeholder="Name" value={this.state.name} onChange={this.handleChange.bind(this)} />
+					<input
+						type="text"
+						className="form-control"
+						name="name"
+						placeholder="Name"
+						value={this.state.name}
+						onChange={this.handleChange.bind(this)}
+					/>
 				</div>
 
 				<div className="form-group">
 					<label>Slug</label>
-					<input type="text" className="form-control" name="slug" placeholder="Slug" value={this.state.slug} onChange={this.handleChange.bind(this)} />
+					<input
+						type="text"
+						className="form-control"
+						name="slug"
+						placeholder="Slug"
+						value={this.state.slug}
+						onChange={this.handleChange.bind(this)}
+					/>
 				</div>
 
 				<div className="btn-group">

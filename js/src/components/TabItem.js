@@ -19,7 +19,9 @@ class TabItem extends React.Component {
 
 		return (
 			<Link className={tabClass} to={this.props.tab.route}>
-  			    {(this.props.idx === 1) ? null : <span className="icon icon-cancel icon-close-tab" onClick={this.removeTab.bind(this)}></span>}
+  			    {(this.props.idx === 1) ? null : <span
+					className="icon icon-cancel icon-close-tab"
+					onClick={this.removeTab.bind(this)}></span>}
   			    {this.props.tab.title}
 			</Link>
 		);

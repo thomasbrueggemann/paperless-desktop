@@ -75,7 +75,12 @@ class Header extends React.Component {
 		var searchBar = null;
 		if(this.state.route === "/documents") {
 			searchBar = <div className="search-bar pull-right">
-				<input type="search" onKeyUp={this.handleSearchInputChanged.bind(this)} className="form-control" placeholder="Search" />
+				<input
+					type="search"
+					onKeyUp={this.handleSearchInputChanged.bind(this)}
+					className="form-control"
+					placeholder="Search"
+				/>
 			</div>;
 		}
 

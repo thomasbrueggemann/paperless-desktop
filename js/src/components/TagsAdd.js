@@ -54,17 +54,35 @@ class TagsAdd extends PaperlessComponent {
 				<h3>Add Tag</h3>
 				<div className="form-group">
 					<label>Name</label>
-					<input type="text" className="form-control" name="name" placeholder="Name" value={this.state.name} onChange={this.handleChange.bind(this)} />
+					<input
+						type="text"
+						className="form-control"
+						name="name"
+						placeholder="Name"
+						value={this.state.name}
+						onChange={this.handleChange.bind(this)}
+					/>
 				</div>
 
 				<div className="form-group">
 					<label>Slug</label>
-					<input type="text" className="form-control" name="slug" placeholder="Slug" value={this.state.slug} onChange={this.handleChange.bind(this)} />
+					<input
+						type="text"
+						className="form-control"
+						name="slug"
+						placeholder="Slug"
+						value={this.state.slug}
+						onChange={this.handleChange.bind(this)}
+					/>
 				</div>
 
 				<div className="form-group">
 					<label>Color</label>
-					<select className="form-control" name="colour" onChange={this.handleChange.bind(this)}>
+					<select
+						className="form-control"
+						name="colour"
+						onChange={this.handleChange.bind(this)}>
+
 						{super.getColors().map(c => {
 							return (<option>{c}</option>);
 						})}
@@ -73,12 +91,23 @@ class TagsAdd extends PaperlessComponent {
 
 				<div className="form-group">
 					<label>Match</label>
-					<input type="text" className="form-control" name="match" placeholder="Match" value={this.state.match} onChange={this.handleChange.bind(this)} />
+					<input
+						type="text"
+						className="form-control"
+						name="match"
+						placeholder="Match"
+						value={this.state.match}
+						onChange={this.handleChange.bind(this)}
+					/>
 				</div>
 
 				<div className="form-group">
 					<label>Matching-Algorithm</label>
-					<select className="form-control" name="matching_algorithm" onChange={this.handleChange.bind(this)}>
+					<select
+						className="form-control"
+						name="matching_algorithm"
+						onChange={this.handleChange.bind(this)}>
+						
 					    <option>Any</option>
 					    <option>All</option>
 					    <option>Literal</option>
