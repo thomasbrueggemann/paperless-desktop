@@ -5,6 +5,7 @@ import $ from "jquery";
 import PaperlessComponent from "./PaperlessComponent";
 import ToolbarActions from "../actions/ToolbarActions";
 import TagsListItem from "./TagsListItem";
+import otherWindowIPC from "other-window-ipc";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");

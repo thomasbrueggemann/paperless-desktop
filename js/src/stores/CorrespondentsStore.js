@@ -7,6 +7,7 @@ class CorrespondentsStore {
 	constructor() {
 		this.bindActions(CorrespondentsActions);
 		this.correspondents = [];
+		this.selection = [];
 	}
 
 	// GET CORRESPONDENTS SUCCESS
@@ -19,8 +20,15 @@ class CorrespondentsStore {
 		console.error(err);
   	}
 
-	deleteCorrespondentsSuccess(result) {
+	deleteCorrespondentsSuccess(ids) {
 		this.selection = [];
+
+		// filter out the deleted correspondents
+		if(this.correspondents.results) {
+			this.correspondents.results = this.correspondents.results.filter(c => {
+				return ids.indexOf(c.id) === -1;
+			});
+		}
 	}
 
 	deleteCorrespondentsFail(err) {

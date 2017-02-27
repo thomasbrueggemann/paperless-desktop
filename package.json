@@ -24,6 +24,7 @@
     "history": "^1.12.5",
     "jquery": "^3.1.1",
     "moment": "^2.17.1",
+    "other-window-ipc": "^1.3.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-file-drop": "^0.1.8",

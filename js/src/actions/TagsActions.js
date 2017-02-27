@@ -65,7 +65,7 @@ class TagsActions {
 			}
 
 		    // if result is true then every file exists
-			return that.actions.deleteTagsSuccess(result);
+			return that.actions.deleteTagsSuccess(ids);
 		});
 	}
 

@@ -39,7 +39,7 @@ class CorrespondentsActions {
 		// asyncroniously delete all document ids
 		async.every(ids, function(id, callback) {
 
-			var url = localStorage.getItem("settings.host") + "/api/tags/" + id;
+			var url = localStorage.getItem("settings.host") + "/api/correspondents/" + id;
 
 			// delete document
 			axios({
@@ -51,20 +51,24 @@ class CorrespondentsActions {
 				}
 			})
 			.then(r => {
+				console.log("r", r);
 				return callback(null, r);
 			})
 			.catch(e => {
+				console.log("e", e);
 				return callback(e);
 			});
 
 		}, function(err, result) {
+
+			console.log(err, result);
 
 			if(err) {
 				return that.actions.deleteCorrespondentsFail(err);
 			}
 
 		    // if result is true then every file exists
-			return that.actions.deleteCorrespondentsSuccess(result);
+			return that.actions.deleteCorrespondentsSuccess(ids);
 		});
 	}
 }

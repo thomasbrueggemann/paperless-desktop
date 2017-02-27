@@ -1,5 +1,6 @@
 import alt from "../alt";
 import TagsActions from "../actions/TagsActions";
+import otherWindowIPC from "other-window-ipc";
 
 // TAGS STORE
 class TagsStore {
@@ -23,6 +24,13 @@ class TagsStore {
 	// DELETE TAGS SUCCESS
 	deleteTagsSuccess(result) {
 		this.selection = [];
+
+		// filter out the deleted tags
+		if(this.tags.results) {
+			this.tags.results = this.tags.results.filter(t => {
+				return ids.indexOf(t.id) === -1;
+			});
+		}
 	}
 
 	// DELETE TAGS FAIL
@@ -32,7 +40,7 @@ class TagsStore {
 
 	// ADD TAG SUCCESS
 	addTagSuccess(result) {
-		
+
 	}
 
 	// ADD TAG FAIL
