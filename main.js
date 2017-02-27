@@ -7,6 +7,7 @@ const url = require("url");
 // keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow;
+var modalWindow;
 
 // authentication object
 var auth = null;
@@ -40,11 +41,39 @@ ipcMain.on("login", function(event, arg) {
 
 // listen or URL download requests
 ipcMain.on("download", function(e, args) {
-    download(BrowserWindow.getFocusedWindow(), args.url)
-        .then(dl => console.log(dl.getSavePath()))
-        .catch(console.error);
+    download(BrowserWindow.getFocusedWindow(), args.url);
 });
 
+// listen to open a modal window
+ipcMain.on("modal", function(e, args) {
+
+	// init modal view
+	modalWindow = new BrowserWindow({
+		parent: mainWindow,
+		modal: true,
+		show: false,
+		width: args.width,
+		height: args.height
+	});
+
+	// build the url
+	modalWindow.loadURL(url.format({
+		pathname: path.join(__dirname, "index.html"),
+		protocol: "file:",
+		slashes: true
+	}) + "#" + args.route)
+
+	// once the modal is ready to show, open it
+	modalWindow.once("ready-to-show", function() {
+		modalWindow.show()
+  	});
+});
+
+ipcMain.on("closeModal", function() {
+	modalWindow.hide();
+});
+
+// CREATE WINDOW
 function createWindow () {
 
 	Menu.setApplicationMenu(menu);
@@ -101,7 +130,8 @@ app.on("ready", createWindow);
 
 // Quit when all windows are closed.
 app.on("window-all-closed", function () {
-	// On OS X it is common for applications and their menu bar
+
+	// on OS X it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
 	if (process.platform !== "darwin") {
 		app.quit();
@@ -109,7 +139,8 @@ app.on("window-all-closed", function () {
 });
 
 app.on("activate", function () {
-	// On OS X it's common to re-create a window in the app when the
+
+	// on OS X it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (mainWindow === null) {
 		createWindow();

@@ -55,19 +55,6 @@ class Documents extends React.Component {
 
 		// clear toolbar to add new items
 		ToolbarActions.clearItems();
-
-		// toolbar: save button
-		ToolbarActions.addItem("add-document", "plus", "Add document", "primary", "right", () => {
-
-			// add document
-			this.props.history.replace("/document/add");
-
-			// add new tab
-			$(window).trigger("tabs.push", {
-				"title": "New document...",
-				"route": "/document/add"
-			});
-		}.bind(this));
 	}
 
 	// COMPONENT WILL UNMOUNT

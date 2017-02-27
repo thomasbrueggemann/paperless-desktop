@@ -1,5 +1,6 @@
 import alt from "../alt";
 import axios from "axios";
+import async from "async";
 
 // CORRESPONDENTS ACTIONS
 class CorrespondentsActions {

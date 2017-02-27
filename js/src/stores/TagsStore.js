@@ -20,11 +20,23 @@ class TagsStore {
 		console.error(err);
   	}
 
+	// DELETE TAGS SUCCESS
 	deleteTagsSuccess(result) {
 		this.selection = [];
 	}
 
+	// DELETE TAGS FAIL
 	deleteTagsFail(err) {
+		console.error(err);
+	}
+
+	// ADD TAG SUCCESS
+	addTagSuccess(result) {
+		
+	}
+
+	// ADD TAG FAIL
+	addTagFail(err) {
 		console.error(err);
 	}
 }

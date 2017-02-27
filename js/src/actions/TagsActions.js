@@ -10,7 +10,9 @@ class TagsActions {
             "getTagsSuccess",
             "getTagsFail",
 			"deleteTagsSuccess",
-			"deleteTagsFail"
+			"deleteTagsFail",
+			"addTagSuccess",
+			"addTagFail"
         );
     }
 
@@ -65,6 +67,26 @@ class TagsActions {
 		    // if result is true then every file exists
 			return that.actions.deleteTagsSuccess(result);
 		});
+	}
+
+	// ADD TAG
+	addTag(data) {
+
+		console.log(data);
+
+		var url = localStorage.getItem("settings.host") + "/api/tags/";
+
+		axios({
+			"method": "post",
+			"url": url,
+			"data": data,
+			"auth": {
+				"username": localStorage.getItem("settings.auth.username"),
+    			"password": localStorage.getItem("settings.auth.password")
+			}
+		})
+		.then(this.actions.addTagSuccess)
+		.catch(this.actions.addTagFail);
 	}
 }
 

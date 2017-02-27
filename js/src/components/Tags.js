@@ -11,6 +11,7 @@ const electron = window.require("electron");
 const fs = electron.remote.require("fs");
 const remote = electron.remote;
 const dialog = remote.dialog;
+const ipcRenderer  = electron.ipcRenderer;
 
 class Tags extends PaperlessComponent {
 
@@ -40,8 +41,12 @@ class Tags extends PaperlessComponent {
 		// toolbar: add button
 		ToolbarActions.addItem("add-tag", "plus", "Add tag", "primary", "right", () => {
 
-			// add tag
-			console.log("hi there");
+			// add correspondent
+			ipcRenderer.send("modal", {
+				route: "/modal/tags/add",
+				width: 450,
+				height: 545
+			});
 		});
 	}
 

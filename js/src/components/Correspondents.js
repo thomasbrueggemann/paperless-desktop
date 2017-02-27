@@ -11,6 +11,7 @@ const electron = window.require("electron");
 const fs = electron.remote.require("fs");
 const remote = electron.remote;
 const dialog = remote.dialog;
+const ipcRenderer  = electron.ipcRenderer;
 
 class Correspondents extends PaperlessComponent {
 
@@ -41,6 +42,11 @@ class Correspondents extends PaperlessComponent {
 		ToolbarActions.addItem("add-correspondent", "plus", "Add correspondent", "primary", "right", () => {
 
 			// add correspondent
+			ipcRenderer.send("modal", {
+				route: "/modal/correspondents/add",
+				width: 450,
+				height: 280
+			});
 		});
 	}
 

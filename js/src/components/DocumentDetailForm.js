@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import TagsInput from "./TagsInput";
 import PaperlessComponent from "./PaperlessComponent";
+import CorrespondentSelect from "./CorrespondentSelect";
 
 class DocumentDetailForm extends PaperlessComponent {
 
@@ -30,6 +31,9 @@ class DocumentDetailForm extends PaperlessComponent {
 		// convert the date to local time
 		var created = moment.utc(this.state.doc.created).local().format("YYYY-MM-DD[T]HH:mm");
 
+		var s = this.state.doc.correspondent.replace(/\/$/, "").split("/");
+		var correspondentId = parseInt(s[s.length - 1]);
+
 		return (
 			<form className="form-detail-info">
 				<div className="form-group">
@@ -39,7 +43,7 @@ class DocumentDetailForm extends PaperlessComponent {
 
 				<div className="form-group">
 					<label>Correspondent</label>
-					<input type="text" className="form-control" name="correspondent" placeholder="Correspondent" value={this.state.doc.correspondent} onChange={this.handleDetailChange.bind(this)} />
+					<CorrespondentSelect value={correspondentId} onChange={this.handleDetailChange.bind(this)} />
 				</div>
 
 				<div className="form-group">
