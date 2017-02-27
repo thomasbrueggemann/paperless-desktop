@@ -10,7 +10,9 @@ class CorrespondentsActions {
             "getCorrespondentsSuccess",
             "getCorrespondentsFail",
             "deleteCorrespondentsSuccess",
-            "deleteCorrespondentsFail"
+            "deleteCorrespondentsFail",
+			"addCorrespondentSuccess",
+			"addCorrespondentFail"
         );
     }
 
@@ -70,6 +72,24 @@ class CorrespondentsActions {
 		    // if result is true then every file exists
 			return that.actions.deleteCorrespondentsSuccess(ids);
 		});
+	}
+
+	// ADD CORRESPONDENTS
+	addCorrespondent(data) {
+
+		var url = localStorage.getItem("settings.host") + "/api/correspondents/";
+
+		axios({
+			"method": "post",
+			"url": url,
+			"data": data,
+			"auth": {
+				"username": localStorage.getItem("settings.auth.username"),
+    			"password": localStorage.getItem("settings.auth.password")
+			}
+		})
+		.then(this.actions.addCorrespondentSuccess)
+		.catch(this.actions.addCorrespondentFail);
 	}
 }
 

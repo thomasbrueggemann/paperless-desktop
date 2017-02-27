@@ -35,7 +35,7 @@ class TagsAdd extends PaperlessComponent {
 		s[e.target.name] = e.target.value;
 
 		if(e.target.name === "name") {
-			s["slug"] = slug(e.target.value);
+			s["slug"] = slug(e.target.value).toLowerCase();
 		}
 
 		this.setState(s);
@@ -44,7 +44,6 @@ class TagsAdd extends PaperlessComponent {
 	// SAVE TAG
 	saveTag(e) {
 		e.preventDefault();
-
 		TagsActions.addTag(this.state);
 	}
 

@@ -1,7 +1,7 @@
 import React from "react";
 import PaperlessComponent from "./PaperlessComponent";
+import CorrespondentsActions from "../actions/CorrespondentsActions";
 import slug from "slug"
-
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -31,10 +31,16 @@ class CorrespondentsAdd extends PaperlessComponent {
 		s[e.target.name] = e.target.value;
 
 		if(e.target.name === "name") {
-			s["slug"] = slug(e.target.value);
+			s["slug"] = slug(e.target.value).toLowerCase();
 		}
 
 		this.setState(s);
+	}
+
+	// SAVE CORRESPONDENT
+	saveCorrespondent(e) {
+		e.preventDefault();
+		CorrespondentsActions.addCorrespondent(this.state);
 	}
 
 	// RENDER
@@ -69,7 +75,7 @@ class CorrespondentsAdd extends PaperlessComponent {
 
 				<div className="btn-group">
 					<button className="btn btn-large btn-default" onClick={this.closeModal.bind(this)}>Close</button>
-					<button className="btn btn-large btn-primary">
+					<button className="btn btn-large btn-primary" onClick={this.saveCorrespondent.bind(this)}>
 						<span className="icon icon-floppy"></span> Save
 					</button>
 				</div>

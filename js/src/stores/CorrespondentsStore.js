@@ -6,6 +6,7 @@ const electron = window.require("electron");
 const fs = electron.remote.require("fs");
 const remote = electron.remote;
 const dialog = remote.dialog;
+const ipcRenderer  = electron.ipcRenderer;
 
 // CORRESPONDENTS STORE
 class CorrespondentsStore {
@@ -27,6 +28,7 @@ class CorrespondentsStore {
 		dialog.showErrorBox("Could not load correspondents!", "Please try again.");
   	}
 
+	// DELETE CORRESPONDENTS SUCCESS
 	deleteCorrespondentsSuccess(ids) {
 		this.selection = [];
 
@@ -38,9 +40,22 @@ class CorrespondentsStore {
 		}
 	}
 
+	// DELETE CORRESPONDENTS FAIL
 	deleteCorrespondentsFail(err) {
 		console.error(err);
 		dialog.showErrorBox("Could not delete correspondent(s)!", "Please try again.");
+	}
+
+	// ADD CORRESPONDENTS SUCCESS
+	addCorrespondentSuccess(result) {
+		ipcRenderer.send("correspondentAdd", result);
+		ipcRenderer.send("closeModal");
+	}
+
+	// ADD CORRESPONDENTS FAIL
+	addCorrespondentFail(err) {
+		console.error(err);
+		dialog.showErrorBox("Could not add the correspondent!", "Data might be missing or the correspondent may already exist.");
 	}
 }
 

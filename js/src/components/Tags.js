@@ -32,6 +32,21 @@ class Tags extends PaperlessComponent {
 		});
 		$(window).trigger("header.activeItem", {"item": "tags"});
 
+		// EVENT: tagAdded
+		ipcRenderer.on("tagAdded", (e, data) => {
+
+			// add the newly created tag to the store
+			var tags = this.state.tags;
+			if(tags) {
+
+				tags.results.push(data);
+
+				this.setState({
+					"tags": tags
+				});
+			}
+		});
+
 		TagsStore.listen(this.onChange);
 		TagsActions.getTags();
 

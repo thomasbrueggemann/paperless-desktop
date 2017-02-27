@@ -35,6 +35,21 @@ class Correspondents extends PaperlessComponent {
 		CorrespondentsStore.listen(this.onChange);
 		CorrespondentsActions.getCorrespondents();
 
+		// EVENT: correspondentAdded
+		ipcRenderer.on("correspondentAdded", (e, data) => {
+
+			// add the newly created tag to the store
+			var correspondents = this.state.correspondents;
+			if(correspondents) {
+
+				correspondents.results.push(data);
+
+				this.setState({
+					"correspondents": correspondents
+				});
+			}
+		});
+
 		// clear toolbar to add new items
 		ToolbarActions.clearItems();
 

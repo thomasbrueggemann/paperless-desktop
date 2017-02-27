@@ -55,7 +55,7 @@ class TagsStore {
 	// ADD TAG FAIL
 	addTagFail(err) {
 		console.error(err);
-		dialog.showErrorBox("Could not add the new tag!", "Data might be missing or the tag may already exist.");
+		dialog.showErrorBox("Could not add the tag!", "Data might be missing or the tag may already exist.");
 	}
 }
 

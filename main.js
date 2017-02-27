@@ -63,7 +63,7 @@ ipcMain.on("modal", (e, args) => {
 		slashes: true
 	}) + "#" + args.route);
 
-	modalWindow.webContents.openDevTools();
+	//modalWindow.webContents.openDevTools();
 
 	// once the modal is ready to show, open it
 	modalWindow.once("ready-to-show", () => {
@@ -78,7 +78,16 @@ ipcMain.on("closeModal", () => {
 
 // listen on tag add
 ipcMain.on("tagAdd", (e, args) => {
-	console.log(args);
+	if(args.data) {
+		mainWindow.webContents.send("tagAdded", args.data);
+	}
+});
+
+// listen on correspondent add
+ipcMain.on("correspondentAdd", (e, args) => {
+	if(args.data) {
+		mainWindow.webContents.send("correspondentAdded", args.data);
+	}
 });
 
 // CREATE WINDOW
