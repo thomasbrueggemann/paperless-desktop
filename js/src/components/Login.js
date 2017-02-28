@@ -26,7 +26,7 @@ class Login extends React.Component {
             // send login information down the wire to the main process
             ipcRenderer.send("login", {
                 username: localStorage.getItem("settings.auth.username"),
-                password: localStorage.getItem("settings.auth.password"),
+                password: localStorage.getItem("settings.auth.password")
             });
 
             this.goHome();
@@ -68,19 +68,17 @@ class Login extends React.Component {
 
         ipcRenderer.send("login", {
             username: localStorage.getItem("settings.auth.username"),
-            password: localStorage.getItem("settings.auth.password"),
+            password: localStorage.getItem("settings.auth.password")
         });
 
-        alert("Logged in!");
         this.goHome();
     }
 
     // GO HOME
     goHome() {
-        return;
         ipcRenderer.send("setSize", {
             width: 1200,
-            height: 750,
+            height: 750
         });
         this.context.router.push("/documents");
     }
@@ -139,7 +137,7 @@ class Login extends React.Component {
 
 // CONTEXT TYPES
 Login.contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
 };
 
 export default Login;

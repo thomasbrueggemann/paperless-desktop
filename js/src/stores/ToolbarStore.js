@@ -3,6 +3,7 @@ import ToolbarActions from "../actions/ToolbarActions";
 
 // TOOLBAR STORE
 class ToolbarStore {
+    // CONSTRUCTOR
     constructor() {
         this.bindActions(ToolbarActions);
         this.items = [];

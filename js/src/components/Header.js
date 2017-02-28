@@ -1,120 +1,134 @@
 import React from "react";
-import {Link} from "react-router";
+import { Link } from "react-router";
 import $ from "jquery";
 
 class Header extends React.Component {
+    // CONSTRUCTOR
+    constructor(props) {
+        super(props);
+        this.state = {
+            active: "documents",
+            route: "/documents"
+        };
+    }
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			"active": "documents",
-			"route": "/documents"
-		};
-	}
+    // COMPONENT DID MOUNT
+    componentDidMount() {
+        $(window).on(
+            "header.activeItem",
+            this.handleActiveHeaderChanged.bind(this)
+        );
+        $(window).on("hashchange", this.routeChanged.bind(this));
+    }
 
-	// COMPONENT DID MOUNT
-	componentDidMount() {
-		$(window).on("header.activeItem", this.handleActiveHeaderChanged.bind(this));
-		$(window).on("hashchange", this.routeChanged.bind(this));
-	}
+    // COMPONENT WILL UNMOUNT
+    componentWillUnmount() {
+        $(window).off("header.activeItem");
+        $(window).off("hashchange");
+    }
 
-	// COMPONENT WILL UNMOUNT
-	componentWillUnmount() {
-		$(window).off("header.activeItem");
-		$(window).off("hashchange");
-	}
+    // ROUTE CHANGED
+    routeChanged() {
+        var route = location.hash.replace("#", "").split("?")[0];
+        this.setState({
+            route: route
+        });
+    }
 
-	// ROUTE CHANGED
-	routeChanged() {
+    // HANDLE ACTIVE HEADER CHANGED
+    handleActiveHeaderChanged(e, data) {
+        this.setState({
+            active: data.item
+        });
+    }
 
-		var route = location.hash.replace("#", "").split("?")[0];
-		this.setState({
-			"route": route
-		});
-	}
+    // HANDLE SEARCH INPUT CHANGED
+    handleSearchInputChanged(event) {
+        var v = event.target.value;
 
-	// HANDLE ACTIVE HEADER CHANGED
-	handleActiveHeaderChanged(e, data) {
+        if (v.length === 0) {
+            $(window).trigger("loadAllDocuments");
+        } else {
+            if (v.length > 2 && event.keyCode === 13) {
+                $(window).trigger("searchDocuments", {
+                    query: v
+                });
+            }
+        }
+    }
 
-		this.setState({
-			"active": data.item
-		});
-	}
+    // RENDER
+    render() {
+        var documentsClass = "btn btn-default";
+        if (this.state.active === "documents") documentsClass += " active";
 
-	// HANDLE SEARCH INPUT CHANGED
-	handleSearchInputChanged(event) {
-		var v = event.target.value;
+        var logsClass = "btn btn-default";
+        if (this.state.active === "logs") logsClass += " active";
 
-		if(v.length === 0) {
-			$(window).trigger("loadAllDocuments");
-		}
-		else {
-			if(v.length > 2 && event.keyCode === 13) {
-				$(window).trigger("searchDocuments", {
-					"query": v
-				});
-			}
-		}
-	}
+        var tagsClass = "btn btn-default";
+        if (this.state.active === "tags") tagsClass += " active";
 
-	// RENDER
-	render() {
+        var correspondentsClass = "btn btn-default";
+        if (this.state.active === "correspondents")
+            correspondentsClass += " active";
 
-		var documentsClass = "btn btn-default";
-		if(this.state.active === "documents") documentsClass += " active";
+        var settingsClass = "btn btn-default";
+        if (this.state.active === "settings") settingsClass += " active";
 
-		var logsClass = "btn btn-default";
-		if(this.state.active === "logs") logsClass += " active";
+        var searchBar = null;
+        if (this.state.route === "/documents") {
+            searchBar = (
+                <div className="search-bar pull-right">
+                    <input
+                        type="search"
+                        onKeyUp={this.handleSearchInputChanged.bind(this)}
+                        className="form-control"
+                        placeholder="Search"
+                    />
+                </div>
+            );
+        }
 
-		var tagsClass = "btn btn-default";
-		if(this.state.active == "tags") tagsClass += " active";
+        return (
+            <header className="toolbar toolbar-header">
+                <h1 className="title">Paperless</h1>
 
-		var correspondentsClass = "btn btn-default";
-		if(this.state.active == "correspondents") correspondentsClass += " active";
+                <div className="toolbar-actions">
+                    <div className="btn-group">
+                        <Link
+                            className={documentsClass}
+                            title="Documents"
+                            to={"/documents"}>
+                            <span className="icon icon-newspaper" />
+                        </Link>
+                        <Link
+                            className={correspondentsClass}
+                            title="Correspondents"
+                            to={"/correspondents"}>
+                            <span className="icon icon-users" />
+                        </Link>
+                        <Link className={tagsClass} title="Tags" to={"/tags"}>
+                            <span className="icon icon-tag" />
+                        </Link>
+                    </div>
 
-		var searchBar = null;
-		if(this.state.route === "/documents") {
-			searchBar = <div className="search-bar pull-right">
-				<input
-					type="search"
-					onKeyUp={this.handleSearchInputChanged.bind(this)}
-					className="form-control"
-					placeholder="Search"
-				/>
-			</div>;
-		}
+                    <div className="btn-group">
+                        <Link
+                            className={settingsClass}
+                            title="Settings"
+                            to={"/settings"}>
+                            <span className="icon icon-cog" />
+                        </Link>
+                        <Link className={logsClass} title="Logs" to={"/logs"}>
+                            <span className="icon icon-menu" />
+                        </Link>
+                    </div>
 
-		return (
-			<header className="toolbar toolbar-header">
-			  	<h1 className="title">Paperless</h1>
-
-			  	<div className="toolbar-actions">
-					<div className="btn-group">
-						<Link className={documentsClass} title="Documents" to={"/documents"}>
-							<span className="icon icon-newspaper"></span>
-						</Link>
-						<Link className={correspondentsClass} title="Correspondents" to={"/correspondents"}>
-							<span className="icon icon-users"></span>
-						</Link>
-						<Link className={tagsClass} title="Tags" to={"/tags"}>
-							<span className="icon icon-tag"></span>
-						</Link>
-					</div>
-
-					<div className="btn-group">
-						<button className="btn btn-default">
-							<span className="icon icon-cog"></span>
-						</button>
-						<Link className={logsClass} title="Logs" to={"/logs"}>
-							<span className="icon icon-menu"></span>
-						</Link>
-					</div>
-
-					{searchBar}
-			  	</div>
-			</header>
-		);
-	}
+                    {searchBar}
+                </div>
+            </header>
+        );
+    }
 }
 
 export default Header;

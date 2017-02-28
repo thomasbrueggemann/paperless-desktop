@@ -8,108 +8,115 @@ import $ from "jquery";
 import ToolbarActions from "../actions/ToolbarActions";
 
 class Documents extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = DocumentsStore.getState();
+        DocumentsStore.setRouter(this.context.router);
+        this.onChange = this.onChange.bind(this);
+    }
 
-	constructor(props) {
-		super(props);
-		this.state = DocumentsStore.getState();
-		this.onChange = this.onChange.bind(this);
-	}
+    // SHOULD COMPONENT UPDATE
+    shouldComponentUpdate = shouldPureComponentUpdate;
 
-	// SHOULD COMPONENT UPDATE
-	shouldComponentUpdate = shouldPureComponentUpdate;
+    // COMPONENT DID MOUNT
+    componentDidMount() {
+        $(window).trigger("tabs.replace", {
+            idx: 0,
+            tab: {
+                title: "Documents",
+                route: "/documents"
+            }
+        });
+        $(window).trigger("header.activeItem", { item: "documents" });
 
-	// COMPONENT DID MOUNT
-	componentDidMount() {
+        // load all documents event
+        $(window).on("loadAllDocuments", function() {
+            DocumentsActions.getDocuments();
+        });
 
-		$(window).trigger("tabs.replace", {
-			"idx": 0,
-			"tab": {
-				"title": "Documents",
-				"route": "/documents"
-			}
-		});
-		$(window).trigger("header.activeItem", {"item": "documents"});
+        // search documents
+        $(window).on("searchDocuments", function(e, data) {
+            DocumentsActions.searchDocuments(data.query);
+        });
 
-		// load all documents event
-		$(window).on("loadAllDocuments", function() {
-			DocumentsActions.getDocuments();
-		});
+        DocumentsStore.listen(this.onChange);
+        DocumentsActions.getDocuments(this.state.correspondent, this.state.tag);
 
-		// search documents
-		$(window).on("searchDocuments", function(e, data) {
-			DocumentsActions.searchDocuments(data.query);
-		});
+        // populate the selected correspondent
+        if (this.state.correspondent !== null) {
+            $(window).trigger("changeExternCorrespendent", {
+                correspondent: this.state.correspondent
+            });
+        }
 
-		DocumentsStore.listen(this.onChange);
-		DocumentsActions.getDocuments(this.state.correspondent, this.state.tag);
+        // populate the selected tag
+        if (this.state.tag !== null) {
+            $(window).trigger("changeExternTag", { tag: this.state.tag });
+        }
 
-		// populate the selected correspondent
-		if(this.state.correspondent !== null) {
-			$(window).trigger("changeExternCorrespendent", {"correspondent": this.state.correspondent});
-		}
+        // clear toolbar to add new items
+        ToolbarActions.clearItems();
+    }
 
-		// populate the selected tag
-		if(this.state.tag !== null) {
-			$(window).trigger("changeExternTag", {"tag": this.state.tag});
-		}
+    // COMPONENT WILL UNMOUNT
+    componentWillUnmount() {
+        // clear toolbar to add new items
+        ToolbarActions.clearItems();
 
-		// clear toolbar to add new items
-		ToolbarActions.clearItems();
-	}
+        $(window).off("loadAllDocuments");
+        $(window).off("searchDocuments");
+        DocumentsStore.unlisten(this.onChange);
+    }
 
-	// COMPONENT WILL UNMOUNT
-	componentWillUnmount() {
+    // ON CHANGE
+    onChange(state) {
+        this.setState(state);
+    }
 
-		// clear toolbar to add new items
-		ToolbarActions.clearItems();
+    // SET TAG FILTER
+    setTagFilter(tag) {
+        this.setState({
+            tag: tag
+        });
 
-		$(window).off("loadAllDocuments");
-		$(window).off("searchDocuments");
-		DocumentsStore.unlisten(this.onChange);
-	}
+        DocumentsActions.getDocuments(this.state.correspondent, tag);
+    }
 
-	// ON CHANGE
-	onChange(state) {
-		this.setState(state);
-	}
+    // SET CORRESPONDENT FILTER
+    setCorrespondentFilter(correspondent) {
+        this.setState({
+            correspondent: correspondent
+        });
 
-	// SET TAG FILTER
-	setTagFilter(tag) {
-		this.setState({
-			"tag": tag
-		});
+        DocumentsActions.getDocuments(correspondent, this.state.tag);
+    }
 
-		DocumentsActions.getDocuments(this.state.correspondent, tag);
-	}
+    // RENDER
+    render() {
+        if (!this.state.documents || !("results" in this.state.documents))
+            return null;
 
-	// SET CORRESPONDENT FILTER
-	setCorrespondentFilter(correspondent) {
-		this.setState({
-			"correspondent": correspondent
-		});
-
-		DocumentsActions.getDocuments(correspondent, this.state.tag);
-	}
-
-	// RENDER
-	render() {
-
-		if(!this.state.documents || !("results" in this.state.documents)) return null;
-
-		return (
-			<div className="pane-group">
-				<Sidebar
-					setTagFilter={this.setTagFilter.bind(this)}
-					setCorrespondentFilter={this.setCorrespondentFilter.bind(this)}
-				/>
-				<div className="pane">
-					{this.state.documents.results.map(d => {
-						return <DocumentItem document={d} key={d.id} />
-					})}
-				</div>
-			</div>
-		);
-	}
+        return (
+            <div className="pane-group">
+                <Sidebar
+                    setTagFilter={this.setTagFilter.bind(this)}
+                    setCorrespondentFilter={this.setCorrespondentFilter.bind(
+                        this
+                    )}
+                />
+                <div className="pane">
+                    {this.state.documents.results.map(d => {
+                        return <DocumentItem document={d} key={d.id} />;
+                    })}
+                </div>
+            </div>
+        );
+    }
 }
+
+// CONTEXT TYPES
+Documents.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default Documents;

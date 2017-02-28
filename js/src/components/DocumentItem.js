@@ -9,6 +9,7 @@ String.prototype.trunc = String.prototype.trunc ||
     };
 
 class DocumentItem extends PaperlessComponent {
+    // CONSTRUCTOR
     constructor(props) {
         super(props);
         this.state = {};
@@ -22,9 +23,9 @@ class DocumentItem extends PaperlessComponent {
                 this.props.document.thumbnail_url.replace("\\", ""),
             result => {
                 this.setState({
-                    data: result,
+                    data: result
                 });
-            },
+            }
         );
     }
 

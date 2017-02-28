@@ -1,53 +1,66 @@
 import React from "react";
 
 class PaperlessComponent extends React.Component {
+    // CONSTRUCTOR
+    constructor(props) {
+        super(props);
+    }
 
-	constructor(props) {
-		super(props);
-	}
+    // GET HOST
+    getHost() {
+        return localStorage.getItem("settings.host");
+    }
 
-	// GET HOST
-	getHost() {
-		return localStorage.getItem("settings.host");
-	}
+    // GET DATA URI
+    getDataUri(url, callback) {
+        if (localStorage.getItem(url)) {
+            return callback(localStorage.getItem(url));
+        }
 
-	// GET DATA URI
-	getDataUri(url, callback) {
+        var image = new Image();
+        var that = this;
 
-		if(localStorage.getItem(url)) {
-			return callback(localStorage.getItem(url));
-		}
+        image.onload = function() {
+            var canvas = document.createElement("canvas");
+            canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+            canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
 
-	    var image = new Image();
-		var that = this;
+            canvas.getContext("2d").drawImage(this, 0, 0);
 
-	    image.onload = function () {
-	        var canvas = document.createElement("canvas");
-	        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-	        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+            // ... or get as Data URI
+            var d = canvas.toDataURL("image/png");
 
-	        canvas.getContext("2d").drawImage(this, 0, 0);
+            localStorage.setItem(url, d);
+            return callback(d);
+        };
 
-	        // ... or get as Data URI
-			var d = canvas.toDataURL("image/png");
+        image.src = url;
+    }
 
-			localStorage.setItem(url, d);
-	        return callback(d);
-	    };
+    // GET COLORS
+    getColors() {
+        return [
+            "#a6cee3",
+            "#1f78b4",
+            "#b2df8a",
+            "#33a02c",
+            "#fb9a99",
+            "#e31a1c",
+            "#fdbf6f",
+            "#ff7f00",
+            "#cab2d6",
+            "#6a3d9a",
+            "#b15928",
+            "#000000",
+            "#cccccc"
+        ];
+    }
 
-	    image.src = url;
-	}
-
-	// GET COLORS
-	getColors() {
-		return ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#b15928","#000000","#cccccc"];
-	}
-
-	// GET TAG COLOR
-	getTagColor(idx) {
-		var colors = this.getColors();
-		return colors[idx - 1];
-	}
+    // GET TAG COLOR
+    getTagColor(idx) {
+        var colors = this.getColors();
+        return colors[idx - 1];
+    }
 }
 
 export default PaperlessComponent;

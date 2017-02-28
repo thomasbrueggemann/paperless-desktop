@@ -134,3 +134,11 @@
 .center-center {
 	text-align: center;
 }
+
+.settings-pane {
+	padding:0 20px 20px 20px;
+}
+
+.settings-form {
+	width: 350px;
+}

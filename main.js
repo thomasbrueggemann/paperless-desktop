@@ -6,6 +6,8 @@ const url = require("url");
 const GhReleases = require("electron-gh-releases");
 const appVersion = require("./package.json").version;
 const os = require("os").platform();
+
+// https://medium.com/@ccnokes/how-to-store-user-data-in-electron-3ba6bf66bc1e#.b6j3oex0s
 const Store = require("./store.js");
 
 // keep a global reference of the window object, if you don't, the window will
@@ -27,7 +29,7 @@ var auth = null;
 // configure the auto-updater
 const updater = new GhReleases({
     repo: "thomasbrueggemann/paperless-desktop",
-    currentVersion: appVersion,
+    currentVersion: appVersion
 });
 
 // Check for updates
@@ -59,8 +61,8 @@ const store = new Store({
     configName: "user-preferences",
     defaults: {
         // 800x600 is the default size of our window
-        windowBounds: { width: 800, height: 600 },
-    },
+        windowBounds: { width: 500, height: 520 }
+    }
 });
 
 /*
@@ -78,24 +80,24 @@ var menu = Menu.buildFromTemplate([
         submenu: [
             {
                 label: "About App",
-                selector: "orderFrontStandardAboutPanel:",
+                selector: "orderFrontStandardAboutPanel:"
             },
             {
                 label: "Close Tab",
                 accelerator: "CmdOrCtrl+W",
                 click: function() {
                     mainWindow.webContents.send("closeCurrentTab", true);
-                },
+                }
             },
             {
                 label: "Quit",
                 accelerator: "CmdOrCtrl+Q",
                 click: function() {
                     app.quit();
-                },
-            },
-        ],
-    },
+                }
+            }
+        ]
+    }
 ]);
 
 /*
@@ -126,7 +128,7 @@ ipcMain.on("modal", (e, args) => {
         modal: true,
         show: false,
         width: args.width,
-        height: args.height,
+        height: args.height
     });
 
     // build the url
@@ -134,10 +136,10 @@ ipcMain.on("modal", (e, args) => {
         url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",
-            slashes: true,
+            slashes: true
         }) +
             "#" +
-            args.route,
+            args.route
     );
 
     //modalWindow.webContents.openDevTools();
@@ -185,17 +187,20 @@ ipcMain.on("setSize", (e, args) => {
 function createWindow() {
     Menu.setApplicationMenu(menu);
 
+    // First we'll get our height and width. This will be the defaults if there wasn't anything saved
+    let { width, height } = store.get("windowBounds");
+
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 500,
-        height: 520,
+        width: width,
+        height: height,
         minHeight: 200,
         minWidth: 400,
         titleBarStyle: "hidden",
         webPreferences: {
-            webSecurity: false,
+            webSecurity: false
         },
-        center: true,
+        center: true
     });
 
     // and load the index.html of the app.
@@ -203,14 +208,14 @@ function createWindow() {
         url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",
-            slashes: true,
-        }),
+            slashes: true
+        })
     );
 
     // ON BEFORE SEND HEADERS
     session.defaultSession.webRequest.onBeforeSendHeaders((
         details,
-        callback,
+        callback
     ) => {
         // check if the auth information is present
         if (auth !== null) {
@@ -225,7 +230,7 @@ function createWindow() {
     });
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on("closed", () => {
@@ -233,6 +238,16 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null;
+    });
+
+    // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
+    // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
+    mainWindow.on("resize", () => {
+        // The event doesn't pass us the window size, so we call the `getBounds` method which returns an object with
+        // the height, width, and x and y coordinates.
+        let { width, height } = mainWindow.getBounds();
+        // Now that we have them, save them using the `set` method.
+        store.set("windowBounds", { width, height });
     });
 }
 

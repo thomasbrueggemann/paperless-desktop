@@ -11,167 +11,185 @@ const electron = window.require("electron");
 const fs = electron.remote.require("fs");
 const remote = electron.remote;
 const dialog = remote.dialog;
-const ipcRenderer  = electron.ipcRenderer;
+const ipcRenderer = electron.ipcRenderer;
 
 class Correspondents extends PaperlessComponent {
+    // CONSTRUCTOR
+    constructor(props) {
+        super(props);
+        this.state = CorrespondentsStore.getState();
+        CorrespondentsStore.setRouter(this.context.router);
+        this.onChange = this.onChange.bind(this);
+    }
 
-	constructor(props) {
-		super(props);
-		this.state = CorrespondentsStore.getState();
-		this.onChange = this.onChange.bind(this);
-	}
+    // COMPONENT DID MOUNT
+    componentDidMount() {
+        $(window).trigger("tabs.replace", {
+            idx: 0,
+            tab: {
+                title: "Tags",
+                route: "/tags"
+            }
+        });
+        $(window).trigger("header.activeItem", { item: "correspondents" });
 
-	// COMPONENT DID MOUNT
-	componentDidMount() {
-		$(window).trigger("tabs.replace", {
-			"idx": 0,
-			"tab": {
-				"title": "Tags",
-				"route": "/tags"
-			}
-		});
-		$(window).trigger("header.activeItem", {"item": "correspondents"});
+        CorrespondentsStore.listen(this.onChange);
+        CorrespondentsActions.getCorrespondents();
 
-		CorrespondentsStore.listen(this.onChange);
-		CorrespondentsActions.getCorrespondents();
+        // EVENT: correspondentAdded
+        ipcRenderer.on("correspondentAdded", (e, data) => {
+            // add the newly created tag to the store
+            var correspondents = this.state.correspondents;
+            if (correspondents) {
+                correspondents.results.push(data);
 
-		// EVENT: correspondentAdded
-		ipcRenderer.on("correspondentAdded", (e, data) => {
+                this.setState({
+                    correspondents: correspondents
+                });
+            }
+        });
 
-			// add the newly created tag to the store
-			var correspondents = this.state.correspondents;
-			if(correspondents) {
+        // clear toolbar to add new items
+        ToolbarActions.clearItems();
 
-				correspondents.results.push(data);
+        // toolbar: add button
+        ToolbarActions.addItem(
+            "add-correspondent",
+            "plus",
+            "Add correspondent",
+            "primary",
+            "right",
+            () => {
+                // add correspondent
+                ipcRenderer.send("modal", {
+                    route: "/modal/correspondents/add",
+                    width: 450,
+                    height: 280
+                });
+            }
+        );
+    }
 
-				this.setState({
-					"correspondents": correspondents
-				});
-			}
-		});
+    // COMPONENT WILL UNMOUNT
+    componentWillUnmount() {
+        // clear toolbar to add new items
+        ToolbarActions.clearItems();
 
-		// clear toolbar to add new items
-		ToolbarActions.clearItems();
+        CorrespondentsStore.unlisten(this.onChange);
+    }
 
-		// toolbar: add button
-		ToolbarActions.addItem("add-correspondent", "plus", "Add correspondent", "primary", "right", () => {
+    // ON CHANGE
+    onChange(state) {
+        this.setState(state);
+    }
 
-			// add correspondent
-			ipcRenderer.send("modal", {
-				route: "/modal/correspondents/add",
-				width: 450,
-				height: 280
-			});
-		});
-	}
+    // CHANGE SELECTION
+    changeSelection(id, checked) {
+        var selection = this.state.selection || [];
 
-	// COMPONENT WILL UNMOUNT
-	componentWillUnmount() {
+        // push or slice out an element
+        if (checked === true) {
+            selection.push(id);
+        } else {
+            selection.splice(selection.indexOf(id), 1);
+        }
 
-		// clear toolbar to add new items
-		ToolbarActions.clearItems();
+        this.setState({
+            selection: selection
+        });
 
-		CorrespondentsStore.unlisten(this.onChange);
-	}
+        // adjust toolbar based on selection
+        if (selection.length > 0) {
+            ToolbarActions.addItem(
+                "remove-tags",
+                "trash",
+                "Delete",
+                "negative",
+                "left",
+                this.deleteSelection.bind(this)
+            );
+        } else {
+            ToolbarActions.removeItem("remove-tags");
+        }
+    }
 
-	// ON CHANGE
-	onChange(state) {
-		this.setState(state);
-	}
+    // DELETE SELECTION
+    deleteSelection() {
+        var message;
+        if (this.state.selection.length === 1) {
+            message = "Are you sure you want to delete this correspondent?";
+        }
 
-	// CHANGE SELECTION
-	changeSelection(id, checked) {
+        if (this.state.selection.length > 1) {
+            message = "Are you sure you want to delete these correspondents?";
+        }
 
-		var selection = this.state.selection || [];
+        if (this.state.selection === 0) return;
 
-		// push or slice out an element
-		if(checked === true) {
-			selection.push(id);
-		} else {
-			selection.splice(selection.indexOf(id), 1);
-		}
+        // ask user if he really wants to delete the document
+        var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
+            type: "question",
+            buttons: ["Yes", "No"],
+            title: "It'll be gone forever!",
+            message: message
+        }) === 0;
 
-		this.setState({
-			"selection": selection
-		});
+        // yes, delete this thing!
+        if (choice === true) {
+            CorrespondentsActions.deleteCorrespondents(this.state.selection);
 
-		// adjust toolbar based on selection
-		if(selection.length > 0) {
-			ToolbarActions.addItem("remove-tags", "trash", "Delete", "negative", "left", this.deleteSelection.bind(this));
-		} else {
-			ToolbarActions.removeItem("remove-tags");
-		}
-	}
+            this.setState({
+                selection: []
+            });
 
-	// DELETE SELECTION
-	deleteSelection() {
+            // reload documents store
+            CorrespondentsActions.getCorrespondents();
+        }
+    }
 
-		var message;
-		if(this.state.selection.length === 1) {
-			message = "Are you sure you want to delete this correspondent?";
-		}
+    // RENDER
+    render() {
+        if (
+            !this.state.correspondents ||
+            !("results" in this.state.correspondents)
+        )
+            return null;
 
-		if(this.state.selection.length > 1) {
-			message = "Are you sure you want to delete these correspondents?";
-		}
+        return (
+            <div className="pane">
+                <table className="table-striped">
+                    <thead>
+                        <tr>
+                            <th />
+                            <th>Name</th>
+                            <th>Match</th>
+                            <th>Matching Algorithm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-		if(this.state.selection === 0) return;
+                        {this.state.correspondents.results.map(c => {
+                            return (
+                                <CorrespondentsListItem
+                                    key={c.id}
+                                    correspondent={c}
+                                    changeSelection={this.changeSelection.bind(
+                                        this
+                                    )}
+                                />
+                            );
+                        })}
 
-		// ask user if he really wants to delete the document
-		var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
-			"type": "question",
-			"buttons": ["Yes", "No"],
-			"title": "It'll be gone forever!",
-			"message": message
-		}) === 0;
-
-		// yes, delete this thing!
-		if(choice === true) {
-
-			CorrespondentsActions.deleteCorrespondents(this.state.selection);
-
-			this.setState({
-				"selection": []
-			});
-
-			// reload documents store
-			CorrespondentsActions.getCorrespondents();
-		}
-	}
-
-	// RENDER
-	render() {
-
-		if(!this.state.correspondents || !("results" in this.state.correspondents)) return null;
-
-		return (
-			<div className="pane">
-				<table className="table-striped">
-					<thead>
-						<tr>
-							<th></th>
-							<th>Name</th>
-							<th>Match</th>
-							<th>Matching Algorithm</th>
-						</tr>
-					</thead>
-					<tbody>
-
-					{this.state.correspondents.results.map(c => {
-						return (
-							<CorrespondentsListItem
-								key={c.id}
-								correspondent={c}
-								changeSelection={this.changeSelection.bind(this)}
-							/>
-						);
-					})}
-
-					</tbody>
-				</table>
-			</div>
-		);
-	}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
 }
+
+// CONTEXT TYPES
+Correspondents.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default Correspondents;

@@ -3,68 +3,70 @@ import $ from "jquery";
 import PaperlessComponent from "./PaperlessComponent";
 
 class SidebarTagItem extends PaperlessComponent {
+    // CONSTRUCTOR
+    constructor(props) {
+        super(props);
+        this.state = {
+            active: false
+        };
+    }
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			"active": false
-		};
-	}
+    // COMPONENT DID MOUNT
+    componentDidMount() {
+        $(window).on("changeExternTag", this.changeExternTag.bind(this));
+    }
 
-	// COMPONENT DID MOUNT
-	componentDidMount() {
-		$(window).on("changeExternTag", this.changeExternTag.bind(this));
-	}
+    // COMPONENT WILL UNMOUNT
+    componentWillUnmount() {
+        $(window).off("changeExternTag");
+    }
 
-	// COMPONENT WILL UNMOUNT
-	componentWillUnmount() {
-		$(window).off("changeExternTag");
-	}
+    // SET TAG FILTER
+    setTagFilter() {
+        $(window).trigger("changeExternTag", { tag: this.props.tag.slug });
 
-	// SET TAG FILTER
-	setTagFilter() {
+        // set or unset the tag
+        if (this.state.active === true) {
+            this.props.setTagFilter(null);
+        } else {
+            this.props.setTagFilter(this.props.tag.slug);
+        }
 
-		$(window).trigger("changeExternTag", {"tag": this.props.tag.slug});
+        // toggle active state
+        this.setState({
+            active: !this.state.active
+        });
+    }
 
-		// set or unset the tag
-		if(this.state.active === true) {
-			this.props.setTagFilter(null);
-		}
-		else {
-			this.props.setTagFilter(this.props.tag.slug);
-		}
+    // CHANGE EXTERN TAG
+    changeExternTag(e, data) {
+        this.setState({
+            active: this.props.tag.slug === data.tag
+        });
+    }
 
-		// toggle active state
-		this.setState({
-			"active": !this.state.active
-		});
-	}
+    // RENDER
+    render() {
+        var itemClass = "nav-group-item";
+        if (this.state.active === true) {
+            itemClass += " active";
+        }
 
-	// CHANGE EXTERN TAG
-	changeExternTag(e, data) {
-
-		this.setState({
-			"active": this.props.tag.slug === data.tag
-		});
-	}
-
-	// RENDER
-	render() {
-
-		var itemClass = "nav-group-item";
-		if(this.state.active === true) {
-			itemClass += " active";
-		}
-
-		return (
-			<span className={itemClass} key={this.props.tag.id} onClick={this.setTagFilter.bind(this)}>
-                <span className="icon icon-record" style={{
-					color: this.getTagColor(this.props.tag.colour)
-				}}></span>
-				{this.props.tag.name}
-			</span>
-		);
-	}
+        return (
+            <span
+                className={itemClass}
+                key={this.props.tag.id}
+                onClick={this.setTagFilter.bind(this)}>
+                <span
+                    className="icon icon-record"
+                    style={{
+                        color: this.getTagColor(this.props.tag.colour)
+                    }}
+                />
+                {this.props.tag.name}
+            </span>
+        );
+    }
 }
 
 export default SidebarTagItem;

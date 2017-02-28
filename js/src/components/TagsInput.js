@@ -4,96 +4,98 @@ import TagsStore from "../stores/TagsStore";
 import Select2 from "react-select2-wrapper";
 
 class TagsInput extends React.Component {
+    // CONSTRUCTOR
+    constructor(props) {
+        super(props);
 
-	// CONSTRUCTOR
-	constructor(props) {
-		super(props);
+        this.state = TagsStore.getState();
+        TagsStore.setRouter(this.context.router);
 
-		this.state = TagsStore.getState();
+        if (this.props.tags) {
+            // extract the tags selection
+            this.state.selection = this.props.tags.map(t => {
+                var s = t.replace(/\/$/, "").split("/");
+                return parseInt(s[s.length - 1]);
+            });
+        }
 
-		if(this.props.tags) {
+        this.onChange = this.onChange.bind(this);
+    }
 
-			// extract the tags selection
-			this.state.selection = this.props.tags.map(t => {
-				var s = t.replace(/\/$/, "").split("/");
-				return parseInt(s[s.length - 1]);
-			});
-		}
+    // COMPONENT DID MOUNT
+    componentDidMount() {
+        TagsStore.listen(this.onChange);
+        TagsActions.getTags();
+    }
 
-		this.onChange = this.onChange.bind(this);
-	}
+    // COMPONENT WILL UNMOUNT
+    componentWillUnmount() {
+        TagsStore.unlisten(this.onChange);
+    }
 
-	// COMPONENT DID MOUNT
-	componentDidMount() {
-		TagsStore.listen(this.onChange);
-		TagsActions.getTags();
-	}
+    // ON CHANGE
+    onChange(state) {
+        this.setState(state);
+    }
 
-	// COMPONENT WILL UNMOUNT
-	componentWillUnmount() {
-		TagsStore.unlisten(this.onChange);
-	}
+    // Add SELECTION
+    addSelection(e) {
+        var id = parseInt(e.target.value);
+        var selection = this.state.selection;
 
-	// ON CHANGE
-	onChange(state) {
-		this.setState(state);
-	}
+        if (selection.indexOf(id) === -1) {
+            selection.push(id);
 
-	// Add SELECTION
-	addSelection(e) {
-		var id = parseInt(e.target.value);
-		var selection = this.state.selection;
+            console.log(selection);
+            this.setState({
+                selection: selection
+            });
+        }
+    }
 
-		if(selection.indexOf(id) === -1) {
-			selection.push(id);
+    // REMOVE SELECTION
+    removeSelection(e) {
+        var id = parseInt(e.target.value);
 
-			console.log(selection);
-			this.setState({
-				"selection": selection
-			});
-		}
-	}
+        var selection = this.state.selection;
+        this.setState({
+            selection: selection.splice(selection.indexOf(id), 1)
+        });
+    }
 
-	// REMOVE SELECTION
-	removeSelection(e) {
-		var id = parseInt(e.target.value);
+    // RENDER
+    render() {
+        var possibles = [];
 
-		var selection = this.state.selection;
-		this.setState({
-			"selection": selection.splice(selection.indexOf(id), 1)
-		});
-	}
+        // prepare the selection tag ids
+        if (this.state.tags && this.state.tags.count > 0) {
+            // possible tags
+            possibles = this.state.tags.results.map(t => {
+                return {
+                    text: t.name,
+                    id: t.id
+                };
+            });
+        }
 
-	// RENDER
-	render() {
-
-		var possibles = [];
-
-		// prepare the selection tag ids
-		if(this.state.tags && this.state.tags.count > 0) {
-
-			// possible tags
-			possibles = this.state.tags.results.map(t => {
-				return {
-					"text": t.name,
-					"id": t.id
-				}
-			});
-		}
-
-		return (
-			<Select2
-				multiple
-				data={possibles}
-				onSelect={this.addSelection.bind(this)}
-				onUnselect={this.removeSelection.bind(this)}
-				defaultValue={this.state.selection}
-				options={{
-				  placeholder: "Tags",
-				}}
-			/>
-		);
-	}
+        return (
+            <Select2
+                multiple
+                data={possibles}
+                onSelect={this.addSelection.bind(this)}
+                onUnselect={this.removeSelection.bind(this)}
+                defaultValue={this.state.selection}
+                options={{
+                    placeholder: "Tags"
+                }}
+            />
+        );
+    }
 }
+
+// CONTEXT TYPES
+TagsInput.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default TagsInput;

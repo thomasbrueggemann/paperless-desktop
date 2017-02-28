@@ -12,123 +12,149 @@ import $ from "jquery";
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
 const fs = electron.remote.require("fs");
-const ipcRenderer  = electron.ipcRenderer;
+const ipcRenderer = electron.ipcRenderer;
 const remote = electron.remote;
 const dialog = remote.dialog;
 
 class DocumentDetail extends PaperlessComponent {
+    // CONSTRUCTOR
+    constructor(props) {
+        super(props);
+        this.state = DocumentStore.getState();
+        DocumentStore.setRouter(this.context.router);
+        this.onChange = this.onChange.bind(this);
+    }
 
-	constructor(props) {
-		super(props);
-		this.state = DocumentStore.getState();
-		this.onChange = this.onChange.bind(this);
-	}
+    // COMPONENT DID MOUNT
+    componentDidMount() {
+        DocumentStore.listen(this.onChange);
+        DocumentActions.getDocument(this.props.params.id);
 
-	// COMPONENT DID MOUNT
-	componentDidMount() {
+        // clear toolbar to add new items
+        ToolbarActions.clearItems();
 
-		DocumentStore.listen(this.onChange);
-		DocumentActions.getDocument(this.props.params.id);
+        // toolbar: save button
+        ToolbarActions.addItem(
+            "save-detail",
+            "floppy",
+            "Save",
+            "primary",
+            "right",
+            e => {
+                e.preventDefault();
+                this.saveDocument();
+            }
+        );
 
-		// clear toolbar to add new items
-		ToolbarActions.clearItems();
+        // toolbar: download file
+        ToolbarActions.addItem(
+            "download-file",
+            "download",
+            "Download File",
+            "default",
+            "left",
+            () => {
+                // downstream the download command
+                if (this.state.doc.download_url) {
+                    ipcRenderer.send("download", {
+                        url: super.getHost() +
+                            this.state.doc.download_url.replace("\\", "")
+                    });
+                }
+            }
+        );
 
-		// toolbar: save button
-		ToolbarActions.addItem("save-detail", "floppy", "Save", "primary", "right", (e) => {
-			e.preventDefault();
-			this.saveDocument();
-		});
+        // toolbar: delete document
+        ToolbarActions.addItem(
+            "delete-document",
+            "trash",
+            "Delete document",
+            "default",
+            "right",
+            () => {
+                // ask user if he really wants to delete the document
+                var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
+                    type: "question",
+                    buttons: ["Yes", "No"],
+                    title: "It'll be gone forever!",
+                    message: "Are you sure you want to delete this document?"
+                }) === 0;
 
-		// toolbar: download file
-		ToolbarActions.addItem("download-file", "download", "Download File", "default", "left", () => {
+                // yes, delete this thing!
+                if (choice === true) {
+                    DocumentsActions.deleteDocuments([this.props.params.id]);
 
-			// downstream the download command
-			if(this.state.doc.download_url) {
-				ipcRenderer.send("download", {
-					"url": super.getHost() + this.state.doc.download_url.replace("\\", "")
-				});
-			}
-		});
+                    // reload documents store
+                    DocumentsActions.getDocuments();
 
-		// toolbar: delete document
-		ToolbarActions.addItem("delete-document", "trash", "Delete document", "default", "right", () => {
+                    // emit event to close this tab, since the document is just deleted
+                    $(window).trigger("tabs.closeCurrent");
+                }
+            }
+        );
+    }
 
-			// ask user if he really wants to delete the document
-    		var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
-                "type": "question",
-                "buttons": ["Yes", "No"],
-                "title": "It'll be gone forever!",
-                "message": "Are you sure you want to delete this document?"
-            }) === 0;
+    // COMPONENT WILL UNMOUNT
+    componentWillUnmount() {
+        ToolbarActions.clearItems();
+        DocumentStore.unlisten(this.onChange);
+    }
 
-			// yes, delete this thing!
-			if(choice === true) {
-				DocumentsActions.deleteDocuments([this.props.params.id]);
+    // COMPONENT WILL UPDATE
+    componentWillUpdate(nextProps, nextState) {
+        // something changed in the state id
+        if (nextProps.params.id !== this.props.params.id) {
+            this.setState({
+                doc: null
+            });
 
-				// reload documents store
-				DocumentsActions.getDocuments();
+            // fetch new document
+            DocumentActions.getDocument(nextProps.params.id);
+        }
+    }
 
-				// emit event to close this tab, since the document is just deleted
-				$(window).trigger("tabs.closeCurrent");
-			}
-		});
-	}
+    // ON CHANGE
+    onChange(state) {
+        // add new tab
+        $(window).trigger("tabs.push", {
+            title: state.doc.title,
+            route: "/document/" + this.props.params.id
+        });
 
-	// COMPONENT WILL UNMOUNT
-	componentWillUnmount() {
-		ToolbarActions.clearItems();
-		DocumentStore.unlisten(this.onChange);
-	}
+        this.setState(state);
+    }
 
-	// COMPONENT WILL UPDATE
-	componentWillUpdate(nextProps, nextState) {
+    // SAVE DOCUMENT
+    saveDocument() {
+        DocumentActions.updateDocument(this.state.doc);
+    }
 
-		// something changed in the state id
-		if(nextProps.params.id !== this.props.params.id) {
+    // RENDER
+    render() {
+        // render nothing if document is empty
+        if (!this.state.doc) return null;
 
-			this.setState({
-				"doc": null
-			});
-
-			// fetch new document
-			DocumentActions.getDocument(nextProps.params.id);
-		}
-	}
-
-	// ON CHANGE
-	onChange(state) {
-
-		// add new tab
-		$(window).trigger("tabs.push", {
-			"title": state.doc.title,
-			"route": "/document/" + this.props.params.id
-		});
-
-		this.setState(state);
-	}
-
-	// SAVE DOCUMENT
-	saveDocument() {
-		DocumentActions.updateDocument(this.state.doc);
-	}
-
-	// RENDER
-	render() {
-
-		// render nothing if document is empty
-		if(!this.state.doc) return null;
-
-		return (
-			<div className="pane-group">
-				<div className="pane-two-third">
-					<spdf.SimplePDF file={super.getHost() + this.state.doc.download_url.replace("\\", "")}/>
-				</div>
-				<div className="pane pane-one-third">
-					<DocumentDetailForm doc={this.state.doc} />
-				</div>
-			</div>
-		);
-	}
+        return (
+            <div className="pane-group">
+                <div className="pane-two-third">
+                    <spdf.SimplePDF
+                        file={
+                            super.getHost() +
+                                this.state.doc.download_url.replace("\\", "")
+                        }
+                    />
+                </div>
+                <div className="pane pane-one-third">
+                    <DocumentDetailForm doc={this.state.doc} />
+                </div>
+            </div>
+        );
+    }
 }
+
+// CONTEXT TYPES
+DocumentDetail.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default DocumentDetail;

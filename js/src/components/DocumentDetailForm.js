@@ -5,89 +5,87 @@ import PaperlessComponent from "./PaperlessComponent";
 import CorrespondentSelect from "./CorrespondentSelect";
 
 class DocumentDetailForm extends PaperlessComponent {
+    // CONSTRUCTOR
+    constructor(props) {
+        super(props);
+        this.state = {
+            doc: this.props.doc
+        };
+    }
 
-	// CONSTRUCTOR
-	constructor(props) {
-		super(props);
-		this.state = {
-			"doc": this.props.doc
-		};
-	}
+    // HANDLE DETAIL CHANGE
+    handleDetailChange(e) {
+        var doc = this.state.doc;
+        doc[e.target.name] = e.target.value;
 
-	// HANDLE DETAIL CHANGE
-	handleDetailChange(e) {
+        this.setState({
+            doc: doc
+        });
+    }
 
-		console.log(e.target.name, e.target.value);
+    // RENDER
+    render() {
+        // convert the date to local time
+        var created = moment
+            .utc(this.state.doc.created)
+            .local()
+            .format("YYYY-MM-DD[T]HH:mm");
 
-		var doc = this.state.doc;
-		doc[e.target.name] = e.target.value;
+        return (
+            <form className="form-detail-info">
+                <div className="form-group">
+                    <label>Title</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="title"
+                        placeholder="Title"
+                        value={this.state.doc.title}
+                        onChange={this.handleDetailChange.bind(this)}
+                    />
+                </div>
 
-		this.setState({
-			"doc": doc
-		});
-	}
+                <div className="form-group">
+                    <label>Correspondent</label>
+                    <CorrespondentSelect
+                        value={this.state.doc.correspondent}
+                        onChange={this.handleDetailChange.bind(this)}
+                    />
+                </div>
 
-	// RENDER
-	render() {
+                <div className="form-group">
+                    <label>Content</label>
+                    <textarea
+                        className="form-control"
+                        rows="6"
+                        name="content"
+                        placeholder="Content"
+                        value={this.state.doc.content}
+                        onChange={this.handleDetailChange.bind(this)}
+                    />
+                </div>
 
-		// convert the date to local time
-		var created = moment.utc(this.state.doc.created).local().format("YYYY-MM-DD[T]HH:mm");
+                <div className="form-group">
+                    <label>Tags</label>
+                    <div className="select-wrapper">
+                        <TagsInput tags={this.state.doc.tags} />
+                    </div>
+                </div>
 
-		return (
-			<form className="form-detail-info">
-				<div className="form-group">
-					<label>Title</label>
-					<input
-						type="text"
-						className="form-control"
-						name="title"
-						placeholder="Title"
-						value={this.state.doc.title}
-						onChange={this.handleDetailChange.bind(this)}
-					/>
-				</div>
-
-				<div className="form-group">
-					<label>Correspondent</label>
-					<CorrespondentSelect
-						value={this.state.doc.correspondent}
-						onChange={this.handleDetailChange.bind(this)}
-					/>
-				</div>
-
-				<div className="form-group">
-					<label>Content</label>
-					<textarea
-						className="form-control"
-						rows="6"
-						name="content"
-						placeholder="Content"
-						value={this.state.doc.content}
-						onChange={this.handleDetailChange.bind(this)}
-					/>
-				</div>
-
-				<div className="form-group">
-					<label>Tags</label>
-					<div className="select-wrapper">
-						<TagsInput tags={this.state.doc.tags} />
-					</div>
-				</div>
-
-				<div className="form-group">
-					<label>Created</label>
-					<input
-						type="datetime-local"
-						className="form-control"
-						name="created"
-						placeholder="Tags"
-						value={created}
-						onChange={this.handleDetailChange.bind(this)}
-					/>
-				</div>
-			</form>
-		);
-	}
+                <div className="form-group">
+                    <label>Created</label>
+                    <input
+                        type="datetime-local"
+                        className="form-control"
+                        name="created"
+                        placeholder="Tags"
+                        value={created}
+                        onChange={this.handleDetailChange.bind(this)}
+                    />
+                </div>
+            </form>
+        );
+    }
 }
 
 export default DocumentDetailForm;
