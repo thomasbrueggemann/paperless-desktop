@@ -1,9 +1,12 @@
 import React from "react";
 import Header from "./Header";
+import axios from "axios";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
 const fs = electron.remote.require("fs");
+const remote = electron.remote;
+const dialog = remote.dialog;
 const ipcRenderer = electron.ipcRenderer;
 
 class Login extends React.Component {
@@ -61,17 +64,44 @@ class Login extends React.Component {
             host = "http://" + host;
         }
 
-        // all is fine
-        localStorage.setItem("settings.auth.username", this.state.username);
-        localStorage.setItem("settings.auth.password", this.state.password);
-        localStorage.setItem("settings.host", host);
+        // check if the user information works
+        var url = this.state.host + "/api/correspondents/";
 
-        ipcRenderer.send("login", {
-            username: localStorage.getItem("settings.auth.username"),
-            password: localStorage.getItem("settings.auth.password")
-        });
+        axios({
+            method: "get",
+            url: url,
+            auth: {
+                username: this.state.username,
+                password: this.state.password
+            }
+        })
+            // the request worked out, we can save the settings
+            .then(() => {
+                // all is fine
+                localStorage.setItem(
+                    "settings.auth.username",
+                    this.state.username
+                );
+                localStorage.setItem(
+                    "settings.auth.password",
+                    this.state.password
+                );
+                localStorage.setItem("settings.host", host);
 
-        this.goHome();
+                ipcRenderer.send("login", {
+                    username: localStorage.getItem("settings.auth.username"),
+                    password: localStorage.getItem("settings.auth.password")
+                });
+
+                this.goHome();
+            })
+            // the request did not work out, show an error
+            .catch(() => {
+                dialog.showErrorBox(
+                    "Ohoh!",
+                    "These signin information can't be right. Just tested. Sad!"
+                );
+            });
     }
 
     // GO HOME

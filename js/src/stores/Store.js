@@ -30,7 +30,7 @@ class Store {
         });
 
         if (this.router) {
-            this.router.replace("/login");
+            this.router.push("/login");
         }
     }
 }
