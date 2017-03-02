@@ -11,7 +11,6 @@ class Documents extends React.Component {
     constructor(props) {
         super(props);
         this.state = DocumentsStore.getState();
-        DocumentsStore.setRouter(this.context.router);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -20,6 +19,7 @@ class Documents extends React.Component {
 
     // COMPONENT DID MOUNT
     componentDidMount() {
+        DocumentsStore.setRouter(this.context.router);
         $(window).trigger("tabs.replace", {
             idx: 0,
             tab: {

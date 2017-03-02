@@ -93,6 +93,7 @@ class Login extends React.Component {
                     password: localStorage.getItem("settings.auth.password")
                 });
 
+                // move the router to the homepage
                 this.goHome();
             })
             // the request did not work out, show an error
