@@ -7,16 +7,22 @@ const electron = window.require("electron");
 const fs = electron.remote.require("fs");
 const remote = electron.remote;
 const dialog = remote.dialog;
+const ipcRenderer = electron.ipcRenderer;
 
 class Settings extends React.Component {
     // CONSTRUCTOR
     constructor(props) {
         super(props);
 
+		this.old = {
+			username: localStorage.getItem("settings.auth.username"),
+			password: localStorage.getItem("settings.auth.password"),
+			host: localStorage.getItem("settings.host")
+		};
+
         this.state = {
             username: localStorage.getItem("settings.auth.username"),
             password: localStorage.getItem("settings.auth.password"),
-
             host: localStorage.getItem("settings.host")
         };
     }
@@ -41,29 +47,48 @@ class Settings extends React.Component {
         // check if the user information works
         var url = this.state.host + "/api/correspondents/";
 
+		// set the localStorage to the input values
+		ipcRenderer.send("login", {
+            username: this.state.username,
+            password: this.state.password
+        });
+
         axios({
             method: "get",
-            url: url,
-            auth: {
-                username: this.state.username,
-                password: this.state.password
-            }
+            url: url
         })
             // the request worked out, we can save the settings
             .then(() => {
-                // set the localStorage to the input values
-                localStorage.setItem(
-                    "settings.auth.username",
-                    this.state.username
-                );
-                localStorage.setItem(
-                    "settings.auth.password",
-                    this.state.password
-                );
-                localStorage.setItem("settings.host", this.state.host);
+				localStorage.setItem(
+					"settings.auth.username",
+					this.state.username
+				);
+				localStorage.setItem(
+					"settings.auth.password",
+					this.state.password
+				);
+				localStorage.setItem("settings.host", this.state.host);
+
+				this.old = {
+					username: this.state.username,
+					password: this.state.password,
+					host: this.state.host
+				};
             })
             // the request did not work out, show an error
             .catch(() => {
+
+				// reset information
+				ipcRenderer.send("login", {
+		            username: this.old.username,
+		            password: this.old.password
+		        });
+				this.setState({
+					username: this.old.username,
+					password: this.old.password,
+					host: this.old.host
+				});
+
                 dialog.showErrorBox(
                     "Ohoh!",
                     "These signin information can't be right. Just tested. Sad!"
