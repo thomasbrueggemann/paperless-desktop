@@ -1,6 +1,6 @@
 import alt from "../alt";
 import DocumentsActions from "../actions/DocumentsActions";
-import Store from "./Store";
+import $ from "jquery";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -9,9 +9,8 @@ const remote = electron.remote;
 const dialog = remote.dialog;
 
 // DOCUMENTS STORE
-class DocumentsStore extends Store {
+class DocumentsStore {
     constructor() {
-        super();
         this.bindActions(DocumentsActions);
         this.documents = [];
         this.correspondent = null;
@@ -28,7 +27,8 @@ class DocumentsStore extends Store {
     // GET DOCUMENTS FAIL
     getDocumentsFail(err) {
         if (err.response && err.response.status === 403) {
-            super.goBackToLogin();
+            $(window).trigger("goBackToLogin");
+			return;
         }
 
         dialog.showErrorBox("Could not load documents!", "Please try again.");

@@ -8,7 +8,6 @@ class SidebarCorrespondents extends React.Component {
     constructor(props) {
         super(props);
         this.state = CorrespondentsStore.getState();
-        CorrespondentsStore.setRouter(this.context.router);
         this.onChange = this.onChange.bind(this);
     }
 

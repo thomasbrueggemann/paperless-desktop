@@ -1,6 +1,7 @@
 import React from "react";
 import CorrespondentsActions from "../actions/CorrespondentsActions";
 import CorrespondentsStore from "../stores/CorrespondentsStore";
+import Select from "react-select";
 
 class CorrespondentSelect extends React.Component {
     // CONSTRUCTOR
@@ -8,7 +9,6 @@ class CorrespondentSelect extends React.Component {
         super(props);
 
         this.state = CorrespondentsStore.getState();
-        CorrespondentsStore.setRouter(this.context.router);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -28,31 +28,40 @@ class CorrespondentSelect extends React.Component {
         this.setState(state);
     }
 
+	// ON CHANGE
+	selectChanged(value) {
+		this.props.onChange({
+			target: {
+				name: "correspondent",
+				value: value.value
+			}
+		});
+	}
+
     // RENDER
     render() {
-        return (
-            <select
-                className="form-control"
-                defaultValue={this.props.value}
-                name="correspondent"
-                onChange={this.props.onChange}>
 
-                <option />
-                {this.state.correspondents.results.map(c => {
-                    var value = localStorage.getItem("settings.host") +
-                        "/api/correspondents/" +
-                        c.id +
-                        "/";
-                    return <option key={c.id} value={value}>{c.name}</option>;
-                })}
-            </select>
+		var options = this.state.correspondents.results.map(c => {
+
+			var value = localStorage.getItem("settings.host") +
+				"/api/correspondents/" +
+				c.id +
+				"/";
+
+			return {
+				value: value,
+				label: c.name
+			};
+		});
+
+        return (
+            <Select
+                value={this.props.value}
+                onChange={this.selectChanged.bind(this)}
+				options={options}
+			/>
         );
     }
 }
-
-// CONTEXT TYPES
-CorrespondentSelect.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
 
 export default CorrespondentSelect;

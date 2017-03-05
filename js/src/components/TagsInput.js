@@ -1,7 +1,7 @@
 import React from "react";
 import TagsActions from "../actions/TagsActions";
 import TagsStore from "../stores/TagsStore";
-import Select2 from "react-select2-wrapper";
+import Select from "react-select";
 
 class TagsInput extends React.Component {
     // CONSTRUCTOR
@@ -9,7 +9,6 @@ class TagsInput extends React.Component {
         super(props);
 
         this.state = TagsStore.getState();
-        TagsStore.setRouter(this.context.router);
 
         if (this.props.tags) {
             // extract the tags selection
@@ -38,29 +37,12 @@ class TagsInput extends React.Component {
         this.setState(state);
     }
 
-    // Add SELECTION
-    addSelection(e) {
-        var id = parseInt(e.target.value);
-        var selection = this.state.selection;
+    // CHANGE SELECTION
+    changeSelection(val) {
 
-        if (selection.indexOf(id) === -1) {
-            selection.push(id);
-
-            console.log(selection);
-            this.setState({
-                selection: selection
-            });
-        }
-    }
-
-    // REMOVE SELECTION
-    removeSelection(e) {
-        var id = parseInt(e.target.value);
-
-        var selection = this.state.selection;
-        this.setState({
-            selection: selection.splice(selection.indexOf(id), 1)
-        });
+		this.setState({
+			selection: val
+		});
     }
 
     // RENDER
@@ -72,30 +54,22 @@ class TagsInput extends React.Component {
             // possible tags
             possibles = this.state.tags.results.map(t => {
                 return {
-                    text: t.name,
-                    id: t.id
+                    label: t.name,
+                    value: t.id
                 };
             });
         }
 
         return (
-            <Select2
-                multiple
-                data={possibles}
-                onSelect={this.addSelection.bind(this)}
-                onUnselect={this.removeSelection.bind(this)}
-                defaultValue={this.state.selection}
-                options={{
-                    placeholder: "Tags"
-                }}
+            <Select
+                name="tags"
+                value={this.state.selection}
+                options={possibles}
+                onChange={this.changeSelection.bind(this)}
+                multi={true}
             />
         );
     }
 }
-
-// CONTEXT TYPES
-TagsInput.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
 
 export default TagsInput;

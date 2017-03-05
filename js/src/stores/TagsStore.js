@@ -1,7 +1,7 @@
 import alt from "../alt";
 import TagsActions from "../actions/TagsActions";
 import ToolbarActions from "../actions/ToolbarActions";
-import Store from "./Store";
+import $ from "jquery";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -11,9 +11,8 @@ const dialog = remote.dialog;
 const ipcRenderer = electron.ipcRenderer;
 
 // TAGS STORE
-class TagsStore extends Store {
+class TagsStore {
     constructor() {
-        super();
         this.bindActions(TagsActions);
         this.tags = [];
         this.selection = [];
@@ -27,7 +26,8 @@ class TagsStore extends Store {
     // GET TAGS FAIL
     getTagsFail(err) {
         if (err.response && err.response.status === 403) {
-            super.goBackToLogin();
+			$(window).trigger("goBackToLogin");
+			return;
         }
 
         dialog.showErrorBox("Could not load tags!", "Please try again.");
@@ -51,7 +51,8 @@ class TagsStore extends Store {
     // DELETE TAGS FAIL
     deleteTagsFail(err) {
         if (err.response && err.response.status === 403) {
-            super.goBackToLogin();
+            $(window).trigger("goBackToLogin");
+			return;
         }
 
         dialog.showErrorBox("Could not delete tag(s)!", "Please try again.");
@@ -66,7 +67,8 @@ class TagsStore extends Store {
     // ADD TAG FAIL
     addTagFail(err) {
         if (err.response && err.response.status === 403) {
-            super.goBackToLogin();
+            $(window).trigger("goBackToLogin");
+			return
         }
 
         dialog.showErrorBox(

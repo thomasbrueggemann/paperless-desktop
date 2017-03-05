@@ -64,35 +64,25 @@ class Login extends React.Component {
             host = "http://" + host;
         }
 
+        // all is fine
+        localStorage.setItem("settings.auth.username", this.state.username);
+        localStorage.setItem("settings.auth.password", this.state.password);
+        localStorage.setItem("settings.host", host);
+
+        ipcRenderer.send("login", {
+            username: localStorage.getItem("settings.auth.username"),
+            password: localStorage.getItem("settings.auth.password")
+        });
+
         // check if the user information works
         var url = this.state.host + "/api/correspondents/";
 
         axios({
             method: "get",
-            url: url,
-            auth: {
-                username: this.state.username,
-                password: this.state.password
-            }
+            url: url
         })
             // the request worked out, we can save the settings
             .then(() => {
-                // all is fine
-                localStorage.setItem(
-                    "settings.auth.username",
-                    this.state.username
-                );
-                localStorage.setItem(
-                    "settings.auth.password",
-                    this.state.password
-                );
-                localStorage.setItem("settings.host", host);
-
-                ipcRenderer.send("login", {
-                    username: localStorage.getItem("settings.auth.username"),
-                    password: localStorage.getItem("settings.auth.password")
-                });
-
                 // move the router to the homepage
                 this.goHome();
             })

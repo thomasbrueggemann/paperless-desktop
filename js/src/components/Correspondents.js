@@ -18,7 +18,6 @@ class Correspondents extends PaperlessComponent {
     constructor(props) {
         super(props);
         this.state = CorrespondentsStore.getState();
-        CorrespondentsStore.setRouter(this.context.router);
         this.onChange = this.onChange.bind(this);
     }
 

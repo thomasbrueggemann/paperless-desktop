@@ -1,7 +1,6 @@
 import alt from "../alt";
-import $ from "jquery";
 import DocumentActions from "../actions/DocumentActions";
-import Store from "./Store";
+import $ from "jquery";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -10,9 +9,8 @@ const remote = electron.remote;
 const dialog = remote.dialog;
 
 // DOCUMENT STORE
-class DocumentStore extends Store {
+class DocumentStore {
     constructor() {
-        super();
         this.bindActions(DocumentActions);
         this.doc = null;
     }
@@ -25,7 +23,8 @@ class DocumentStore extends Store {
     // GET DOCUMENT FAIL
     getDocumentFail(err) {
         if (err.response && err.response.status === 403) {
-            super.goBackToLogin();
+            $(window).trigger("goBackToLogin");
+            return;
         }
 
         console.error(err);
@@ -46,7 +45,8 @@ class DocumentStore extends Store {
     // UPDATE DOCUMENT FAIL
     updateDocumentFail(err) {
         if (err.response && err.response.status === 403) {
-            super.goBackToLogin();
+            $(window).trigger("goBackToLogin");
+            return;
         }
 
         console.error(err);

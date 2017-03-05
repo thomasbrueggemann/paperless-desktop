@@ -11,9 +11,10 @@ import Correspondents from "./components/Correspondents";
 import CorrespondentsAdd from "./components/CorrespondentsAdd";
 import TagsAdd from "./components/TagsAdd";
 import Settings from "./components/Settings";
+import Master from "./components/Master.js";
 
 export default (
-    <Route path="/">
+    <Route path="/" component={Master}>
         <IndexRoute component={Login} />
         <Route path="/" component={App}>
             <Route path="/documents" component={Documents} />

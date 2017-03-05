@@ -19,7 +19,6 @@ class Documents extends React.Component {
 
     // COMPONENT DID MOUNT
     componentDidMount() {
-        DocumentsStore.setRouter(this.context.router);
         $(window).trigger("tabs.replace", {
             idx: 0,
             tab: {

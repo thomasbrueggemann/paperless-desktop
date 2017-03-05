@@ -21,7 +21,6 @@ class DocumentDetail extends PaperlessComponent {
     constructor(props) {
         super(props);
         this.state = DocumentStore.getState();
-        DocumentStore.setRouter(this.context.router);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -151,10 +150,5 @@ class DocumentDetail extends PaperlessComponent {
         );
     }
 }
-
-// CONTEXT TYPES
-DocumentDetail.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
 
 export default DocumentDetail;

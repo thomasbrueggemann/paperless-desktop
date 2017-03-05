@@ -8,7 +8,6 @@ class SidebarTags extends React.Component {
     constructor(props) {
         super(props);
         this.state = TagsStore.getState();
-        TagsStore.setRouter(this.context.router);
         this.onChange = this.onChange.bind(this);
     }
 

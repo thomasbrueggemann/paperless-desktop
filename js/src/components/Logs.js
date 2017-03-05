@@ -9,7 +9,6 @@ class Logs extends React.Component {
     constructor(props) {
         super(props);
         this.state = LogsStore.getState();
-        LogsStore.setRouter(this.context.router);
         this.onChange = this.onChange.bind(this);
     }
 

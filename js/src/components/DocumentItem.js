@@ -44,9 +44,8 @@ class DocumentItem extends PaperlessComponent {
                 <div className="document-item-title">
                     {this.props.document.title.trunc(100)}
                 </div>
-                <small
-                    title={moment(this.props.document.created).format("LLLL")}>
-                    {moment(this.props.document.created).fromNow()}
+                <small>
+                    {moment(this.props.document.created).format("LLLL")}
                 </small>
             </Link>
         );

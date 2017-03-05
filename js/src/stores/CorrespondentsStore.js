@@ -1,7 +1,7 @@
 import alt from "../alt";
 import CorrespondentsActions from "../actions/CorrespondentsActions";
 import ToolbarActions from "../actions/ToolbarActions";
-import Store from "./Store";
+import $ from "jquery";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -11,9 +11,8 @@ const dialog = remote.dialog;
 const ipcRenderer = electron.ipcRenderer;
 
 // CORRESPONDENTS STORE
-class CorrespondentsStore extends Store {
+class CorrespondentsStore {
     constructor() {
-        super();
         this.bindActions(CorrespondentsActions);
         this.correspondents = [];
         this.selection = [];
@@ -26,7 +25,12 @@ class CorrespondentsStore extends Store {
 
     // GET CORRESPONDENTS FAIL
     getCorrespondentsFail(err) {
-        console.error(err);
+
+		if (err.response && err.response.status === 403) {
+            $(window).trigger("goBackToLogin");
+			return;
+        }
+
         dialog.showErrorBox(
             "Could not load correspondents!",
             "Please try again."
@@ -52,7 +56,13 @@ class CorrespondentsStore extends Store {
 
     // DELETE CORRESPONDENTS FAIL
     deleteCorrespondentsFail(err) {
-        console.error(err);
+
+		if (err.response && err.response.status === 403) {
+			$(window).trigger("goBackToLogin");
+			return;
+		}
+
+		console.error(err);
         dialog.showErrorBox(
             "Could not delete correspondent(s)!",
             "Please try again."
@@ -67,6 +77,12 @@ class CorrespondentsStore extends Store {
 
     // ADD CORRESPONDENTS FAIL
     addCorrespondentFail(err) {
+
+		if (err.response && err.response.status === 403) {
+            $(window).trigger("goBackToLogin");
+			return;
+        }
+
         console.error(err);
         dialog.showErrorBox(
             "Could not add the correspondent!",

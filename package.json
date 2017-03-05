@@ -31,6 +31,7 @@
     "react-file-drop": "^0.1.8",
     "react-pure-render": "^1.0.2",
     "react-router": "^3.0.2",
+    "react-select": "^1.0.0-rc.3",
     "react-select2-wrapper": "^1.0.4-beta2",
     "simple-react-pdf": "^1.0.6",
     "slug": "^0.9.1",

@@ -1,6 +1,6 @@
 import alt from "../alt";
 import LogsActions from "../actions/LogsActions";
-import Store from "./Store";
+import $ from "jquery";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -9,9 +9,8 @@ const remote = electron.remote;
 const dialog = remote.dialog;
 
 // LOGS STORE
-class LogsStore extends Store {
+class LogsStore {
     constructor() {
-        super();
         this.bindActions(LogsActions);
         this.logs = [];
     }
@@ -23,8 +22,9 @@ class LogsStore extends Store {
 
     // GET LOGS FAIL
     getLogsFail(err) {
-        if (err.response && err.response.status === 403) {
-            super.goBackToLogin();
+		if (err.response && err.response.status === 403) {
+            $(window).trigger("goBackToLogin");
+			return;
         }
 
         dialog.showErrorBox("Could not load logs!", "Please try again.");
