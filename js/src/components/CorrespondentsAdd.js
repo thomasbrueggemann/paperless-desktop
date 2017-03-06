@@ -13,11 +13,17 @@ class CorrespondentsAdd extends PaperlessComponent {
     constructor(props) {
         super(props);
 
+		this.nameInput = null;
         this.state = {
             name: "",
             slug: ""
         };
     }
+
+	// COMPONENT DID MOUNT
+	componentDidMount() {
+		this.nameInput.focus();
+	}
 
     // CLOSE MODAL
     closeModal() {
@@ -56,6 +62,7 @@ class CorrespondentsAdd extends PaperlessComponent {
                         placeholder="Name"
                         value={this.state.name}
                         onChange={this.handleChange.bind(this)}
+						ref={(input) => { this.nameInput = input; }}
                     />
                 </div>
 

@@ -13,6 +13,8 @@ class TagsAdd extends PaperlessComponent {
     constructor(props) {
         super(props);
 
+		this.nameInput = null;
+
         this.state = {
             name: "",
             slug: "",
@@ -21,6 +23,11 @@ class TagsAdd extends PaperlessComponent {
             matching_algorithm: 1
         };
     }
+
+	// COMPONENT DID MOUNT
+	componentDidMount() {
+		this.nameInput.focus();
+	}
 
     // CLOSE MODAL
     closeModal() {
@@ -61,6 +68,7 @@ class TagsAdd extends PaperlessComponent {
                         placeholder="Name"
                         value={this.state.name}
                         onChange={this.handleChange.bind(this)}
+						ref={(input) => { this.nameInput = input; }}
                     />
                 </div>
 
