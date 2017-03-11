@@ -42,14 +42,14 @@ class Settings extends React.Component {
 
     // SAVE SIGN IN
     saveSignIn(e) {
-        e.preventDefault();
+        e.preventDefault() ;
 
         // check if the user information works
         var url = this.state.host + "/api/correspondents/";
 
 		// set the localStorage to the input values
 		ipcRenderer.send("login", {
-            username: this.state.username,
+            username: this.state.username,^
             password: this.state.password
         });
 
@@ -107,14 +107,14 @@ class Settings extends React.Component {
 
                     <form className="settings-form">
                         <div className="form-group">
-                            <label>Hostname / IP</label>
+                            <label>URL to paperless</label>
                             <input
                                 type="text"
                                 name="host"
                                 value={this.state.host}
                                 onChange={this.handleChange.bind(this)}
                                 className="form-control"
-                                placeholder="Host / IP to reach paperless, eg. http://localhost:1234"
+                                placeholder="For example: http://localhost:1234"
                             />
                         </div>
                         <div className="form-group">

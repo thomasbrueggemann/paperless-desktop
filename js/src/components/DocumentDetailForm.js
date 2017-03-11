@@ -73,7 +73,7 @@ class DocumentDetailForm extends PaperlessComponent {
                 </div>
 
                 <div className="form-group">
-                    <label>Created</label>
+                    <label>Date</label>
                     <input
                         type="datetime-local"
                         className="form-control"

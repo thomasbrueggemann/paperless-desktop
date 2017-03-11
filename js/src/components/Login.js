@@ -113,13 +113,13 @@ class Login extends React.Component {
                 </center>
                 <form className="login-form">
                     <div className="form-group">
-                        <label>Hostname / IP</label>
+                        <label>URL to paperless</label>
                         <input
                             type="text"
                             name="host"
                             onChange={this.handleChange.bind(this)}
                             className="form-control"
-                            placeholder="Host / IP to reach paperless, eg. http://localhost:1234"
+                            placeholder="For example: http://localhost:1234"
                         />
                     </div>
                     <div className="form-group">
@@ -146,7 +146,8 @@ class Login extends React.Component {
                         <button
                             type="button"
                             onClick={this.handleLogin.bind(this)}
-                            className="btn btn-form btn-primary">
+                            className="btn btn-form btn-primary"
+                        >
                             Log in
                         </button>
                     </div>
