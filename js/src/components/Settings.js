@@ -14,11 +14,11 @@ class Settings extends React.Component {
     constructor(props) {
         super(props);
 
-		this.old = {
-			username: localStorage.getItem("settings.auth.username"),
-			password: localStorage.getItem("settings.auth.password"),
-			host: localStorage.getItem("settings.host")
-		};
+        this.old = {
+            username: localStorage.getItem("settings.auth.username"),
+            password: localStorage.getItem("settings.auth.password"),
+            host: localStorage.getItem("settings.host")
+        };
 
         this.state = {
             username: localStorage.getItem("settings.auth.username"),
@@ -42,14 +42,14 @@ class Settings extends React.Component {
 
     // SAVE SIGN IN
     saveSignIn(e) {
-        e.preventDefault() ;
+        e.preventDefault();
 
         // check if the user information works
         var url = this.state.host + "/api/correspondents/";
 
-		// set the localStorage to the input values
-		ipcRenderer.send("login", {
-            username: this.state.username,^
+        // set the localStorage to the input values
+        ipcRenderer.send("login", {
+            username: this.state.username,
             password: this.state.password
         });
 
@@ -59,35 +59,34 @@ class Settings extends React.Component {
         })
             // the request worked out, we can save the settings
             .then(() => {
-				localStorage.setItem(
-					"settings.auth.username",
-					this.state.username
-				);
-				localStorage.setItem(
-					"settings.auth.password",
-					this.state.password
-				);
-				localStorage.setItem("settings.host", this.state.host);
+                localStorage.setItem(
+                    "settings.auth.username",
+                    this.state.username
+                );
+                localStorage.setItem(
+                    "settings.auth.password",
+                    this.state.password
+                );
+                localStorage.setItem("settings.host", this.state.host);
 
-				this.old = {
-					username: this.state.username,
-					password: this.state.password,
-					host: this.state.host
-				};
+                this.old = {
+                    username: this.state.username,
+                    password: this.state.password,
+                    host: this.state.host
+                };
             })
             // the request did not work out, show an error
             .catch(() => {
-
-				// reset information
-				ipcRenderer.send("login", {
-		            username: this.old.username,
-		            password: this.old.password
-		        });
-				this.setState({
-					username: this.old.username,
-					password: this.old.password,
-					host: this.old.host
-				});
+                // reset information
+                ipcRenderer.send("login", {
+                    username: this.old.username,
+                    password: this.old.password
+                });
+                this.setState({
+                    username: this.old.username,
+                    password: this.old.password,
+                    host: this.old.host
+                });
 
                 dialog.showErrorBox(
                     "Ohoh!",
@@ -141,7 +140,8 @@ class Settings extends React.Component {
                         </div>
                         <button
                             className="btn btn-large btn-primary"
-                            onClick={this.saveSignIn.bind(this)}>
+                            onClick={this.saveSignIn.bind(this)}
+                        >
                             Update
                         </button>
                     </form>
