@@ -25,10 +25,9 @@ class CorrespondentsStore {
 
     // GET CORRESPONDENTS FAIL
     getCorrespondentsFail(err) {
-
-		if (err.response && err.response.status === 403) {
+        if (err.response && err.response.status === 403) {
             $(window).trigger("goBackToLogin");
-			return;
+            return;
         }
 
         dialog.showErrorBox(
@@ -56,13 +55,12 @@ class CorrespondentsStore {
 
     // DELETE CORRESPONDENTS FAIL
     deleteCorrespondentsFail(err) {
+        if (err.response && err.response.status === 403) {
+            $(window).trigger("goBackToLogin");
+            return;
+        }
 
-		if (err.response && err.response.status === 403) {
-			$(window).trigger("goBackToLogin");
-			return;
-		}
-
-		console.error(err);
+        console.error(err);
         dialog.showErrorBox(
             "Could not delete correspondent(s)!",
             "Please try again."
@@ -77,16 +75,40 @@ class CorrespondentsStore {
 
     // ADD CORRESPONDENTS FAIL
     addCorrespondentFail(err) {
-
-		if (err.response && err.response.status === 403) {
+        if (err.response && err.response.status === 403) {
             $(window).trigger("goBackToLogin");
-			return;
+            return;
         }
 
         console.error(err);
         dialog.showErrorBox(
             "Could not add the correspondent!",
             "Data might be missing or the correspondent may already exist."
+        );
+    }
+
+    // EDIT CORRESPONDENT SUCCESS
+    editCorrespondentSuccess(result) {
+        if (!result.data) return;
+
+        // replace the correspondent with new edited one
+        this.correspondents.results = this.correspondents.results.map(c => {
+            if (c.id === result.data.id) return result.data;
+            else return c;
+        });
+    }
+
+    // EDIT CORRESPONDENT FAIL
+    editCorrespondentFail(err) {
+        if (err.response && err.response.status === 403) {
+            $(window).trigger("goBackToLogin");
+            return;
+        }
+
+        console.error(err);
+        dialog.showErrorBox(
+            "Could not edit the correspondent!",
+            "Data might be missing or the correspondent does not exist anymore."
         );
     }
 }

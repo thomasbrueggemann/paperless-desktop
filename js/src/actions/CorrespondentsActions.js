@@ -11,7 +11,9 @@ class CorrespondentsActions {
             "deleteCorrespondentsSuccess",
             "deleteCorrespondentsFail",
             "addCorrespondentSuccess",
-            "addCorrespondentFail"
+            "addCorrespondentFail",
+            "editCorrespondentSuccess",
+            "editCorrespondentFail"
         );
     }
 
@@ -77,7 +79,7 @@ class CorrespondentsActions {
         );
     }
 
-    // ADD CORRESPONDENTS
+    // ADD CORRESPONDENT
     addCorrespondent(data) {
         var url = localStorage.getItem("settings.host") +
             "/api/correspondents/";
@@ -93,6 +95,26 @@ class CorrespondentsActions {
         })
             .then(this.actions.addCorrespondentSuccess)
             .catch(this.actions.addCorrespondentFail);
+    }
+
+    // EDIT CORRESPONDENT
+    editCorrespondent(data) {
+        var url = localStorage.getItem("settings.host") +
+            "/api/correspondents/" +
+            data.id +
+            "/";
+
+        axios({
+            method: "put",
+            url: url,
+            data: data,
+            auth: {
+                username: localStorage.getItem("settings.auth.username"),
+                password: localStorage.getItem("settings.auth.password")
+            }
+        })
+            .then(this.actions.editCorrespondentSuccess)
+            .catch(this.actions.editCorrespondentFail);
     }
 }
 

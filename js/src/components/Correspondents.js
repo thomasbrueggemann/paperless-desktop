@@ -146,6 +146,11 @@ class Correspondents extends PaperlessComponent {
         }
     }
 
+    // UPDATE CORRESPONDENT
+    updateCorrespondent(data) {
+        CorrespondentsActions.editCorrespondent(data);
+    }
+
     // RENDER
     render() {
         if (
@@ -173,6 +178,9 @@ class Correspondents extends PaperlessComponent {
                                     key={c.id}
                                     correspondent={c}
                                     changeSelection={this.changeSelection.bind(
+                                        this
+                                    )}
+                                    updateCorrespondent={this.updateCorrespondent.bind(
                                         this
                                     )}
                                 />
