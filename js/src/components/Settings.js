@@ -40,6 +40,11 @@ class Settings extends React.Component {
         this.setState(s);
     }
 
+    // OPEN DEV TOOLS
+    openDevTools() {
+        ipcRenderer.send("openDevTools");
+    }
+
     // SAVE SIGN IN
     saveSignIn(e) {
         e.preventDefault();
@@ -145,6 +150,16 @@ class Settings extends React.Component {
                             Update
                         </button>
                     </form>
+
+                    <h3>Developer Settings</h3>
+                    <hr />
+
+                    <button
+                        className="btn btn-large btn-default"
+                        onClick={this.openDevTools.bind(this)}
+                    >
+                        <span className="icon icon-tools" /> Open DevTools
+                    </button>
                 </div>
             </div>
         );

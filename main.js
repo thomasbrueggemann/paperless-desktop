@@ -175,6 +175,11 @@ ipcMain.on("setSize", (e, args) => {
     mainWindow.center();
 });
 
+// listen to open the dev tools
+ipcMain.on("openDevTools", (e, args) => {
+    mainWindow.webContents.openDevTools();
+});
+
 /*
  __  __      _       __      ___         _
 |  \/  |__ _(_)_ _   \ \    / (_)_ _  __| |_____ __ __
@@ -213,24 +218,23 @@ function createWindow() {
     );
 
     // ON BEFORE SEND HEADERS
-    session.defaultSession.webRequest.onBeforeSendHeaders((
-        details,
-        callback
-    ) => {
-        // check if the auth information is present
-        if (auth !== null) {
-            details.requestHeaders["Authorization"] = "Basic " +
-                btoa(auth.username + ":" + auth.password);
+    session.defaultSession.webRequest.onBeforeSendHeaders(
+        (details, callback) => {
+            // check if the auth information is present
+            if (auth !== null) {
+                details.requestHeaders["Authorization"] = "Basic " +
+                    btoa(auth.username + ":" + auth.password);
+            }
+
+            // drop all cookie information, we authenticate just via HTTP Basic
+            delete details.requestHeaders["Cookie"];
+
+            callback({ cancel: false, requestHeaders: details.requestHeaders });
         }
-
-        // drop all cookie information, we authenticate just via HTTP Basic
-        delete details.requestHeaders["Cookie"];
-
-        callback({ cancel: false, requestHeaders: details.requestHeaders });
-    });
+    );
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on("closed", () => {

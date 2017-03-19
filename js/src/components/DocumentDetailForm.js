@@ -3,6 +3,30 @@ import moment from "moment";
 import TagsInput from "./TagsInput";
 import PaperlessComponent from "./PaperlessComponent";
 import CorrespondentSelect from "./CorrespondentSelect";
+import chrono from "chrono-node";
+
+/*var germanDateRefiner = new chrono.Refiner();
+germanDateRefiner.refine = function(text, results, opt) {
+    console.log(results);
+
+    // improve german date parsing
+    results.forEach(function(result) {
+        // are there two dots in the date?
+        if (result.text.split(".").length - 1 === 2) {
+            // if so, check if day and month need to be flipped
+        }*/
+
+/*if (
+            !result.start.isCertain("meridiem") &&
+            result.start.get("hour") >= 1 &&
+            result.start.get("hour") < 4
+        ) {
+            result.start.assign("meridiem", 1);
+            result.start.assign("hour", result.start.get("hour") + 12);
+        }*/
+/*});
+    return results;
+};*/
 
 class DocumentDetailForm extends PaperlessComponent {
     // CONSTRUCTOR
@@ -30,6 +54,12 @@ class DocumentDetailForm extends PaperlessComponent {
             .utc(this.state.doc.created)
             .local()
             .format("YYYY-MM-DD[T]HH:mm");
+
+        /*var customChrono = new chrono.Chrono();
+        customChrono.refiners.push(guessPMRefiner);
+
+        var dates = customChrono.parseDate(this.state.doc.content);
+        console.log(dates);*/
 
         return (
             <form className="form-detail-info">
@@ -82,6 +112,11 @@ class DocumentDetailForm extends PaperlessComponent {
                         value={created}
                         onChange={this.handleDetailChange.bind(this)}
                     />
+
+                    {/*Dates found within the document:
+                    <ul>
+                        <li>abs</li>
+                    </ul>*/}
                 </div>
             </form>
         );
