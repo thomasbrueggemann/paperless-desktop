@@ -26,8 +26,8 @@ class TagsStore {
     // GET TAGS FAIL
     getTagsFail(err) {
         if (err.response && err.response.status === 403) {
-			$(window).trigger("goBackToLogin");
-			return;
+            $(window).trigger("goBackToLogin");
+            return;
         }
 
         dialog.showErrorBox("Could not load tags!", "Please try again.");
@@ -52,7 +52,7 @@ class TagsStore {
     deleteTagsFail(err) {
         if (err.response && err.response.status === 403) {
             $(window).trigger("goBackToLogin");
-			return;
+            return;
         }
 
         dialog.showErrorBox("Could not delete tag(s)!", "Please try again.");
@@ -68,12 +68,37 @@ class TagsStore {
     addTagFail(err) {
         if (err.response && err.response.status === 403) {
             $(window).trigger("goBackToLogin");
-			return
+            return;
         }
 
         dialog.showErrorBox(
             "Could not add the tag!",
             "Data might be missing or the tag may already exist."
+        );
+    }
+
+    // EDIT TAG SUCCESS
+    editTagSuccess(result) {
+        if (!result.data) return;
+
+        // replace the tag with new edited one
+        this.tags.results = this.tags.results.map(t => {
+            if (t.id === result.data.id) return result.data;
+            else return t;
+        });
+    }
+
+    // EDIT TAG FAIL
+    editTagFail(err) {
+        if (err.response && err.response.status === 403) {
+            $(window).trigger("goBackToLogin");
+            return;
+        }
+
+        console.error(err);
+        dialog.showErrorBox(
+            "Could not edit the tag!",
+            "Data might be missing or the tag does not exist anymore."
         );
     }
 }

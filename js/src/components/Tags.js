@@ -146,6 +146,11 @@ class Tags extends PaperlessComponent {
         }
     }
 
+    // UPDATE TAG
+    updateTag(data) {
+        TagsActions.editTag(data);
+    }
+
     // RENDER
     render() {
         if (!this.state.tags || !("results" in this.state.tags)) return null;
@@ -172,6 +177,7 @@ class Tags extends PaperlessComponent {
                                     changeSelection={this.changeSelection.bind(
                                         this
                                     )}
+                                    updateTag={this.updateTag.bind(this)}
                                 />
                             );
                         })}

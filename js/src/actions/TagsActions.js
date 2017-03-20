@@ -4,90 +4,114 @@ import async from "async";
 
 // TAGS ACTIONS
 class TagsActions {
-
     constructor() {
         this.generateActions(
             "getTagsSuccess",
             "getTagsFail",
-			"deleteTagsSuccess",
-			"deleteTagsFail",
-			"addTagSuccess",
-			"addTagFail"
+            "deleteTagsSuccess",
+            "deleteTagsFail",
+            "addTagSuccess",
+            "addTagFail",
+            "editTagSuccess",
+            "editTagFail"
         );
     }
 
     // GET TAGS
     getTags() {
-		var url = localStorage.getItem("settings.host") + "/api/tags/";
+        var url = localStorage.getItem("settings.host") + "/api/tags/";
 
-		axios({
-			"method": "get",
-			"url": url,
-			"auth": {
-				"username": localStorage.getItem("settings.auth.username"),
-    			"password": localStorage.getItem("settings.auth.password")
-			}
-		})
-		.then(this.actions.getTagsSuccess)
-		.catch(this.actions.getTagsFail);
+        axios({
+            method: "get",
+            url: url,
+            auth: {
+                username: localStorage.getItem("settings.auth.username"),
+                password: localStorage.getItem("settings.auth.password")
+            }
+        })
+            .then(this.actions.getTagsSuccess)
+            .catch(this.actions.getTagsFail);
     }
 
-	// DELETE TAGS
-	deleteTags(ids) {
+    // DELETE TAGS
+    deleteTags(ids) {
+        var that = this;
 
-		var that = this;
+        // asyncroniously delete all document ids
+        async.every(
+            ids,
+            function(id, callback) {
+                var url = localStorage.getItem("settings.host") +
+                    "/api/tags/" +
+                    id;
 
-		// asyncroniously delete all document ids
-		async.every(ids, function(id, callback) {
+                // delete document
+                axios({
+                    method: "delete",
+                    url: url,
+                    auth: {
+                        username: localStorage.getItem(
+                            "settings.auth.username"
+                        ),
+                        password: localStorage.getItem("settings.auth.password")
+                    }
+                })
+                    .then(r => {
+                        return callback(null, r);
+                    })
+                    .catch(e => {
+                        return callback(e);
+                    });
+            },
+            function(err, result) {
+                if (err) {
+                    return that.actions.deleteTagsFail(err);
+                }
 
-			var url = localStorage.getItem("settings.host") + "/api/tags/" + id;
+                // if result is true then every file exists
+                return that.actions.deleteTagsSuccess(ids);
+            }
+        );
+    }
 
-			// delete document
-			axios({
-				"method": "delete",
-				"url": url,
-				"auth": {
-					"username": localStorage.getItem("settings.auth.username"),
-					"password": localStorage.getItem("settings.auth.password")
-				}
-			})
-			.then(r => {
-				return callback(null, r);
-			})
-			.catch(e => {
-				return callback(e);
-			});
+    // ADD TAG
+    addTag(data) {
+        console.log(data);
 
-		}, function(err, result) {
+        var url = localStorage.getItem("settings.host") + "/api/tags/";
 
-			if(err) {
-				return that.actions.deleteTagsFail(err);
-			}
+        axios({
+            method: "post",
+            url: url,
+            data: data,
+            auth: {
+                username: localStorage.getItem("settings.auth.username"),
+                password: localStorage.getItem("settings.auth.password")
+            }
+        })
+            .then(this.actions.addTagSuccess)
+            .catch(this.actions.addTagFail);
+    }
 
-		    // if result is true then every file exists
-			return that.actions.deleteTagsSuccess(ids);
-		});
-	}
+    // EDIT TAG
+    editTag(data) {
+        var url = localStorage.getItem("settings.host") +
+            "/api/tags/" +
+            data.id +
+            "/";
 
-	// ADD TAG
-	addTag(data) {
-
-		console.log(data);
-
-		var url = localStorage.getItem("settings.host") + "/api/tags/";
-
-		axios({
-			"method": "post",
-			"url": url,
-			"data": data,
-			"auth": {
-				"username": localStorage.getItem("settings.auth.username"),
-    			"password": localStorage.getItem("settings.auth.password")
-			}
-		})
-		.then(this.actions.addTagSuccess)
-		.catch(this.actions.addTagFail);
-	}
+        axios({
+            method: "put",
+            url: url,
+            data: data,
+            auth: {
+                username: localStorage.getItem("settings.auth.username"),
+                password: localStorage.getItem("settings.auth.password")
+            }
+        })
+            .then(this.actions.editTagSuccess)
+            .catch(this.actions.editTagFail);
+    }
 }
 
 export default alt.createActions(TagsActions);
