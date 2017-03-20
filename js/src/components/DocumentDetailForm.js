@@ -45,6 +45,8 @@ class DocumentDetailForm extends PaperlessComponent {
         this.setState({
             doc: doc
         });
+
+        this.props.changeDoc(doc);
     }
 
     // RENDER
@@ -98,7 +100,10 @@ class DocumentDetailForm extends PaperlessComponent {
                 <div className="form-group">
                     <label>Tags</label>
                     <div className="select-wrapper">
-                        <TagsInput tags={this.state.doc.tags} />
+                        <TagsInput
+                            tags={this.state.doc.tags}
+                            onChange={this.handleDetailChange.bind(this)}
+                        />
                     </div>
                 </div>
 

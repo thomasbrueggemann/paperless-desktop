@@ -15,7 +15,6 @@ class TagsStore {
     constructor() {
         this.bindActions(TagsActions);
         this.tags = [];
-        this.selection = [];
     }
 
     // GET TAGS SUCCESS
@@ -35,8 +34,6 @@ class TagsStore {
 
     // DELETE TAGS SUCCESS
     deleteTagsSuccess(result) {
-        this.selection = [];
-
         // filter out the deleted tags
         if (this.tags.results) {
             this.tags.results = this.tags.results.filter(t => {

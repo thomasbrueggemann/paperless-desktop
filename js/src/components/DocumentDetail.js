@@ -125,7 +125,16 @@ class DocumentDetail extends PaperlessComponent {
 
     // SAVE DOCUMENT
     saveDocument() {
+        console.log(this.state.doc);
         DocumentActions.updateDocument(this.state.doc);
+    }
+
+    // CHANGE DOC
+    changeDoc(doc) {
+        this.setState({
+            doc: doc
+        });
+        console.log("changeDoc", doc);
     }
 
     // RENDER
@@ -144,7 +153,10 @@ class DocumentDetail extends PaperlessComponent {
                     />
                 </div>
                 <div className="pane pane-one-third">
-                    <DocumentDetailForm doc={this.state.doc} />
+                    <DocumentDetailForm
+                        doc={this.state.doc}
+                        changeDoc={this.changeDoc.bind(this)}
+                    />
                 </div>
             </div>
         );

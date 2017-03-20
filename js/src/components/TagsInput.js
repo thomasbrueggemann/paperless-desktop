@@ -9,20 +9,23 @@ class TagsInput extends React.Component {
         super(props);
 
         this.state = TagsStore.getState();
-
-        if (this.props.tags) {
-            // extract the tags selection
-            this.state.selection = this.props.tags.map(t => {
-                var s = t.replace(/\/$/, "").split("/");
-                return parseInt(s[s.length - 1]);
-            });
-        }
-
         this.onChange = this.onChange.bind(this);
     }
 
     // COMPONENT DID MOUNT
     componentDidMount() {
+        if (this.props.tags) {
+            // extract the tags selection
+            this.setState({
+                selection: this.props.tags.map(t => {
+                    var s = t.replace(/\/$/, "").split("/");
+                    return parseInt(s[s.length - 1]);
+                })
+            });
+
+            console.log("set selection");
+        }
+
         TagsStore.listen(this.onChange);
         TagsActions.getTags();
     }
@@ -39,10 +42,26 @@ class TagsInput extends React.Component {
 
     // CHANGE SELECTION
     changeSelection(val) {
+        this.setState({
+            selection: val
+        });
 
-		this.setState({
-			selection: val
-		});
+        // prepare the paperless API value for the tags
+        var updateTags = val.map(v => {
+            return localStorage.getItem("settings.host") +
+                "/tags/" +
+                v.value +
+                "/";
+        });
+
+        console.log(updateTags);
+
+        this.props.onChange({
+            target: {
+                name: "tags",
+                value: updateTags
+            }
+        });
     }
 
     // RENDER
