@@ -3,6 +3,7 @@ import moment from "moment";
 import TagsInput from "./TagsInput";
 import PaperlessComponent from "./PaperlessComponent";
 import CorrespondentSelect from "./CorrespondentSelect";
+import DocumentDetailReminders from "./DocumentDetailReminders";
 
 class DocumentDetailForm extends PaperlessComponent {
     // CONSTRUCTOR
@@ -87,6 +88,11 @@ class DocumentDetailForm extends PaperlessComponent {
                         value={created}
                         onChange={this.handleDetailChange.bind(this)}
                     />
+                </div>
+
+                <div className="form-group">
+                    <label>Reminder</label>
+                    <DocumentDetailReminders doc={this.state.doc} />
                 </div>
             </form>
         );

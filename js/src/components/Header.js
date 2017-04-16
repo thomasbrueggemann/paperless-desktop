@@ -75,6 +75,9 @@ class Header extends React.Component {
         var settingsClass = "btn btn-default";
         if (this.state.active === "settings") settingsClass += " active";
 
+        var remindersClass = "btn btn-default";
+        if (this.state.active === "reminders") remindersClass += " active";
+
         var searchBar = null;
         if (this.state.route === "/documents") {
             searchBar = (
@@ -98,17 +101,26 @@ class Header extends React.Component {
                         <Link
                             className={documentsClass}
                             title="Documents"
-                            to={"/documents"}>
+                            to={"/documents"}
+                        >
                             <span className="icon icon-newspaper" />
                         </Link>
                         <Link
                             className={correspondentsClass}
                             title="Correspondents"
-                            to={"/correspondents"}>
+                            to={"/correspondents"}
+                        >
                             <span className="icon icon-users" />
                         </Link>
                         <Link className={tagsClass} title="Tags" to={"/tags"}>
                             <span className="icon icon-tag" />
+                        </Link>
+                        <Link
+                            className={remindersClass}
+                            title="Reminders"
+                            to={"/reminders"}
+                        >
+                            <span className="icon icon-bell" />
                         </Link>
                     </div>
 
@@ -116,7 +128,8 @@ class Header extends React.Component {
                         <Link
                             className={settingsClass}
                             title="Settings"
-                            to={"/settings"}>
+                            to={"/settings"}
+                        >
                             <span className="icon icon-cog" />
                         </Link>
                         <Link className={logsClass} title="Logs" to={"/logs"}>

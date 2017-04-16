@@ -65,6 +65,23 @@ class DocumentDetail extends PaperlessComponent {
 
         // toolbar: delete document
         ToolbarActions.addItem(
+            "add-reminder",
+            "bell",
+            "Add reminder",
+            "default",
+            "right",
+            () => {
+                // add correspondent
+                ipcRenderer.send("modal", {
+                    route: "/modal/reminders/add",
+                    width: 450,
+                    height: 290
+                });
+            }
+        );
+
+        // toolbar: delete document
+        ToolbarActions.addItem(
             "delete-document",
             "trash",
             "Delete document",
