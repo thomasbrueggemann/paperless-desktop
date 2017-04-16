@@ -112,6 +112,16 @@ class DocumentDetail extends PaperlessComponent {
         }
     }
 
+    // SHOULD COMPONENT UPDATE
+    shouldComponentUpdate(nextProps, nextState) {
+        try {
+            return nextState.doc.id !== this.state.doc.id ||
+                nextProps.params.id !== this.props.params.id;
+        } catch (e) {
+            return true;
+        }
+    }
+
     // ON CHANGE
     onChange(state) {
         // add new tab
