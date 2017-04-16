@@ -35,10 +35,11 @@
     "react-select": "^1.0.0-rc.3",
     "react-select2-wrapper": "^1.0.4-beta2",
     "riek": "^1.0.7",
-    "simple-react-pdf": "^1.0.6",
+    "simple-react-pdf2": "^2.0.1",
     "slug": "^0.9.1",
     "swig": "^1.4.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "webpack": "^2.4.1"
   },
   "devDependencies": {
     "electron": "^1.4.15",

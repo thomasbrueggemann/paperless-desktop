@@ -23,7 +23,7 @@ var dependencies = [
 	"axios",
 	"jquery",
 	"moment",
-	"simple-react-pdf",
+	"simple-react-pdf2",
 	"react-select2-wrapper",
 	"react-file-drop"
 ];

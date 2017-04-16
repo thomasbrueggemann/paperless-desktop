@@ -3,7 +3,7 @@ import DocumentActions from "../actions/DocumentActions";
 import DocumentsActions from "../actions/DocumentsActions";
 import DocumentStore from "../stores/DocumentStore";
 import Sidebar from "./Sidebar";
-import spdf from "simple-react-pdf";
+import spdf from "simple-react-pdf2";
 import PaperlessComponent from "./PaperlessComponent";
 import DocumentDetailForm from "./DocumentDetailForm";
 import ToolbarActions from "../actions/ToolbarActions";
@@ -20,7 +20,7 @@ class DocumentDetail extends PaperlessComponent {
     // CONSTRUCTOR
     constructor(props) {
         super(props);
-        this.state = DocumentStore.getState();
+        this.state = {};
         this.onChange = this.onChange.bind(this);
     }
 
@@ -134,7 +134,6 @@ class DocumentDetail extends PaperlessComponent {
         this.setState({
             doc: doc
         });
-        console.log("changeDoc", doc);
     }
 
     // RENDER
