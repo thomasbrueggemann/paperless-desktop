@@ -25,8 +25,19 @@ class DocumentsStore {
 		this.isLoading = state;
 	}
 
+	// RESET DOCUMENTS
+	resetDocuments() {
+		this.page = 0;
+		this.documents = [];
+	}
+
     // GET DOCUMENTS SUCCESS
     getDocumentsSuccess(result) {
+
+		// check if a reset is necessary
+		if(this.correspondent !== result.correspondent || this.tag !== result.tag) {
+			this.resetDocuments();
+		}
 
 		Array.prototype.push.apply(this.documents, result.data.results);
 		this.page = this.page + 1;

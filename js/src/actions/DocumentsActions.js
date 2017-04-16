@@ -6,13 +6,13 @@ import async from "async";
 class DocumentsActions {
 
     constructor() {
-
         this.generateActions(
             "getDocumentsSuccess",
             "getDocumentsFail",
 			"deleteDocumentsSuccess",
 			"deleteDocumentsFail",
-			"setLoading"
+			"setLoading",
+			"resetDocuments"
         );
     }
 
@@ -20,7 +20,6 @@ class DocumentsActions {
     getDocuments(correspondent, tag, page = 1) {
 
 		this.actions.setLoading(true);
-		console.log(true);
 
 		var toQueryString = function(obj) {
 		    var parts = [];
@@ -72,6 +71,7 @@ class DocumentsActions {
 	searchDocuments(query) {
 
 		this.actions.setLoading(true);
+		this.actions.resetDocuments();
 
 		var url = localStorage.getItem("settings.host") + "/api/documents/?search=" + query;
 

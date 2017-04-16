@@ -93,7 +93,6 @@ class Documents extends React.Component {
 
     // LOAD MORE DOCUMENTS
     loadMoreDocuments() {
-        console.log("loadMore");
         DocumentsActions.getDocuments(
             this.state.correspondent,
             this.state.tag,
@@ -104,8 +103,6 @@ class Documents extends React.Component {
     // RENDER
     render() {
         if (!this.state.documents) return null;
-
-        console.log(this.state.isLoading);
 
         return (
             <div className="pane-group">
@@ -125,7 +122,6 @@ class Documents extends React.Component {
                               <div className="load-more">Loading...</div>
                           </Waypoint>
                         : null}
-
                 </div>
             </div>
         );
