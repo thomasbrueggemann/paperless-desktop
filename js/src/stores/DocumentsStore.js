@@ -15,17 +15,32 @@ class DocumentsStore {
         this.documents = [];
         this.correspondent = null;
         this.tag = null;
+		this.isLoading = true;
+		this.page = 0;
+		this.next = null;
     }
+
+	// SET LOADING
+	setLoading(state) {
+		this.isLoading = state;
+	}
 
     // GET DOCUMENTS SUCCESS
     getDocumentsSuccess(result) {
-        this.documents = result.data;
+
+		Array.prototype.push.apply(this.documents, result.data.results);
+		this.page = this.page + 1;
         this.correspondent = result.correspondent;
         this.tag = result.tag;
+		this.isLoading = false;
+		this.next = result.data.next;
     }
 
     // GET DOCUMENTS FAIL
     getDocumentsFail(err) {
+
+		this.isLoading = false;
+
         if (err.response && err.response.status === 403) {
             $(window).trigger("goBackToLogin");
 			return;

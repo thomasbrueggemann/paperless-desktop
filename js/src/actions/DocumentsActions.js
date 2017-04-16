@@ -11,12 +11,16 @@ class DocumentsActions {
             "getDocumentsSuccess",
             "getDocumentsFail",
 			"deleteDocumentsSuccess",
-			"deleteDocumentsFail"
+			"deleteDocumentsFail",
+			"setLoading"
         );
     }
 
     // GET DOCS
     getDocuments(correspondent, tag, page = 1) {
+
+		this.actions.setLoading(true);
+		console.log(true);
 
 		var toQueryString = function(obj) {
 		    var parts = [];
@@ -66,6 +70,8 @@ class DocumentsActions {
 
 	// SEARCH DOCUMENTS
 	searchDocuments(query) {
+
+		this.actions.setLoading(true);
 
 		var url = localStorage.getItem("settings.host") + "/api/documents/?search=" + query;
 

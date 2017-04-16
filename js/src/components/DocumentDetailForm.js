@@ -87,11 +87,6 @@ class DocumentDetailForm extends PaperlessComponent {
                         value={created}
                         onChange={this.handleDetailChange.bind(this)}
                     />
-
-                    {/*Dates found within the document:
-                    <ul>
-                        <li>abs</li>
-                    </ul>*/}
                 </div>
             </form>
         );

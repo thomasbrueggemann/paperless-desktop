@@ -6,6 +6,7 @@ import DocumentItem from "./DocumentItem";
 import shouldPureComponentUpdate from "react-pure-render/function";
 import $ from "jquery";
 import ToolbarActions from "../actions/ToolbarActions";
+import Waypoint from "react-waypoint";
 
 class Documents extends React.Component {
     constructor(props) {
@@ -90,10 +91,21 @@ class Documents extends React.Component {
         DocumentsActions.getDocuments(correspondent, this.state.tag);
     }
 
+    // LOAD MORE DOCUMENTS
+    loadMoreDocuments() {
+        console.log("loadMore");
+        DocumentsActions.getDocuments(
+            this.state.correspondent,
+            this.state.tag,
+            this.state.page + 1
+        );
+    }
+
     // RENDER
     render() {
-        if (!this.state.documents || !("results" in this.state.documents))
-            return null;
+        if (!this.state.documents) return null;
+
+        console.log(this.state.isLoading);
 
         return (
             <div className="pane-group">
@@ -104,9 +116,16 @@ class Documents extends React.Component {
                     )}
                 />
                 <div className="pane">
-                    {this.state.documents.results.map(d => {
+                    {this.state.documents.map(d => {
                         return <DocumentItem document={d} key={d.id} />;
                     })}
+
+                    {this.state.isLoading === false && this.state.next
+                        ? <Waypoint onEnter={this.loadMoreDocuments.bind(this)}>
+                              <div className="load-more">Loading...</div>
+                          </Waypoint>
+                        : null}
+
                 </div>
             </div>
         );

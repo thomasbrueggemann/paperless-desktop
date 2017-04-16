@@ -146,3 +146,12 @@
 .inplace-edit {
 	width:100%;
 }
+
+.load-more {
+	float: left;
+	display: block;
+	width: 100%;
+	margin: 40px 0;
+	text-align: center;
+	color: lightgrey;
+}
