@@ -7,7 +7,7 @@ Desktop app that uses the [paperless](https://github.com/danielquinn/paperless) 
 
 ## Installation
 
-Needs a running [paperless](https://github.com/danielquinn/paperless) instance of at least v0.3.4
+Needs a running [paperless](https://github.com/danielquinn/paperless) instance of at least [v0.4.1](https://github.com/danielquinn/paperless/releases/tag/0.4.1)
 
 #### Pre-built executables
 
