@@ -155,3 +155,14 @@
 	text-align: center;
 	color: lightgrey;
 }
+
+.rbc-calendar {
+	padding:10px!important;
+	width:100%!important;
+	height: calc(100% - 55px)!important;
+}
+
+.no-reminders {
+	font-style: italic;
+	color:lightgrey;
+}

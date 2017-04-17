@@ -34,7 +34,7 @@ export default (
                 component={CorrespondentsAdd}
             />
             <Route path="/modal/tags/add" component={TagsAdd} />
-            <Route path="/modal/reminders/add" component={RemindersAdd} />
+            <Route path="/modal/reminders/add/:doc" component={RemindersAdd} />
         </Route>
     </Route>
 );

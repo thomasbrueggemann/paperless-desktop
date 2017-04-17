@@ -17,14 +17,14 @@ class RemindersStore {
 
     // GET REMINDERS SUCCESS
     getRemindersSuccess(result) {
-        this.reminders = result.data;
+        this.reminders = result;
     }
 
     // GET REMINDERS FAIL
     getRemindersFail(err) {
-		if (err.response && err.response.status === 403) {
+        if (err.response && err.response.status === 403) {
             $(window).trigger("goBackToLogin");
-			return;
+            return;
         }
 
         dialog.showErrorBox("Could not load reminders!", "Please try again.");

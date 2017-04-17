@@ -73,7 +73,7 @@ class DocumentDetail extends PaperlessComponent {
             () => {
                 // add correspondent
                 ipcRenderer.send("modal", {
-                    route: "/modal/reminders/add",
+                    route: "/modal/reminders/add/" + this.props.params.id,
                     width: 450,
                     height: 290
                 });
@@ -89,12 +89,13 @@ class DocumentDetail extends PaperlessComponent {
             "right",
             () => {
                 // ask user if he really wants to delete the document
-                var choice = dialog.showMessageBox(remote.getCurrentWindow(), {
-                    type: "question",
-                    buttons: ["Yes", "No"],
-                    title: "It'll be gone forever!",
-                    message: "Are you sure you want to delete this document?"
-                }) === 0;
+                var choice =
+                    dialog.showMessageBox(remote.getCurrentWindow(), {
+                        type: "question",
+                        buttons: ["Yes", "No"],
+                        title: "It'll be gone forever!",
+                        message: "Are you sure you want to delete this document?"
+                    }) === 0;
 
                 // yes, delete this thing!
                 if (choice === true) {
@@ -132,8 +133,10 @@ class DocumentDetail extends PaperlessComponent {
     // SHOULD COMPONENT UPDATE
     shouldComponentUpdate(nextProps, nextState) {
         try {
-            return nextState.doc.id !== this.state.doc.id ||
-                nextProps.params.id !== this.props.params.id;
+            return (
+                nextState.doc.id !== this.state.doc.id ||
+                nextProps.params.id !== this.props.params.id
+            );
         } catch (e) {
             return true;
         }

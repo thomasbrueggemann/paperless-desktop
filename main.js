@@ -222,8 +222,8 @@ function createWindow() {
         (details, callback) => {
             // check if the auth information is present
             if (auth !== null) {
-                details.requestHeaders["Authorization"] = "Basic " +
-                    btoa(auth.username + ":" + auth.password);
+                details.requestHeaders["Authorization"] =
+                    "Basic " + btoa(auth.username + ":" + auth.password);
             }
 
             // drop all cookie information, we authenticate just via HTTP Basic
@@ -234,7 +234,7 @@ function createWindow() {
     );
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on("closed", () => {

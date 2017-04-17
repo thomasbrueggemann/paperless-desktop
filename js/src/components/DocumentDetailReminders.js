@@ -5,7 +5,7 @@ class DocumentDetailReminders extends React.Component {
     render() {
         return (
             <div>
-                no reminders yet
+                <span className="no-reminders">no reminders yet</span>
             </div>
         );
     }
