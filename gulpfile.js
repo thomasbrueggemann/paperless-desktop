@@ -13,7 +13,7 @@ var browserify = require("browserify");
 var watchify = require("watchify");
 var uglify = require("gulp-uglify");
 
-var production = false;//process.env.NODE_ENV === "production";
+var production = false; //process.env.NODE_ENV === "production";
 
 var dependencies = [
 	"alt",
@@ -30,32 +30,26 @@ var dependencies = [
 
 /*
  |--------------------------------------------------------------------------
- | Combine all JS libraries into a single file for fewer HTTP requests.
- |--------------------------------------------------------------------------
- */
-/*gulp.task("vendor", function() {
-	return gulp.src([
-		])
-		.pipe(concat("vendor.js"))
-		.pipe(gulpif(production, uglify({
-			mangle: false
-		})))
-		.pipe(gulp.dest("public/js"));
-});*/
-
-/*
- |--------------------------------------------------------------------------
  | Compile third-party dependencies separately for faster performance.
  |--------------------------------------------------------------------------
  */
 gulp.task("browserify-vendor", function() {
-	return browserify()
+	return browserify({
+		debug: !production
+	})
 		.require(dependencies)
 		.bundle()
 		.pipe(source("vendor.bundle.js"))
-		.pipe(gulpif(production, streamify(uglify({
-			mangle: false
-		}))))
+		.pipe(
+			gulpif(
+				production,
+				streamify(
+					uglify({
+						mangle: false
+					})
+				)
+			)
+		)
 		.pipe(gulp.dest("js/build"));
 });
 
@@ -65,14 +59,24 @@ gulp.task("browserify-vendor", function() {
  |--------------------------------------------------------------------------
  */
 gulp.task("browserify", ["browserify-vendor"], function() {
-	return browserify("js/src/main.js")
+	return browserify({
+		entries: "js/src/main.js",
+		debug: !production
+	})
 		.external(dependencies)
 		.transform(babelify)
 		.bundle()
 		.pipe(source("bundle.js"))
-		.pipe(gulpif(production, streamify(uglify({
-			mangle: false
-		}))))
+		.pipe(
+			gulpif(
+				production,
+				streamify(
+					uglify({
+						mangle: false
+					})
+				)
+			)
+		)
 		.pipe(gulp.dest("js/build"));
 });
 
@@ -90,12 +94,18 @@ gulp.task("browserify-watch", ["browserify-vendor"], function() {
 
 	function rebundle() {
 		var start = Date.now();
-		return bundler.bundle()
+		return bundler
+			.bundle()
 			.on("error", function(err) {
 				gutil.log(gutil.colors.red(err.toString()));
 			})
 			.on("end", function() {
-				gutil.log(gutil.colors.green("Finished rebundling in", (Date.now() - start) + "ms."));
+				gutil.log(
+					gutil.colors.green(
+						"Finished rebundling in",
+						Date.now() - start + "ms."
+					)
+				);
 			})
 			.pipe(source("bundle.js"))
 			.pipe(gulp.dest("js/"));

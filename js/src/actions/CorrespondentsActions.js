@@ -4,118 +4,118 @@ import async from "async";
 
 // CORRESPONDENTS ACTIONS
 class CorrespondentsActions {
-    constructor() {
-        this.generateActions(
-            "getCorrespondentsSuccess",
-            "getCorrespondentsFail",
-            "deleteCorrespondentsSuccess",
-            "deleteCorrespondentsFail",
-            "addCorrespondentSuccess",
-            "addCorrespondentFail",
-            "editCorrespondentSuccess",
-            "editCorrespondentFail"
-        );
-    }
+	constructor() {
+		this.generateActions(
+			"getCorrespondentsSuccess",
+			"getCorrespondentsFail",
+			"deleteCorrespondentsSuccess",
+			"deleteCorrespondentsFail",
+			"addCorrespondentSuccess",
+			"addCorrespondentFail",
+			"editCorrespondentSuccess",
+			"editCorrespondentFail"
+		);
+	}
 
-    // GET CORRESPONDENTS
-    getCorrespondents() {
-        var url = localStorage.getItem("settings.host") +
-            "/api/correspondents/";
+	// GET CORRESPONDENTS
+	getCorrespondents() {
+		var url =
+			localStorage.getItem("settings.host") + "/api/correspondents/";
 
-        axios({
-            method: "get",
-            url: url,
-            auth: {
-                username: localStorage.getItem("settings.auth.username"),
-                password: localStorage.getItem("settings.auth.password")
-            }
-        })
-            .then(this.actions.getCorrespondentsSuccess)
-            .catch(this.actions.getCorrespondentsFail);
-    }
+		axios({
+			method: "get",
+			url: url,
+			auth: {
+				username: localStorage.getItem("settings.auth.username"),
+				password: localStorage.getItem("settings.auth.password")
+			}
+		})
+			.then(this.actions.getCorrespondentsSuccess)
+			.catch(this.actions.getCorrespondentsFail);
+	}
 
-    // DELETE CORRESPONDENTS
-    deleteCorrespondents(ids) {
-        var that = this;
+	// DELETE CORRESPONDENTS
+	deleteCorrespondents(ids) {
+		var that = this;
 
-        // asyncroniously delete all document ids
-        async.every(
-            ids,
-            function(id, callback) {
-                var url = localStorage.getItem("settings.host") +
-                    "/api/correspondents/" +
-                    id;
+		// asyncroniously delete all document ids
+		async.every(
+			ids,
+			function(id, callback) {
+				var url =
+					localStorage.getItem("settings.host") +
+					"/api/correspondents/" +
+					id;
 
-                // delete document
-                axios({
-                    method: "delete",
-                    url: url,
-                    auth: {
-                        username: localStorage.getItem(
-                            "settings.auth.username"
-                        ),
-                        password: localStorage.getItem("settings.auth.password")
-                    }
-                })
-                    .then(r => {
-                        console.log("r", r);
-                        return callback(null, r);
-                    })
-                    .catch(e => {
-                        console.log("e", e);
-                        return callback(e);
-                    });
-            },
-            function(err, result) {
-                console.log(err, result);
+				// delete document
+				axios({
+					method: "delete",
+					url: url,
+					auth: {
+						username: localStorage.getItem(
+							"settings.auth.username"
+						),
+						password: localStorage.getItem("settings.auth.password")
+					}
+				})
+					.then(r => {
+						return callback(null, r);
+					})
+					.catch(e => {
+						return callback(e);
+					});
+			},
+			function(err, result) {
+				console.log(err, result);
 
-                if (err) {
-                    return that.actions.deleteCorrespondentsFail(err);
-                }
+				if (err) {
+					return that.actions.deleteCorrespondentsFail(err);
+				}
 
-                // if result is true then every file exists
-                return that.actions.deleteCorrespondentsSuccess(ids);
-            }
-        );
-    }
+				// if result is true then every file exists
+				return that.actions.deleteCorrespondentsSuccess(ids);
+			}
+		);
+	}
 
-    // ADD CORRESPONDENT
-    addCorrespondent(data) {
-        var url = localStorage.getItem("settings.host") +
-            "/api/correspondents/";
+	// ADD CORRESPONDENT
+	addCorrespondent(data) {
+		var url =
+			localStorage.getItem("settings.host") + "/api/correspondents/";
 
-        axios({
-            method: "post",
-            url: url,
-            data: data,
-            auth: {
-                username: localStorage.getItem("settings.auth.username"),
-                password: localStorage.getItem("settings.auth.password")
-            }
-        })
-            .then(this.actions.addCorrespondentSuccess)
-            .catch(this.actions.addCorrespondentFail);
-    }
+		axios({
+			method: "post",
+			url: url,
+			data: data,
+			auth: {
+				username: localStorage.getItem("settings.auth.username"),
+				password: localStorage.getItem("settings.auth.password")
+			}
+		})
+			.then(this.actions.addCorrespondentSuccess)
+			.catch(this.actions.addCorrespondentFail);
+	}
 
-    // EDIT CORRESPONDENT
-    editCorrespondent(data) {
-        var url = localStorage.getItem("settings.host") +
-            "/api/correspondents/" +
-            data.id +
-            "/";
+	// EDIT CORRESPONDENT
+	editCorrespondent(data) {
+		var url =
+			localStorage.getItem("settings.host") +
+			"/api/correspondents/" +
+			data.id +
+			"/";
 
-        axios({
-            method: "put",
-            url: url,
-            data: data,
-            auth: {
-                username: localStorage.getItem("settings.auth.username"),
-                password: localStorage.getItem("settings.auth.password")
-            }
-        })
-            .then(this.actions.editCorrespondentSuccess)
-            .catch(this.actions.editCorrespondentFail);
-    }
+		axios({
+			method: "put",
+			url: url,
+			data: data,
+			auth: {
+				username: localStorage.getItem("settings.auth.username"),
+				password: localStorage.getItem("settings.auth.password")
+			}
+		})
+			.then(this.actions.editCorrespondentSuccess)
+			.catch(this.actions.editCorrespondentFail);
+	}
 }
 
 export default alt.createActions(CorrespondentsActions);

@@ -12,92 +12,96 @@ const ipcRenderer = electron.ipcRenderer;
 
 // TAGS STORE
 class TagsStore {
-    constructor() {
-        this.bindActions(TagsActions);
-        this.tags = [];
-    }
+	constructor() {
+		this.bindActions(TagsActions);
+		this.tags = [];
+		this.selection = [];
+	}
 
-    // GET TAGS SUCCESS
-    getTagsSuccess(result) {
-        this.tags = result.data;
-    }
+	// GET TAGS SUCCESS
+	getTagsSuccess(result) {
+		this.tags = result.data;
+	}
 
-    // GET TAGS FAIL
-    getTagsFail(err) {
-        if (err.response && err.response.status === 403) {
-            $(window).trigger("goBackToLogin");
-            return;
-        }
+	// GET TAGS FAIL
+	getTagsFail(err) {
+		if (err.response && err.response.status === 403) {
+			$(window).trigger("goBackToLogin");
+			return;
+		}
 
-        dialog.showErrorBox("Could not load tags!", "Please try again.");
-    }
+		dialog.showErrorBox("Could not load tags!", "Please try again.");
+	}
 
-    // DELETE TAGS SUCCESS
-    deleteTagsSuccess(result) {
-        // filter out the deleted tags
-        if (this.tags.results) {
-            this.tags.results = this.tags.results.filter(t => {
-                return ids.indexOf(t.id) === -1;
-            });
-        }
+	// DELETE TAGS SUCCESS
+	deleteTagsSuccess(ids) {
+		this.selection = [];
 
-        // remove the delete button
-        ToolbarActions.removeItem("remove-tags");
-    }
+		if (this.tags.results) {
+			this.tags.results = this.tags.results.filter(t => {
+				return ids.indexOf(t.id) === -1;
+			});
+		}
 
-    // DELETE TAGS FAIL
-    deleteTagsFail(err) {
-        if (err.response && err.response.status === 403) {
-            $(window).trigger("goBackToLogin");
-            return;
-        }
+		// remove the delete button
+		window.setTimeout(() => {
+			ToolbarActions.removeItem("remove-tags");
+		}, 0);
+	}
 
-        dialog.showErrorBox("Could not delete tag(s)!", "Please try again.");
-    }
+	// DELETE TAGS FAIL
+	deleteTagsFail(err) {
+		if (err.response && err.response.status === 403) {
+			$(window).trigger("goBackToLogin");
+			return;
+		}
 
-    // ADD TAG SUCCESS
-    addTagSuccess(result) {
-        ipcRenderer.send("tagAdd", result);
-        ipcRenderer.send("closeModal");
-    }
+		dialog.showErrorBox("Could not delete tag(s)!", "Please try again.");
+	}
 
-    // ADD TAG FAIL
-    addTagFail(err) {
-        if (err.response && err.response.status === 403) {
-            $(window).trigger("goBackToLogin");
-            return;
-        }
+	// ADD TAG SUCCESS
+	addTagSuccess(result) {
+		ipcRenderer.send("tagAdd", result);
+		ipcRenderer.send("closeModal");
+	}
 
-        dialog.showErrorBox(
-            "Could not add the tag!",
-            "Data might be missing or the tag may already exist."
-        );
-    }
+	// ADD TAG FAIL
+	addTagFail(err) {
+		if (err.response && err.response.status === 403) {
+			$(window).trigger("goBackToLogin");
+			return;
+		}
 
-    // EDIT TAG SUCCESS
-    editTagSuccess(result) {
-        if (!result.data) return;
+		dialog.showErrorBox(
+			"Could not add the tag!",
+			"Data might be missing or the tag may already exist."
+		);
+	}
 
-        // replace the tag with new edited one
-        this.tags.results = this.tags.results.map(t => {
-            if (t.id === result.data.id) return result.data;
-            else return t;
-        });
-    }
+	// EDIT TAG SUCCESS
+	editTagSuccess(result) {
+		if (!result.data) return;
 
-    // EDIT TAG FAIL
-    editTagFail(err) {
-        if (err.response && err.response.status === 403) {
-            $(window).trigger("goBackToLogin");
-            return;
-        }
+		// replace the tag with new edited one
+		this.tags.results = this.tags.results.map(t => {
+			if (t.id === result.data.id) return result.data;
+			else return t;
+		});
+	}
 
-        console.error(err);
-        dialog.showErrorBox(
-            "Could not edit the tag!",
-            "Data might be missing or the tag does not exist anymore."
-        );
-    }
+	// EDIT TAG FAIL
+	editTagFail(err) {
+		if (err.response && err.response.status === 403) {
+			$(window).trigger("goBackToLogin");
+			return;
+		}
+
+		console.error(err);
+		dialog.showErrorBox(
+			"Could not edit the tag!",
+			"Data might be missing or the tag does not exist anymore."
+		);
+	}
 }
 
 export default alt.createStore(TagsStore);

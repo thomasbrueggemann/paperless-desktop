@@ -169,7 +169,6 @@ class Tags extends PaperlessComponent {
 						</tr>
 					</thead>
 					<tbody>
-
 						{this.state.tags.results.map(t => {
 							return (
 								<TagsListItem
@@ -182,7 +181,6 @@ class Tags extends PaperlessComponent {
 								/>
 							);
 						})}
-
 					</tbody>
 				</table>
 			</div>
