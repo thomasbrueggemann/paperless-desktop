@@ -35,9 +35,7 @@ class Documents extends React.Component {
 		});
 
 		// search documents
-		$(window).on("searchDocuments", function(e, data) {
-			DocumentsActions.searchDocuments(data.query);
-		});
+		$(window).on("searchDocuments", this.onSearchDocuments.bind(this));
 
 		DocumentsStore.listen(this.onChange);
 		DocumentsActions.getDocuments(this.state.correspondent, this.state.tag);
@@ -71,6 +69,14 @@ class Documents extends React.Component {
 	// ON CHANGE
 	onChange(state) {
 		this.setState(state);
+	}
+
+	// ON SEARCH DOCUMENTS
+	onSearchDocuments(e, data) {
+		DocumentsActions.searchDocuments(data.query);
+
+		$(window).trigger("changeExternCorrespendent", "");
+		$(window).trigger("changeExternTag", "");
 	}
 
 	// SET TAG FILTER
