@@ -126,12 +126,7 @@ class Documents extends React.Component {
 						return (
 							<DocumentItem
 								document={d}
-								key={
-									"document_list_" +
-									d.id +
-									"_" +
-									new Date().getTime()
-								}
+								key={"document_list_" + d.id}
 							/>
 						);
 					})}
