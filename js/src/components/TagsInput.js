@@ -4,91 +4,99 @@ import TagsStore from "../stores/TagsStore";
 import Select from "react-select";
 
 class TagsInput extends React.Component {
-    // CONSTRUCTOR
-    constructor(props) {
-        super(props);
+	// CONSTRUCTOR
+	constructor(props) {
+		super(props);
 
-        this.state = TagsStore.getState();
-        this.onChange = this.onChange.bind(this);
-    }
+		this.state = TagsStore.getState();
+		this.onChange = this.onChange.bind(this);
 
-    // COMPONENT DID MOUNT
-    componentDidMount() {
-        if (this.props.tags) {
-            // extract the tags selection
-            this.setState({
-                selection: this.props.tags.map(t => {
-                    var s = t.replace(/\/$/, "").split("/");
-                    return parseInt(s[s.length - 1]);
-                })
-            });
+		console.log(
+			props.tags,
+			props.tags.map(t => {
+				var s = t.replace(/\/$/, "").split("/");
+				return parseInt(s[s.length - 1]);
+			})
+		);
 
-            console.log("set selection");
-        }
+		if (props.tags) {
+			// extract the tags selection
+			this.state.selection = this.props.tags.map(t => {
+				var s = t.replace(/\/$/, "").split("/");
+				return parseInt(s[s.length - 1]);
+			});
+		}
+	}
 
-        TagsStore.listen(this.onChange);
-        TagsActions.getTags();
-    }
+	// COMPONENT DID MOUNT
+	componentDidMount() {
+		TagsStore.listen(this.onChange);
+		//TagsActions.getTags();
+	}
 
-    // COMPONENT WILL UNMOUNT
-    componentWillUnmount() {
-        TagsStore.unlisten(this.onChange);
-    }
+	// COMPONENT WILL UNMOUNT
+	componentWillUnmount() {
+		TagsStore.unlisten(this.onChange);
+	}
 
-    // ON CHANGE
-    onChange(state) {
-        this.setState(state);
-    }
+	// ON CHANGE
+	onChange(state) {
+		this.setState(state);
+	}
 
-    // CHANGE SELECTION
-    changeSelection(val) {
-        this.setState({
-            selection: val
-        });
+	// CHANGE SELECTION
+	changeSelection(val) {
+		this.setState({
+			selection: val
+		});
 
-        // prepare the paperless API value for the tags
-        var updateTags = val.map(v => {
-            return localStorage.getItem("settings.host") +
-                "/tags/" +
-                v.value +
-                "/";
-        });
+		// prepare the paperless API value for the tags
+		var updateTags = val.map(v => {
+			return (
+				localStorage.getItem("settings.host") +
+				"/api/tags/" +
+				v.value +
+				"/"
+			);
+		});
 
-        console.log(updateTags);
+		console.log(updateTags);
 
-        this.props.onChange({
-            target: {
-                name: "tags",
-                value: updateTags
-            }
-        });
-    }
+		this.props.onChange({
+			target: {
+				name: "tags",
+				value: updateTags
+			}
+		});
+	}
 
-    // RENDER
-    render() {
-        var possibles = [];
+	// RENDER
+	render() {
+		var possibles = [];
 
-        // prepare the selection tag ids
-        if (this.state.tags && this.state.tags.count > 0) {
-            // possible tags
-            possibles = this.state.tags.results.map(t => {
-                return {
-                    label: t.name,
-                    value: t.id
-                };
-            });
-        }
+		// prepare the selection tag ids
+		if (this.state.tags && this.state.tags.count > 0) {
+			// possible tags
+			possibles = this.state.tags.results.map(t => {
+				return {
+					label: t.name,
+					value: t.id
+				};
+			});
+		}
 
-        return (
-            <Select
-                name="tags"
-                value={this.state.selection}
-                options={possibles}
-                onChange={this.changeSelection.bind(this)}
-                multi={true}
-            />
-        );
-    }
+		console.log(possibles, this.state.selection);
+
+		return (
+			<Select
+				name="tags"
+				value={this.state.selection}
+				options={possibles}
+				onChange={this.changeSelection.bind(this)}
+				multi={true}
+			/>
+		);
+	}
 }
 
 export default TagsInput;
