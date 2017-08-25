@@ -141,9 +141,6 @@ class Tags extends PaperlessComponent {
 			this.setState({
 				selection: []
 			});
-
-			// reload documents store
-			TagsActions.getTags();
 		}
 	}
 

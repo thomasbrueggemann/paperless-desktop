@@ -51,9 +51,6 @@ class Documents extends React.Component {
 		if (this.state.tag !== null) {
 			$(window).trigger("changeExternTag", { tag: this.state.tag });
 		}
-
-		// clear toolbar to add new items
-		ToolbarActions.clearItems();
 	}
 
 	// COMPONENT WILL UNMOUNT

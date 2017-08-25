@@ -141,6 +141,7 @@ class Correspondents extends PaperlessComponent {
 			this.setState({
 				selection: []
 			});
+			2;
 		}
 	}
 
