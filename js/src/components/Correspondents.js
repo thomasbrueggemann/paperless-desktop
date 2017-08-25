@@ -141,9 +141,6 @@ class Correspondents extends PaperlessComponent {
 			this.setState({
 				selection: []
 			});
-
-			// reload documents store
-			CorrespondentsActions.getCorrespondents();
 		}
 	}
 
@@ -172,7 +169,6 @@ class Correspondents extends PaperlessComponent {
 						</tr>
 					</thead>
 					<tbody>
-
 						{this.state.correspondents.results.map(c => {
 							return (
 								<CorrespondentsListItem
@@ -187,7 +183,6 @@ class Correspondents extends PaperlessComponent {
 								/>
 							);
 						})}
-
 					</tbody>
 				</table>
 			</div>

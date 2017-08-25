@@ -39,7 +39,7 @@ class TagsStore {
 
 		if (this.tags.results) {
 			this.tags.results = this.tags.results.filter(t => {
-				return ids.indexOf(t.id) === -1;
+				return !ids.find(i => i === t.id);
 			});
 		}
 

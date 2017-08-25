@@ -62,6 +62,7 @@ class CorrespondentsActions {
 						return callback(null, r);
 					})
 					.catch(e => {
+						console.error(e);
 						return callback(e);
 					});
 			},

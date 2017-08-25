@@ -43,7 +43,7 @@ class CorrespondentsStore {
 		if (this.correspondents.results) {
 			this.correspondents.results = this.correspondents.results.filter(
 				t => {
-					return ids.indexOf(t.id) === -1;
+					return !ids.find(i => i === t.id);
 				}
 			);
 		}
