@@ -17,9 +17,10 @@ Needs a running [paperless](https://github.com/danielquinn/paperless) instance o
 ### Pre-built executables
 
 Please keep in mind, that these are pre-releases. There is still plenty of work to do.
+
 <center>
 	<p>
-		<a href="https://github.com/thomasbrueggemann/paperless-desktop/releases" style="background-color:#48D560; color:white; border: 0px; padding:20px 30px; font-size: 1.4em; border-radius:15px">
+		<a href="https://github.com/thomasbrueggemann/paperless-desktop/releases/download/v0.0.8/Paperless-darwin-x64.zip" style="background-color:#48D560; color:white; border: 0px; padding:20px 30px; font-size: 1.4em; border-radius:15px">
 			 Download now
 		</a>
 	</p>
