@@ -2,10 +2,9 @@
 	<img src="http://i.imgur.com/GRzSQpz.png" width="150" />
 </p>
 
-<center>
-	<h1>Paperless Desktop</h1>
-	<p>Desktop app that uses the [paperless](https://github.com/danielquinn/paperless) API to manage your document scans.</p>
-</center>
+
+# Paperless Desktop</h1>
+Desktop app that uses the [paperless](https://github.com/danielquinn/paperless) API to manage your document scans.
 
 <p align="center">
 	<img src="http://i.imgur.com/FrgAptE.png" />
