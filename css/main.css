@@ -245,3 +245,7 @@
 		-webkit-transform: scaleY(1.0);
 	}
 }
+
+.text-positive {
+	color: #34c84a;
+}

@@ -17,9 +17,6 @@ class Documents extends React.Component {
 		this.updateInterval = null;
 	}
 
-	// SHOULD COMPONENT UPDATE
-	shouldComponentUpdate = shouldPureComponentUpdate;
-
 	// COMPONENT DID MOUNT
 	componentDidMount() {
 		$(window).trigger("tabs.replace", {
@@ -54,10 +51,12 @@ class Documents extends React.Component {
 			$(window).trigger("changeExternTag", { tag: this.state.tag });
 		}
 
-		// start update interval
+		// start document-update interval
 		this.updateInterval = window.setInterval(
 			this.checkForNewDocuments.bind(this),
-			5000
+			parseInt(
+				localStorage.getItem("settings.documentsUpdateInterval") || 3
+			) * 1000
 		);
 
 		// set the current time to max modified
@@ -180,15 +179,11 @@ class Documents extends React.Component {
 					docs.unshift(f);
 				});
 
-				console.log(docs);
-
 				// append new documents to list
 				this.setState({
 					documents: docs
 				});
 			}
-
-			console.log("fresh", fresh);
 		});
 	}
 
