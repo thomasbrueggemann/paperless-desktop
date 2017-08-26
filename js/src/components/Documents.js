@@ -7,12 +7,14 @@ import shouldPureComponentUpdate from "react-pure-render/function";
 import $ from "jquery";
 import ToolbarActions from "../actions/ToolbarActions";
 import Waypoint from "react-waypoint";
+import axios from "axios";
 
 class Documents extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = DocumentsStore.getState();
 		this.onChange = this.onChange.bind(this);
+		this.updateInterval = null;
 	}
 
 	// SHOULD COMPONENT UPDATE
@@ -51,6 +53,15 @@ class Documents extends React.Component {
 		if (this.state.tag !== null) {
 			$(window).trigger("changeExternTag", { tag: this.state.tag });
 		}
+
+		// start update interval
+		this.updateInterval = window.setInterval(
+			this.checkForNewDocuments.bind(this),
+			5000
+		);
+
+		// set the current time to max modified
+		localStorage.setItem("documents.maxModified", new Date().getTime());
 	}
 
 	// COMPONENT WILL UNMOUNT
@@ -60,6 +71,9 @@ class Documents extends React.Component {
 
 		$(window).off("loadAllDocuments");
 		$(window).off("searchDocuments");
+
+		window.clearInterval(this.updateInterval);
+
 		DocumentsStore.unlisten(this.onChange);
 	}
 
@@ -101,6 +115,81 @@ class Documents extends React.Component {
 			this.state.tag,
 			this.state.page + 1
 		);
+	}
+
+	// CHECK FOR NEW DOCUMENTS
+	checkForNewDocuments() {
+		var toQueryString = function(obj) {
+			var parts = [];
+			for (var i in obj) {
+				if (obj.hasOwnProperty(i) && obj[i]) {
+					parts.push(
+						encodeURIComponent(i) + "=" + encodeURIComponent(obj[i])
+					);
+				}
+			}
+			return parts.join("&");
+		};
+
+		var url = localStorage.getItem("settings.host") + "/api/documents/";
+
+		// add parameters to url
+		var parameters = toQueryString({
+			correspondent__slug_0: this.state.correspondent,
+			correspondent__slug_1: "contains",
+			tags__slug_0: this.state.tag,
+			tags__slug_1: "contains",
+			ordering: "-modified",
+			page: 1
+		});
+
+		// attach parameters if availble
+		if (parameters.length > 0) {
+			url += "?" + parameters;
+		}
+
+		// fetch documents
+		axios({
+			method: "get",
+			url: url,
+			auth: {
+				username: localStorage.getItem("settings.auth.username"),
+				password: localStorage.getItem("settings.auth.password")
+			}
+		}).then(result => {
+			var fresh = result.data.results.filter(d => {
+				return (
+					new Date(d.modified) >
+					new Date(
+						parseInt(localStorage.getItem("documents.maxModified"))
+					)
+				);
+			});
+
+			if (fresh.length > 0) {
+				// set the current time to max modified
+				localStorage.setItem(
+					"documents.maxModified",
+					new Date().getTime()
+				);
+
+				var docs = this.state.documents;
+
+				fresh.map(f => {
+					f.fresh = true;
+					docs.unshift(f);
+				});
+
+				console.log(docs);
+
+				// append new documents to list
+				this.setState({
+					documents: docs
+				});
+			}
+
+			console.log("fresh", fresh);
+		});
 	}
 
 	// RENDER

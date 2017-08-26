@@ -44,6 +44,9 @@ class DocumentItem extends PaperlessComponent {
 			>
 				<div className="document-item-thumbnail" style={divStyle} />
 				<div className="document-item-title">
+					{this.props.document.fresh
+						? <span className="icon icon-alert" />
+						: null}
 					{this.props.document.title.trunc(100)}
 				</div>
 				<small>
