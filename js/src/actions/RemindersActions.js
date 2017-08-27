@@ -9,7 +9,9 @@ class RemindersActions {
 			"getRemindersSuccess",
 			"getRemindersFail",
 			"addReminderSuccess",
-			"addReminderFail"
+			"addReminderFail",
+			"removeReminderSuccess",
+			"removeReminderFail"
 		);
 	}
 
@@ -34,6 +36,20 @@ class RemindersActions {
 		})
 			.then(this.actions.addReminderSuccess)
 			.catch(this.actions.addReminderFail);
+	}
+
+	// REMOVE REMINDER
+	removeReminder(id) {
+		axios({
+			method: "delete",
+			url: localStorage.getItem("settings.host") + "/api/reminders/" + id,
+			auth: {
+				username: localStorage.getItem("settings.auth.username"),
+				password: localStorage.getItem("settings.auth.password")
+			}
+		})
+			.then(this.actions.removeReminderSuccess)
+			.catch(this.actions.removeReminderFail);
 	}
 
 	// GET REMINDERS

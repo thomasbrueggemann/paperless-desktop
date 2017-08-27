@@ -46,6 +46,30 @@ class RemindersStore {
 
 		dialog.showErrorBox("Could not add the reminder!", "Please try again.");
 	}
+
+	// REMOVE REMINDER SUCCESS
+	removeReminderSuccess(result) {
+		var parts = result.request.responseURL.split("/");
+		var id = parseInt(parts[parts.length - 2]);
+
+		// filter out the removed reminder
+		this.reminders = this.reminders.filter(r => {
+			return r.id !== id;
+		});
+	}
+
+	// REMOVE REMINDER FAIL
+	removeReminderFail() {
+		if (err.response && err.response.status === 403) {
+			$(window).trigger("goBackToLogin");
+			return;
+		}
+
+		dialog.showErrorBox(
+			"Could not remove the reminder!",
+			"Please try again."
+		);
+	}
 }
 
 export default alt.createStore(RemindersStore);

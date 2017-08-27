@@ -1,7 +1,7 @@
 import React from "react";
 import RemindersActions from "../actions/RemindersActions";
 import RemindersStore from "../stores/RemindersStore";
-import moment from "moment";
+import DocumentDetailRemindersItem from "./DocumentDetailRemindersItem";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -45,6 +45,11 @@ class DocumentDetailReminders extends React.Component {
 		this.setState(state);
 	}
 
+	// REMOVE REMINDER
+	removeReminder(id) {
+		RemindersActions.removeReminder(id);
+	}
+
 	// RENDER
 	render() {
 		// filter out the matching reminders
@@ -59,22 +64,11 @@ class DocumentDetailReminders extends React.Component {
 		if (reminders.length > 0) {
 			var reminderTRs = reminders.map((r, idx) => {
 				return (
-					<tr key={"reminders_" + idx}>
-						<td>
-							{moment(r.date).format("llll")}
-						</td>
-						<td>
-							{r.note}
-						</td>
-						<td>
-							<button
-								className="btn btn-mini btn-negative"
-								title="Remove reminder"
-							>
-								Remove
-							</button>
-						</td>
-					</tr>
+					<DocumentDetailRemindersItem
+						key={"reminders_" + idx}
+						reminder={r}
+						removeReminder={this.removeReminder.bind(this)}
+					/>
 				);
 			});
 
