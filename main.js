@@ -142,7 +142,7 @@ ipcMain.on("modal", (e, args) => {
 			args.route
 	);
 
-	//modalWindow.webContents.openDevTools();
+	modalWindow.webContents.openDevTools();
 
 	// once the modal is ready to show, open it
 	modalWindow.once("ready-to-show", () => {});
@@ -158,6 +158,13 @@ ipcMain.on("closeModal", () => {
 ipcMain.on("tagAdd", (e, args) => {
 	if (args.data) {
 		mainWindow.webContents.send("tagAdded", args.data);
+	}
+});
+
+// listen on reminder add
+ipcMain.on("reminderAdd", (e, args) => {
+	if (args.data) {
+		mainWindow.webContents.send("reminderAdded", args.data);
 	}
 });
 
@@ -233,7 +240,7 @@ function createWindow() {
 	);
 
 	// Open the DevTools.
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on("closed", () => {

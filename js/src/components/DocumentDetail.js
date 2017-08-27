@@ -65,21 +65,21 @@ class DocumentDetail extends PaperlessComponent {
 		);
 
 		// toolbar: delete document
-		/*ToolbarActions.addItem(
-            "add-reminder",
-            "bell",
-            "Add reminder",
-            "default",
-            "right",
-            () => {
-                // add correspondent
-                ipcRenderer.send("modal", {
-                    route: "/modal/reminders/add/" + this.props.params.id,
-                    width: 450,
-                    height: 290
-                });
-            }
-        );*/
+		ToolbarActions.addItem(
+			"add-reminder",
+			"bell",
+			"Add reminder",
+			"default",
+			"right",
+			() => {
+				// add correspondent
+				ipcRenderer.send("modal", {
+					route: "/modal/reminders/add/" + this.props.params.id,
+					width: 450,
+					height: 290
+				});
+			}
+		);
 
 		// toolbar: delete document
 		ToolbarActions.addItem(

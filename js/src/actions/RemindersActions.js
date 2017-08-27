@@ -5,7 +5,35 @@ import async from "async";
 // REMINDERS ACTIONS
 class RemindersActions {
 	constructor() {
-		this.generateActions("getRemindersSuccess", "getRemindersFail");
+		this.generateActions(
+			"getRemindersSuccess",
+			"getRemindersFail",
+			"addReminderSuccess",
+			"addReminderFail"
+		);
+	}
+
+	// ADD REMINDER
+	addReminder(id, date, note) {
+		axios({
+			method: "post",
+			url: localStorage.getItem("settings.host") + "/api/reminders/",
+			auth: {
+				username: localStorage.getItem("settings.auth.username"),
+				password: localStorage.getItem("settings.auth.password")
+			},
+			data: {
+				document:
+					localStorage.getItem("settings.host") +
+					"/api/documents/" +
+					id +
+					"/",
+				date: date,
+				note: note
+			}
+		})
+			.then(this.actions.addReminderSuccess)
+			.catch(this.actions.addReminderFail);
 	}
 
 	// GET REMINDERS
@@ -42,7 +70,6 @@ class RemindersActions {
 				return !!next;
 			},
 			err => {
-				console.log(err, reminders);
 				if (err) this.actions.getRemindersFail(err);
 				else this.actions.getRemindersSuccess(reminders);
 			}

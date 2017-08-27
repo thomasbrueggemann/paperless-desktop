@@ -11,14 +11,6 @@ class TagsInput extends React.Component {
 		this.state = TagsStore.getState();
 		this.onChange = this.onChange.bind(this);
 
-		console.log(
-			props.tags,
-			props.tags.map(t => {
-				var s = t.replace(/\/$/, "").split("/");
-				return parseInt(s[s.length - 1]);
-			})
-		);
-
 		if (props.tags) {
 			// extract the tags selection
 			this.state.selection = this.props.tags.map(t => {
@@ -60,8 +52,6 @@ class TagsInput extends React.Component {
 			);
 		});
 
-		console.log(updateTags);
-
 		this.props.onChange({
 			target: {
 				name: "tags",
@@ -84,8 +74,6 @@ class TagsInput extends React.Component {
 				};
 			});
 		}
-
-		console.log(possibles, this.state.selection);
 
 		return (
 			<Select
