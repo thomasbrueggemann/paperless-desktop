@@ -253,3 +253,7 @@
 .text-negative {
 	color: #fb2f29;
 }
+
+.toolbar-header {
+	-webkit-app-region: drag;
+}
