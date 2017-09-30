@@ -218,14 +218,14 @@ class Documents extends React.Component {
 						);
 					})}
 
-					{this.state.isLoading === false && this.state.next
-						? <Waypoint
-								onEnter={this.loadMoreDocuments.bind(this)}
-								threshold={2.0}
-							>
-								<div className="load-more">Loading...</div>
-							</Waypoint>
-						: null}
+					{this.state.isLoading === false && this.state.next ? (
+						<Waypoint
+							onEnter={this.loadMoreDocuments.bind(this)}
+							threshold={2.0}
+						>
+							<div className="load-more">Loading...</div>
+						</Waypoint>
+					) : null}
 				</div>
 			</div>
 		);

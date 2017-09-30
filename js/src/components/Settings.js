@@ -112,6 +112,24 @@ class Settings extends React.Component {
 			});
 	}
 
+	// TEST NOTIFICATION
+	testNotification() {
+		window.setTimeout(() => {
+			// create notification
+			var notif = new window.Notification("test", {
+				body: "test"
+			});
+
+			// If the user clicks in the Notifications Center, show the app
+			notif.onclick = function() {
+				ipcRenderer.send("focusWindow");
+				ipcRenderer.send("openDocument", {
+					id: 1
+				});
+			};
+		}, 2000);
+	}
+
 	// RENDER
 	render() {
 		return (
@@ -186,12 +204,22 @@ class Settings extends React.Component {
 					<h3>Developer Settings</h3>
 					<hr />
 
-					<button
-						className="btn btn-large btn-default"
-						onClick={this.openDevTools.bind(this)}
-					>
-						<span className="icon icon-tools" /> Open DevTools
-					</button>
+					<div className="btn-group">
+						<button
+							className="btn btn-large btn-default"
+							onClick={this.openDevTools.bind(this)}
+						>
+							<span className="icon icon-tools" /> Open DevTools
+						</button>
+
+						<button
+							className="btn btn-large btn-default"
+							onClick={this.testNotification.bind(this)}
+						>
+							<span className="icon icon-chat" /> Test
+							notification with 2s delay
+						</button>
+					</div>
 				</div>
 			</div>
 		);

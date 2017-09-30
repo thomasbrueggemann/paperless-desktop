@@ -62,16 +62,17 @@ class RemindersNotification extends Component {
 
 			// create notification
 			var notif = new window.Notification(notifTitle, {
-				body:
-					o.note !== null && o.note.length > 0
-						? o.note
-						: "You wished to be reminded about this document, right now!"
+				body: o.note
 			});
 
 			// If the user clicks in the Notifications Center, show the app
 			notif.onclick = function() {
-				ipcRenderer.send("focusWindow", "main");
-				ipcRenderer.send("");
+				ipcRenderer.send("focusWindow");
+
+				var doc = o.document.split("/");
+				ipcRenderer.send("openDocument", {
+					id: doc[doc.length - 2]
+				});
 			};
 
 			RemindersActions.removeReminder(o.id);

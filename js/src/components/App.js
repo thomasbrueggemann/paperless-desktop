@@ -4,7 +4,27 @@ import Footer from "./Footer";
 import Tabs from "./Tabs";
 import RemindersNotification from "./RemindersNotification";
 
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const fs = electron.remote.require("fs");
+const remote = electron.remote;
+const dialog = remote.dialog;
+const ipcRenderer = electron.ipcRenderer;
+
 class App extends React.Component {
+	// CONSTRUCTOR
+	constructor(props, context) {
+		super(props, context);
+	}
+
+	// COMPONENT DID MOUNT
+	componentDidMount() {
+		// EVENT: open document
+		ipcRenderer.on("openDocument", (e, data) => {
+			this.context.router.push("/document/" + data);
+		});
+	}
+
 	// RENDER
 	render() {
 		return (
@@ -18,5 +38,10 @@ class App extends React.Component {
 		);
 	}
 }
+
+// CONTEXT TYPES
+App.contextTypes = {
+	router: React.PropTypes.object.isRequired
+};
 
 export default App;

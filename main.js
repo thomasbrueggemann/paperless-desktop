@@ -188,6 +188,18 @@ ipcMain.on("openDevTools", (e, args) => {
 	mainWindow.webContents.openDevTools();
 });
 
+// show and focus the main window
+ipcMain.on("focusWindow", (e, args) => {
+	mainWindow.show();
+});
+
+// listen on correspondent add
+ipcMain.on("openDocument", (e, args) => {
+	if (args.id) {
+		mainWindow.webContents.send("openDocument", args.id);
+	}
+});
+
 /*
  __  __      _       __      ___         _
 |  \/  |__ _(_)_ _   \ \    / (_)_ _  __| |_____ __ __
