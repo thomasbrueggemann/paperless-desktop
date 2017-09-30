@@ -7,6 +7,8 @@ const GhReleases = require("electron-gh-releases");
 const appVersion = require("./package.json").version;
 const os = require("os").platform();
 
+const DEBUG = false;
+
 // https://medium.com/@ccnokes/how-to-store-user-data-in-electron-3ba6bf66bc1e#.b6j3oex0s
 const Store = require("./store.js");
 
@@ -142,7 +144,7 @@ ipcMain.on("modal", (e, args) => {
 			args.route
 	);
 
-	modalWindow.webContents.openDevTools();
+	if (DEBUG) modalWindow.webContents.openDevTools();
 
 	// once the modal is ready to show, open it
 	modalWindow.once("ready-to-show", () => {});
@@ -240,7 +242,7 @@ function createWindow() {
 	);
 
 	// Open the DevTools.
-	mainWindow.webContents.openDevTools();
+	if (DEBUG) mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on("closed", () => {

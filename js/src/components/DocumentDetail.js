@@ -76,7 +76,7 @@ class DocumentDetail extends PaperlessComponent {
 				ipcRenderer.send("modal", {
 					route: "/modal/reminders/add/" + this.props.params.id,
 					width: 450,
-					height: 290
+					height: 330
 				});
 			}
 		);

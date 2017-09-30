@@ -8,6 +8,8 @@ import moment from "moment";
 const electron = window.require("electron");
 const fs = electron.remote.require("fs");
 const ipcRenderer = electron.ipcRenderer;
+const remote = electron.remote;
+const dialog = remote.dialog;
 
 class RemindersAdd extends PaperlessComponent {
 	// CONSTRUCTOR
@@ -30,7 +32,30 @@ class RemindersAdd extends PaperlessComponent {
 	saveReminder(e) {
 		e.preventDefault();
 
-		var date = moment(this.state.date).utc().toISOString();
+		var date = moment(this.state.date)
+			.utc()
+			.toISOString();
+
+		// check if reminder is in the future
+		if (
+			moment(this.state.date)
+				.utc()
+				.isBefore(moment.utc())
+		) {
+			return dialog.showErrorBox(
+				"Time travel as not been invented yet.... or has it?",
+				"Select a reminder date in the future!"
+			);
+		}
+
+		// check if a note is available
+		if (this.state.note === null || this.state.note.trim().length <= 0) {
+			return dialog.showErrorBox(
+				"Could not add reminder",
+				"Please add a note text!"
+			);
+		}
+
 		RemindersActions.addReminder(this.state.doc, date, this.state.note);
 	}
 
@@ -67,6 +92,11 @@ class RemindersAdd extends PaperlessComponent {
 						placeholder="Add a note to your reminder, if you'd like."
 					/>
 				</div>
+
+				<p style={{ color: "grey" }}>
+					Note: reminder notifications only show up, while this app is
+					open on your Mac!
+				</p>
 
 				<div className="btn-group">
 					<button

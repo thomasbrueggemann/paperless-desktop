@@ -58,7 +58,7 @@ class DocumentDetailReminders extends React.Component {
 		});
 
 		// display that no reminders are available
-		var content = <span className="no-reminders">no reminders yet</span>;
+		var content = <span className="no-reminders">no reminders set</span>;
 
 		// if there are reminders available, show them
 		if (reminders.length > 0) {
@@ -81,18 +81,12 @@ class DocumentDetailReminders extends React.Component {
 							<th />
 						</tr>
 					</thead>
-					<tbody>
-						{reminderTRs}
-					</tbody>
+					<tbody>{reminderTRs}</tbody>
 				</table>
 			);
 		}
 
-		return (
-			<div>
-				{content}
-			</div>
-		);
+		return <div>{content}</div>;
 	}
 }
 

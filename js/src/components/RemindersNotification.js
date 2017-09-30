@@ -73,6 +73,8 @@ class RemindersNotification extends Component {
 				ipcRenderer.send("focusWindow", "main");
 				ipcRenderer.send("");
 			};
+
+			RemindersActions.removeReminder(o.id);
 		});
 	}
 
