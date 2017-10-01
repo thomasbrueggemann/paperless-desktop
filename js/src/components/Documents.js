@@ -8,6 +8,12 @@ import $ from "jquery";
 import ToolbarActions from "../actions/ToolbarActions";
 import Waypoint from "react-waypoint";
 import axios from "axios";
+import async from "async";
+
+// IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
+const electron = window.require("electron");
+const remote = electron.remote;
+const dialog = remote.dialog;
 
 class Documents extends React.Component {
 	constructor(props) {
@@ -19,6 +25,22 @@ class Documents extends React.Component {
 
 	// COMPONENT DID MOUNT
 	componentDidMount() {
+		// clear toolbar to add new items
+		ToolbarActions.clearItems();
+
+		// toolbar: save button
+		ToolbarActions.addItem(
+			"add-document",
+			"upload",
+			"Add document",
+			"default",
+			"right",
+			e => {
+				e.preventDefault();
+				this.uploadDocument();
+			}
+		);
+
 		$(window).trigger("tabs.replace", {
 			idx: 0,
 			tab: {
@@ -185,6 +207,51 @@ class Documents extends React.Component {
 				});
 			}
 		});
+	}
+
+	// UPLOAD DOCUMENT
+	uploadDocument() {
+		// open file select dialog
+		var files = dialog.showOpenDialog({
+			properties: ["openFile", "multiSelections"]
+		});
+
+		// upload each file and reload documents view afterwards
+		async.each(
+			files,
+			(file, done) => {
+				var fileParts = file.split("/");
+				var title = fileParts[fileParts.length - 1].split(".")[0];
+
+				// post the upload
+				axios({
+					method: "post",
+					url: localStorage.getItem("settings.host") + "/push",
+					auth: {
+						username: localStorage.getItem(
+							"settings.auth.username"
+						),
+						password: localStorage.getItem("settings.auth.password")
+					},
+					data: {
+						title: title,
+						correspondent: "",
+						document: file
+					},
+					headers: {
+						"content-type": "multipart/form-data"
+					}
+				})
+					.then(res => {
+						console.log(res);
+						return done();
+					})
+					.catch(err => {
+						return done(err);
+					});
+			},
+			err => {}
+		);
 	}
 
 	// RENDER

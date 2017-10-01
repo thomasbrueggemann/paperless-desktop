@@ -7,7 +7,7 @@ const GhReleases = require("electron-gh-releases");
 const appVersion = require("./package.json").version;
 const os = require("os").platform();
 
-const DEBUG = false;
+const DEBUG = true;
 
 // https://medium.com/@ccnokes/how-to-store-user-data-in-electron-3ba6bf66bc1e#.b6j3oex0s
 const Store = require("./store.js");
