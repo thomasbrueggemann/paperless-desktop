@@ -13,8 +13,6 @@ var browserify = require("browserify");
 var watchify = require("watchify");
 var uglify = require("gulp-uglify");
 
-var production = false; //process.env.NODE_ENV === "production";
-
 var dependencies = [
 	"alt",
 	"react",
@@ -35,21 +33,11 @@ var dependencies = [
  */
 gulp.task("browserify-vendor", function() {
 	return browserify({
-		debug: !production
+		debug: true
 	})
 		.require(dependencies)
 		.bundle()
 		.pipe(source("vendor.bundle.js"))
-		.pipe(
-			gulpif(
-				production,
-				streamify(
-					uglify({
-						mangle: false
-					})
-				)
-			)
-		)
 		.pipe(gulp.dest("js/build"));
 });
 
@@ -61,22 +49,12 @@ gulp.task("browserify-vendor", function() {
 gulp.task("browserify", ["browserify-vendor"], function() {
 	return browserify({
 		entries: "js/src/main.js",
-		debug: !production
+		debug: true
 	})
 		.external(dependencies)
 		.transform(babelify)
 		.bundle()
 		.pipe(source("bundle.js"))
-		.pipe(
-			gulpif(
-				production,
-				streamify(
-					uglify({
-						mangle: false
-					})
-				)
-			)
-		)
 		.pipe(gulp.dest("js/build"));
 });
 
@@ -113,4 +91,3 @@ gulp.task("browserify-watch", ["browserify-vendor"], function() {
 });
 
 gulp.task("default", ["browserify-vendor", "browserify"]);
-//gulp.task("build", ["vendor", "browserify"]);
