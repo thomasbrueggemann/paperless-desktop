@@ -30,6 +30,8 @@ Please keep in mind, that these are pre-releases. There is still plenty of work 
 
 Thanks to npm, it's easy:
 
+*(Disclaimer: I only ever test this on macOS, any other operation system might behave unexpectedly running this)*
+
 ```bash
 $ npm install
 $ npm start
