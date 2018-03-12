@@ -34,7 +34,7 @@ class DocumentsActions {
 		var url = localStorage.getItem("settings.host") + "/api/documents/";
 
 		// add parameters to url
-		var parameters = toQueryString({
+		const parameters = toQueryString({
 			correspondent__slug_0: correspondent,
 			correspondent__slug_1: "contains",
 			tags__slug_0: tag,
@@ -57,7 +57,7 @@ class DocumentsActions {
 				password: localStorage.getItem("settings.auth.password")
 			}
 		})
-			.then(result => {
+			.then((result) => {
 				return this.actions.getDocumentsSuccess({
 					data: result.data,
 					correspondent: correspondent,
@@ -72,7 +72,7 @@ class DocumentsActions {
 		this.actions.setLoading(true);
 		this.actions.resetDocuments();
 
-		var url =
+		const url =
 			localStorage.getItem("settings.host") +
 			"/api/documents/?search=" +
 			query;
@@ -86,7 +86,7 @@ class DocumentsActions {
 				password: localStorage.getItem("settings.auth.password")
 			}
 		})
-			.then(result => {
+			.then((result) => {
 				return this.actions.getDocumentsSuccess({
 					data: result.data,
 					correspondent: null,
@@ -103,7 +103,7 @@ class DocumentsActions {
 		// asyncroniously delete all document ids
 		async.every(
 			ids,
-			function(id, callback) {
+			(id, callback) => {
 				var url =
 					localStorage.getItem("settings.host") +
 					"/api/documents/" +
@@ -120,14 +120,14 @@ class DocumentsActions {
 						password: localStorage.getItem("settings.auth.password")
 					}
 				})
-					.then(r => {
+					.then((r) => {
 						return callback(null, r);
 					})
-					.catch(e => {
+					.catch((e) => {
 						return callback(e);
 					});
 			},
-			function(err, result) {
+			(err, result) => {
 				if (err) {
 					return that.actions.deleteDocumentsFail(err);
 				}

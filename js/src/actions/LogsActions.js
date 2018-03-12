@@ -9,7 +9,7 @@ class LogsActions {
 
 	// GET LOGS
 	getLogs() {
-		var url = localStorage.getItem("settings.host") + "/api/logs/";
+		const url = localStorage.getItem("settings.host") + "/api/logs/";
 
 		axios({
 			method: "get",

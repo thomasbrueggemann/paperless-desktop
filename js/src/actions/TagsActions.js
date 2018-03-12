@@ -19,7 +19,7 @@ class TagsActions {
 
 	// GET TAGS
 	getTags() {
-		var url = localStorage.getItem("settings.host") + "/api/tags/";
+		const url = localStorage.getItem("settings.host") + "/api/tags/";
 
 		axios({
 			method: "get",
@@ -40,7 +40,7 @@ class TagsActions {
 		// asyncroniously delete all document ids
 		async.every(
 			ids,
-			function(id, callback) {
+			(id, callback) => {
 				var url =
 					localStorage.getItem("settings.host") + "/api/tags/" + id;
 
@@ -55,14 +55,14 @@ class TagsActions {
 						password: localStorage.getItem("settings.auth.password")
 					}
 				})
-					.then(r => {
+					.then((r) => {
 						return callback(null, r);
 					})
-					.catch(e => {
+					.catch((e) => {
 						return callback(e);
 					});
 			},
-			function(err, result) {
+			(err, result) => {
 				if (err) {
 					return that.actions.deleteTagsFail(err);
 				}

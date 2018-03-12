@@ -14,7 +14,7 @@ class DocumentActions {
 
 	// GET DOC
 	getDocument(id) {
-		var url =
+		const url =
 			localStorage.getItem("settings.host") + "/api/documents/" + id;
 
 		// fetch documents
@@ -32,7 +32,7 @@ class DocumentActions {
 
 	// UPDATE DOCUMENT
 	updateDocument(data) {
-		var url =
+		const url =
 			localStorage.getItem("settings.host") +
 			"/api/documents/" +
 			data.id +

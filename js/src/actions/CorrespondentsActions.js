@@ -41,8 +41,8 @@ class CorrespondentsActions {
 		// asyncroniously delete all document ids
 		async.every(
 			ids,
-			function(id, callback) {
-				var url =
+			(id, callback) => {
+				const url =
 					localStorage.getItem("settings.host") +
 					"/api/correspondents/" +
 					id;
@@ -58,15 +58,15 @@ class CorrespondentsActions {
 						password: localStorage.getItem("settings.auth.password")
 					}
 				})
-					.then(r => {
+					.then((r) => {
 						return callback(null, r);
 					})
-					.catch(e => {
+					.catch((e) => {
 						console.error(e);
 						return callback(e);
 					});
 			},
-			function(err, result) {
+			(err, result) => {
 				console.log(err, result);
 
 				if (err) {
@@ -99,7 +99,7 @@ class CorrespondentsActions {
 
 	// EDIT CORRESPONDENT
 	editCorrespondent(data) {
-		var url =
+		const url =
 			localStorage.getItem("settings.host") +
 			"/api/correspondents/" +
 			data.id +
