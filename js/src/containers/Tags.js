@@ -2,9 +2,9 @@ import React from "react";
 import TagsActions from "../actions/TagsActions";
 import TagsStore from "../stores/TagsStore";
 import $ from "jquery";
-import PaperlessComponent from "./PaperlessComponent";
+import PaperlessComponent from "../components/PaperlessComponent";
 import ToolbarActions from "../actions/ToolbarActions";
-import TagsListItem from "./TagsListItem";
+import TagsListItem from "../components/TagsListItem";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -52,21 +52,14 @@ class Tags extends PaperlessComponent {
 		ToolbarActions.clearItems();
 
 		// toolbar: add button
-		ToolbarActions.addItem(
-			"add-tag",
-			"plus",
-			"Add tag",
-			"primary",
-			"right",
-			() => {
-				// add correspondent
-				ipcRenderer.send("modal", {
-					route: "/modal/tags/add",
-					width: 450,
-					height: 545
-				});
-			}
-		);
+		ToolbarActions.addItem("add-tag", "plus", "Add tag", "primary", "right", () => {
+			// add correspondent
+			ipcRenderer.send("modal", {
+				route: "/modal/tags/add",
+				width: 450,
+				height: 545
+			});
+		});
 	}
 
 	// COMPONENT WILL UNMOUNT
@@ -166,14 +159,12 @@ class Tags extends PaperlessComponent {
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.tags.results.map(t => {
+						{this.state.tags.results.map((t) => {
 							return (
 								<TagsListItem
 									key={"tags_" + t.id}
 									tag={t}
-									changeSelection={this.changeSelection.bind(
-										this
-									)}
+									changeSelection={this.changeSelection.bind(this)}
 									updateTag={this.updateTag.bind(this)}
 								/>
 							);

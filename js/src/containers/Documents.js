@@ -1,8 +1,8 @@
 import React from "react";
 import DocumentsActions from "../actions/DocumentsActions";
 import DocumentsStore from "../stores/DocumentsStore";
-import Sidebar from "./Sidebar";
-import DocumentItem from "./DocumentItem";
+import Sidebar from "../components/Sidebar";
+import DocumentItem from "../components/DocumentItem";
 import shouldPureComponentUpdate from "react-pure-render/function";
 import $ from "jquery";
 import ToolbarActions from "../actions/ToolbarActions";
@@ -54,9 +54,7 @@ class Documents extends React.Component {
 		// start document-update interval
 		this.updateInterval = window.setInterval(
 			this.checkForNewDocuments.bind(this),
-			parseInt(
-				localStorage.getItem("settings.documentsUpdateInterval") || 3
-			) * 1000
+			parseInt(localStorage.getItem("settings.documentsUpdateInterval") || 3) * 1000
 		);
 
 		// set the current time to max modified
@@ -122,9 +120,7 @@ class Documents extends React.Component {
 			var parts = [];
 			for (var i in obj) {
 				if (obj.hasOwnProperty(i) && obj[i]) {
-					parts.push(
-						encodeURIComponent(i) + "=" + encodeURIComponent(obj[i])
-					);
+					parts.push(encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]));
 				}
 			}
 			return parts.join("&");
@@ -155,26 +151,21 @@ class Documents extends React.Component {
 				username: localStorage.getItem("settings.auth.username"),
 				password: localStorage.getItem("settings.auth.password")
 			}
-		}).then(result => {
-			var fresh = result.data.results.filter(d => {
+		}).then((result) => {
+			var fresh = result.data.results.filter((d) => {
 				return (
 					new Date(d.modified) >
-					new Date(
-						parseInt(localStorage.getItem("documents.maxModified"))
-					)
+					new Date(parseInt(localStorage.getItem("documents.maxModified")))
 				);
 			});
 
 			if (fresh.length > 0) {
 				// set the current time to max modified
-				localStorage.setItem(
-					"documents.maxModified",
-					new Date().getTime()
-				);
+				localStorage.setItem("documents.maxModified", new Date().getTime());
 
 				var docs = this.state.documents;
 
-				fresh.map(f => {
+				fresh.map((f) => {
 					f.fresh = true;
 					docs.unshift(f);
 				});
@@ -195,7 +186,7 @@ class Documents extends React.Component {
 		// https://stackoverflow.com/a/36744732/874508
 		var docs = this.state.documents.filter(
 			(doc, index, self) =>
-				self.findIndex(d => {
+				self.findIndex((d) => {
 					return d.id === doc.id;
 				}) === index
 		);
@@ -204,25 +195,15 @@ class Documents extends React.Component {
 			<div className="pane-group">
 				<Sidebar
 					setTagFilter={this.setTagFilter.bind(this)}
-					setCorrespondentFilter={this.setCorrespondentFilter.bind(
-						this
-					)}
+					setCorrespondentFilter={this.setCorrespondentFilter.bind(this)}
 				/>
 				<div className="pane">
-					{docs.map(d => {
-						return (
-							<DocumentItem
-								document={d}
-								key={"document_list_" + d.id}
-							/>
-						);
+					{docs.map((d) => {
+						return <DocumentItem document={d} key={"document_list_" + d.id} />;
 					})}
 
 					{this.state.isLoading === false && this.state.next ? (
-						<Waypoint
-							onEnter={this.loadMoreDocuments.bind(this)}
-							threshold={2.0}
-						>
+						<Waypoint onEnter={this.loadMoreDocuments.bind(this)} threshold={2.0}>
 							<div className="load-more">Loading...</div>
 						</Waypoint>
 					) : null}

@@ -2,10 +2,10 @@ import React from "react";
 import DocumentActions from "../actions/DocumentActions";
 import DocumentsActions from "../actions/DocumentsActions";
 import DocumentStore from "../stores/DocumentStore";
-import Sidebar from "./Sidebar";
+import Sidebar from "../components/Sidebar";
 import spdf from "simple-react-pdf2";
-import PaperlessComponent from "./PaperlessComponent";
-import DocumentDetailForm from "./DocumentDetailForm";
+import PaperlessComponent from "../components/PaperlessComponent";
+import DocumentDetailForm from "../components/DocumentDetailForm";
 import ToolbarActions from "../actions/ToolbarActions";
 import $ from "jquery";
 
@@ -33,17 +33,10 @@ class DocumentDetail extends PaperlessComponent {
 		ToolbarActions.clearItems();
 
 		// toolbar: save button
-		ToolbarActions.addItem(
-			"save-detail",
-			"floppy",
-			"Save",
-			"primary",
-			"right",
-			e => {
-				e.preventDefault();
-				this.saveDocument();
-			}
-		);
+		ToolbarActions.addItem("save-detail", "floppy", "Save", "primary", "right", (e) => {
+			e.preventDefault();
+			this.saveDocument();
+		});
 
 		// toolbar: download file
 		ToolbarActions.addItem(
@@ -56,30 +49,21 @@ class DocumentDetail extends PaperlessComponent {
 				// downstream the download command
 				if (this.state.doc.download_url) {
 					ipcRenderer.send("download", {
-						url:
-							super.getHost() +
-							this.state.doc.download_url.replace("\\", "")
+						url: super.getHost() + this.state.doc.download_url.replace("\\", "")
 					});
 				}
 			}
 		);
 
 		// toolbar: delete document
-		ToolbarActions.addItem(
-			"add-reminder",
-			"bell",
-			"Add reminder",
-			"default",
-			"right",
-			() => {
-				// add correspondent
-				ipcRenderer.send("modal", {
-					route: "/modal/reminders/add/" + this.props.params.id,
-					width: 450,
-					height: 350
-				});
-			}
-		);
+		ToolbarActions.addItem("add-reminder", "bell", "Add reminder", "default", "right", () => {
+			// add correspondent
+			ipcRenderer.send("modal", {
+				route: "/modal/reminders/add/" + this.props.params.id,
+				width: 450,
+				height: 350
+			});
+		});
 
 		// toolbar: delete document
 		ToolbarActions.addItem(
@@ -95,8 +79,7 @@ class DocumentDetail extends PaperlessComponent {
 						type: "question",
 						buttons: ["Yes", "No"],
 						title: "It'll be gone forever!",
-						message:
-							"Are you sure you want to delete this document?"
+						message: "Are you sure you want to delete this document?"
 					}) === 0;
 
 				// yes, delete this thing!
@@ -176,10 +159,7 @@ class DocumentDetail extends PaperlessComponent {
 			<div className="pane-group">
 				<div className="pane-two-third">
 					<spdf.SimplePDF
-						file={
-							super.getHost() +
-							this.state.doc.download_url.replace("\\", "")
-						}
+						file={super.getHost() + this.state.doc.download_url.replace("\\", "")}
 					/>
 				</div>
 				<div className="pane pane-one-third">
