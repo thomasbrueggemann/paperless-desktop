@@ -20,7 +20,7 @@ class DocumentItem extends PaperlessComponent {
 	componentDidMount() {
 		// load the image base64 data
 		super.getDataUri(
-			super.getHost() +
+			super.getBaseHost() +
 				this.props.document.thumbnail_url.replace("\\", ""),
 			result => {
 				this.setState({

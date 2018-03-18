@@ -10,6 +10,10 @@ class PaperlessComponent extends React.Component {
     getHost() {
         return localStorage.getItem("settings.host");
     }
+    getBaseHost(){
+        var re = new RegExp("(https?:\/\/.*)\/.*");
+        return re.exec(localStorage.getItem("settings.host"))[1];
+    }
 
     // GET DATA URI
     getDataUri(url, callback) {
