@@ -1,14 +1,13 @@
 {
 	"name": "paperless-desktop",
 	"version": "0.0.9",
-	"description":
-		"Desktop app that uses the paperless API to manage your documents",
+	"description": "Desktop app that uses the paperless API to manage your documents",
 	"main": "main.js",
 	"scripts": {
 		"start": "gulp && electron .",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"package:mac":
-			"gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.4.13 --overwrite --icon=./icon.icns"
+		"package:mac": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.4.13 --overwrite --icon=./icon.icns",
+		"package:win": "gulp && electron-packager ./ Paperless --platform=win32 --arch=all --out ./build --ignore='^/build$' --electron-version 1.4.13 --overwrite --icon=./icon.png"
 	},
 	"repository": {
 		"type": "git",
@@ -28,6 +27,7 @@
 		"jquery": "^3.1.1",
 		"moment": "^2.17.1",
 		"other-window-ipc": "^1.3.0",
+		"pdfjs-dist": "1.5.222",
 		"prop-types": "^15.5.8",
 		"react": "^15.4.1",
 		"react-big-calendar": "^0.13.0",
@@ -63,7 +63,11 @@
 		"vinyl-source-stream": "^1.1.0",
 		"watchify": "^3.4.0"
 	},
-	"keywords": ["paperless", "desktop", "electron"],
+	"keywords": [
+		"paperless",
+		"desktop",
+		"electron"
+	],
 	"author": "Thomas Brüggemann",
 	"license": "GPL-3.0",
 	"bugs": {

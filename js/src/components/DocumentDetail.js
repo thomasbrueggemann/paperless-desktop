@@ -57,7 +57,7 @@ class DocumentDetail extends PaperlessComponent {
 				if (this.state.doc.download_url) {
 					ipcRenderer.send("download", {
 						url:
-							super.getHost() +
+							super.getBaseHost() +
 							this.state.doc.download_url.replace("\\", "")
 					});
 				}
@@ -177,7 +177,7 @@ class DocumentDetail extends PaperlessComponent {
 				<div className="pane-two-third">
 					<spdf.SimplePDF
 						file={
-							super.getHost() +
+							super.getBaseHost() +
 							this.state.doc.download_url.replace("\\", "")
 						}
 					/>
