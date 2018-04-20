@@ -3,7 +3,6 @@ const btoa = require("btoa");
 const { download } = require("electron-dl");
 const path = require("path");
 const url = require("url");
-const GhReleases = require("electron-gh-releases");
 const appVersion = require("./package.json").version;
 const os = require("os").platform();
 
@@ -19,35 +18,6 @@ var modalWindow;
 
 // authentication object
 var auth = null;
-
-/*
-   _       _         _   _          _      _
-  /_\ _  _| |_ ___  | | | |_ __  __| |__ _| |_ ___ _ _
- / _ \ || |  _/ _ \ | |_| | '_ \/ _` / _` |  _/ -_) '_|
-/_/ \_\_,_|\__\___/  \___/| .__/\__,_\__,_|\__\___|_|
-					      |_|
-*/
-
-// configure the auto-updater
-const updater = new GhReleases({
-	repo: "thomasbrueggemann/paperless-desktop",
-	currentVersion: appVersion
-});
-
-// Check for updates
-// status returns true if there is a new update available
-updater.check((err, status) => {
-	if (!err && status) {
-		// Download the update
-		updater.download();
-	}
-});
-
-// When an update has been downloaded
-updater.on("update-downloaded", (info) => {
-	// Restart the app and install the update
-	updater.install();
-});
 
 /*
  ___ _

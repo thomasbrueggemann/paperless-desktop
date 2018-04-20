@@ -1,13 +1,13 @@
 {
 	"name": "paperless-desktop",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"description": "Desktop app that uses the paperless API to manage your documents",
 	"main": "main.js",
 	"scripts": {
 		"start": "gulp && electron .",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"package:mac":
-			"gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.4.13 --overwrite --icon=./icon.icns"
+			"gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
 	},
 	"repository": {
 		"type": "git",
@@ -20,9 +20,6 @@
 		"babel": "^5.8.23",
 		"btoa": "^1.1.2",
 		"electron-dl": "^1.6.0",
-		"electron-gh-releases": "^2.0.4",
-		"electron-packager": "^8.4.0",
-		"electron-prebuilt": "^1.4.13",
 		"history": "^1.12.5",
 		"jquery": "^3.1.1",
 		"moment": "^2.17.1",
@@ -45,10 +42,11 @@
 		"webpack": "^2.4.1"
 	},
 	"devDependencies": {
+		"electron-packager": "^12.0.1",
+		"electron": "^1.8.4",
 		"babelify": "^6.3.0",
 		"bower": "^1.6.3",
 		"browserify": "^11.2.0",
-		"electron": "^1.4.15",
 		"gulp": "^3.9.0",
 		"gulp-util": "^3.0.6",
 		"vinyl-source-stream": "^1.1.0"
