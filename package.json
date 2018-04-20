@@ -6,7 +6,8 @@
 	"scripts": {
 		"start": "gulp && electron .",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"package:mac": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
+		"package":
+			"gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
 	},
 	"repository": {
 		"type": "git",
@@ -49,11 +50,7 @@
 		"gulp-util": "^3.0.6",
 		"vinyl-source-stream": "^1.1.0"
 	},
-	"keywords": [
-		"paperless",
-		"desktop",
-		"electron"
-	],
+	"keywords": ["paperless", "desktop", "electron"],
 	"author": "Thomas Brüggemann",
 	"license": "GPL-3.0",
 	"bugs": {
