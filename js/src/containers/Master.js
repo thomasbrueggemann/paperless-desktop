@@ -7,16 +7,15 @@ const fs = electron.remote.require("fs");
 const ipcRenderer = electron.ipcRenderer;
 
 class Master extends React.Component {
-
 	// COMPONENT DID MOUNT
 	componentDidMount() {
 		$(window).on("goBackToLogin", this.goBackToLogin.bind(this));
 	}
 
 	// COMPONENT WILL UNMOUNT
-    componentWillUnmount() {
-        $(window).off("goBackToLogin");
-    }
+	componentWillUnmount() {
+		$(window).off("goBackToLogin");
+	}
 
 	// GO BACK TO LOGIN
 	goBackToLogin() {
@@ -42,7 +41,7 @@ class Master extends React.Component {
 
 // CONTEXT TYPES
 Master.contextTypes = {
-    router: React.PropTypes.object.isRequired
+	router: React.PropTypes.object.isRequired
 };
 
 export default Master;

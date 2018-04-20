@@ -1,5 +1,5 @@
 import React from "react";
-import PaperlessComponent from "./PaperlessComponent";
+import PaperlessComponent from "../components/PaperlessComponent";
 import RemindersActions from "../actions/RemindersActions";
 import RemindersStore from "../stores/RemindersStore";
 import moment from "moment";
@@ -50,10 +50,7 @@ class RemindersAdd extends PaperlessComponent {
 
 		// check if a note is available
 		if (this.state.note === null || this.state.note.trim().length <= 0) {
-			return dialog.showErrorBox(
-				"Could not add reminder",
-				"Please add a note text!"
-			);
+			return dialog.showErrorBox("Could not add reminder", "Please add a note text!");
 		}
 
 		RemindersActions.addReminder(this.state.doc, date, this.state.note);
@@ -94,8 +91,7 @@ class RemindersAdd extends PaperlessComponent {
 				</div>
 
 				<p style={{ color: "grey" }}>
-					Note: reminder notifications only show up, while this app is
-					open on your Mac!
+					Note: reminder notifications only show up, while this app is open on your Mac!
 				</p>
 
 				<div className="btn-group">

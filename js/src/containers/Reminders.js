@@ -2,7 +2,7 @@ import React from "react";
 import RemindersActions from "../actions/RemindersActions";
 import RemindersStore from "../stores/RemindersStore";
 import $ from "jquery";
-import PaperlessComponent from "./PaperlessComponent";
+import PaperlessComponent from "../components/PaperlessComponent";
 import ToolbarActions from "../actions/ToolbarActions";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
@@ -58,10 +58,12 @@ class Reminders extends React.Component {
 
 		return (
 			<BigCalendar
-				events={this.state.reminders.map(r => {
+				events={this.state.reminders.map((r) => {
 					return {
 						start: moment(r.date).toDate(),
-						end: moment(r.date).add(15, "minutes").toDate(),
+						end: moment(r.date)
+							.add(15, "minutes")
+							.toDate(),
 						title: r.note,
 						desc: r.note
 					};

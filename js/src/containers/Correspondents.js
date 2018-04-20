@@ -2,9 +2,9 @@ import React from "react";
 import CorrespondentsActions from "../actions/CorrespondentsActions";
 import CorrespondentsStore from "../stores/CorrespondentsStore";
 import $ from "jquery";
-import PaperlessComponent from "./PaperlessComponent";
+import PaperlessComponent from "../components/PaperlessComponent";
 import ToolbarActions from "../actions/ToolbarActions";
-import CorrespondentsListItem from "./CorrespondentsListItem";
+import CorrespondentsListItem from "../components/CorrespondentsListItem";
 
 // IPC hack (https://medium.freecodecamp.com/building-an-electron-application-with-create-react-app-97945861647c#.gi5l2hzbq)
 const electron = window.require("electron");
@@ -152,11 +152,7 @@ class Correspondents extends PaperlessComponent {
 
 	// RENDER
 	render() {
-		if (
-			!this.state.correspondents ||
-			!("results" in this.state.correspondents)
-		)
-			return null;
+		if (!this.state.correspondents || !("results" in this.state.correspondents)) return null;
 
 		return (
 			<div className="pane">
@@ -170,17 +166,13 @@ class Correspondents extends PaperlessComponent {
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.correspondents.results.map(c => {
+						{this.state.correspondents.results.map((c) => {
 							return (
 								<CorrespondentsListItem
 									key={"correspondent_" + c.id}
 									correspondent={c}
-									changeSelection={this.changeSelection.bind(
-										this
-									)}
-									updateCorrespondent={this.updateCorrespondent.bind(
-										this
-									)}
+									changeSelection={this.changeSelection.bind(this)}
+									updateCorrespondent={this.updateCorrespondent.bind(this)}
 								/>
 							);
 						})}
