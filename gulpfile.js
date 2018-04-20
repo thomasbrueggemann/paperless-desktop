@@ -1,21 +1,12 @@
-var gulp = require("gulp");
-var gutil = require("gulp-util");
-var gulpif = require("gulp-if");
-var streamify = require("gulp-streamify");
-var autoprefixer = require("gulp-autoprefixer");
-var cssmin = require("gulp-cssmin");
-var less = require("gulp-less");
-var concat = require("gulp-concat");
-var plumber = require("gulp-plumber");
-var source = require("vinyl-source-stream");
-var babelify = require("babelify");
-var browserify = require("browserify");
-var watchify = require("watchify");
-var uglify = require("gulp-uglify");
+const gulp = require("gulp");
+const gutil = require("gulp-util");
+const source = require("vinyl-source-stream");
+const babelify = require("babelify");
+const browserify = require("browserify");
 
-var production = false; //process.env.NODE_ENV === "production";
+const production = false;
 
-var dependencies = [
+const dependencies = [
 	"alt",
 	"react",
 	"react-dom",
@@ -35,21 +26,11 @@ var dependencies = [
  */
 gulp.task("browserify-vendor", function() {
 	return browserify({
-		debug: !production
+		debug: true
 	})
 		.require(dependencies)
 		.bundle()
 		.pipe(source("vendor.bundle.js"))
-		.pipe(
-			gulpif(
-				production,
-				streamify(
-					uglify({
-						mangle: false
-					})
-				)
-			)
-		)
 		.pipe(gulp.dest("js/build"));
 });
 
@@ -61,56 +42,13 @@ gulp.task("browserify-vendor", function() {
 gulp.task("browserify", ["browserify-vendor"], function() {
 	return browserify({
 		entries: "js/src/main.js",
-		debug: !production
+		debug: true
 	})
 		.external(dependencies)
 		.transform(babelify)
 		.bundle()
 		.pipe(source("bundle.js"))
-		.pipe(
-			gulpif(
-				production,
-				streamify(
-					uglify({
-						mangle: false
-					})
-				)
-			)
-		)
 		.pipe(gulp.dest("js/build"));
 });
 
-/*
- |--------------------------------------------------------------------------
- | Same as browserify task, but will also watch for changes and re-compile.
- |--------------------------------------------------------------------------
- */
-gulp.task("browserify-watch", ["browserify-vendor"], function() {
-	var bundler = watchify(browserify("main.js", watchify.args));
-	bundler.external(dependencies);
-	bundler.transform(babelify);
-	bundler.on("update", rebundle);
-	return rebundle();
-
-	function rebundle() {
-		var start = Date.now();
-		return bundler
-			.bundle()
-			.on("error", function(err) {
-				gutil.log(gutil.colors.red(err.toString()));
-			})
-			.on("end", function() {
-				gutil.log(
-					gutil.colors.green(
-						"Finished rebundling in",
-						Date.now() - start + "ms."
-					)
-				);
-			})
-			.pipe(source("bundle.js"))
-			.pipe(gulp.dest("js/"));
-	}
-});
-
 gulp.task("default", ["browserify-vendor", "browserify"]);
-//gulp.task("build", ["vendor", "browserify"]);

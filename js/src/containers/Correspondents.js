@@ -103,7 +103,7 @@ class Correspondents extends PaperlessComponent {
 				"remove-tags",
 				"trash",
 				"Delete",
-				"negative",
+				"default",
 				"left",
 				this.deleteSelection.bind(this)
 			);
