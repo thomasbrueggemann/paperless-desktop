@@ -6,8 +6,7 @@
 	"scripts": {
 		"start": "gulp && electron .",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"package:mac":
-			"gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
+		"package:mac": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
 	},
 	"repository": {
 		"type": "git",
@@ -37,7 +36,6 @@
 		"riek": "^1.0.7",
 		"simple-react-pdf2": "^2.0.1",
 		"slug": "^0.9.1",
-		"swig": "^1.4.2",
 		"underscore": "^1.8.3",
 		"webpack": "^2.4.1"
 	},
@@ -51,7 +49,11 @@
 		"gulp-util": "^3.0.6",
 		"vinyl-source-stream": "^1.1.0"
 	},
-	"keywords": ["paperless", "desktop", "electron"],
+	"keywords": [
+		"paperless",
+		"desktop",
+		"electron"
+	],
 	"author": "Thomas Brüggemann",
 	"license": "GPL-3.0",
 	"bugs": {
