@@ -44,7 +44,7 @@ updater.check((err, status) => {
 });
 
 // When an update has been downloaded
-updater.on("update-downloaded", info => {
+updater.on("update-downloaded", (info) => {
 	// Restart the app and install the update
 	updater.install();
 });
@@ -85,19 +85,32 @@ var menu = Menu.buildFromTemplate([
 				selector: "orderFrontStandardAboutPanel:"
 			},
 			{
-				label: "Close Tab",
-				accelerator: "CmdOrCtrl+W",
-				click: function() {
-					mainWindow.webContents.send("closeCurrentTab", true);
-				}
-			},
-			{
 				label: "Quit",
 				accelerator: "CmdOrCtrl+Q",
 				click: function() {
 					app.quit();
 				}
 			}
+		]
+	},
+	{
+		label: "File",
+		submenu: [
+			{
+				label: "Close Tab",
+				accelerator: "CmdOrCtrl+W",
+				click: function() {
+					mainWindow.webContents.send("closeCurrentTab", true);
+				}
+			}
+		]
+	},
+	{
+		label: "Edit",
+		submenu: [
+			{ label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+			{ label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+			{ label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
 		]
 	}
 ]);
@@ -238,20 +251,18 @@ function createWindow() {
 	);
 
 	// ON BEFORE SEND HEADERS
-	session.defaultSession.webRequest.onBeforeSendHeaders(
-		(details, callback) => {
-			// check if the auth information is present
-			if (auth !== null) {
-				details.requestHeaders["Authorization"] =
-					"Basic " + btoa(auth.username + ":" + auth.password);
-			}
-
-			// drop all cookie information, we authenticate just via HTTP Basic
-			delete details.requestHeaders["Cookie"];
-
-			callback({ cancel: false, requestHeaders: details.requestHeaders });
+	session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+		// check if the auth information is present
+		if (auth !== null) {
+			details.requestHeaders["Authorization"] =
+				"Basic " + btoa(auth.username + ":" + auth.password);
 		}
-	);
+
+		// drop all cookie information, we authenticate just via HTTP Basic
+		delete details.requestHeaders["Cookie"];
+
+		callback({ cancel: false, requestHeaders: details.requestHeaders });
+	});
 
 	// Open the DevTools.
 	if (DEBUG) mainWindow.webContents.openDevTools();
