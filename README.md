@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="http://i.imgur.com/GRzSQpz.png" width="150" />
+	<img src="https://i.imgur.com/F5GNK4X.png" width="150" />
 </p>
 
 # Paperless Desktop</h1>
