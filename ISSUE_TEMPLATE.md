@@ -7,11 +7,11 @@
 ## Steps to Reproduce the Problem
 
   1.
-  1.
-  1.
+  2.
+  3.
 
 ## Specifications
 
-  - Version:
+  - Version of Paperless-Desktop:
   - Platform:
-  - Subsystem:
+  - Version of NodeJS (if applicable):
