@@ -12,6 +12,7 @@
 
 ## Specifications
 
+  - Version of Paperless: 
   - Version of Paperless-Desktop:
   - Platform:
   - Version of NodeJS (if applicable):
