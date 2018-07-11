@@ -19,7 +19,7 @@ class TagsActions {
 
 	// GET TAGS
 	getTags() {
-		const url = localStorage.getItem("settings.host") + "/api/tags/";
+		const url = localStorage.getItem("settings.host") + "/api/tags/?ordering=name";
 
 		axios({
 			method: "get",
