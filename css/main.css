@@ -257,3 +257,9 @@
 .toolbar-header {
 	-webkit-app-region: drag;
 }
+
+.tags-match {
+	min-height: 1.5em;
+	min-width: 100px;
+	display: block;
+}
