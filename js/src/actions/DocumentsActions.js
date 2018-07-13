@@ -39,7 +39,7 @@ class DocumentsActions {
 			correspondent__slug_1: "contains",
 			tags__slug_0: tag,
 			tags__slug_1: "contains",
-			ordering: "-created",
+			ordering: "name",
 			page: page
 		});
 
