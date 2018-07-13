@@ -3,9 +3,9 @@ import DocumentActions from "../actions/DocumentActions";
 import DocumentsActions from "../actions/DocumentsActions";
 import DocumentStore from "../stores/DocumentStore";
 import Sidebar from "../components/Sidebar";
-import spdf from "simple-react-pdf2";
 import PaperlessComponent from "../components/PaperlessComponent";
 import DocumentDetailForm from "../components/DocumentDetailForm";
+import DocumentRender from "../components/DocumentRender";
 import ToolbarActions from "../actions/ToolbarActions";
 import $ from "jquery";
 
@@ -154,12 +154,11 @@ class DocumentDetail extends PaperlessComponent {
 	render() {
 		// render nothing if document is empty
 		if (!this.state.doc) return null;
-
 		return (
 			<div className="pane-group">
 				<div className="pane-two-third">
-					<spdf.SimplePDF
-						file={super.getHost() + this.state.doc.download_url.replace("\\", "")}
+					<DocumentRender
+						doc={this.state.doc}
 					/>
 				</div>
 				<div className="pane pane-one-third">

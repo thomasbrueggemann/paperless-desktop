@@ -257,3 +257,7 @@
 .toolbar-header {
 	-webkit-app-region: drag;
 }
+
+.pane-two-third {
+	overflow: scroll;
+}
