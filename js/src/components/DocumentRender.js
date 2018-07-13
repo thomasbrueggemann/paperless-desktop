@@ -13,18 +13,18 @@ class DocumentRender extends PaperlessComponent {
 
 	// RENDER
 	render() {
-    this.path = super.getHost() + this.state.doc.download_url.replace("\\", "");
+		this.path = super.getHost() + this.state.doc.download_url.replace("\\", "");
 		if (this.state.doc.file_type=="pdf") {
-      return (
-        <spdf.SimplePDF
-          file={ this.path }
-        />
-      );
-    } else {
-      return (
-        <img src={ this.path } style={{ maxWidth: '100%' }} />
-      );
-    }
+			return (
+				<spdf.SimplePDF
+					file={ this.path }
+				/>
+			);
+		} else {
+			return (
+				<img src={ this.path } style={{ maxWidth: '100%' }} />
+			);
+		}
 
 
 	}
