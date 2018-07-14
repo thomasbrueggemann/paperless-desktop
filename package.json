@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "gulp && electron .",
 		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint js/src",
 		"precommit": "pretty-quick --staged",
 		"package": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
 	},
@@ -46,6 +47,8 @@
 		"browserify": "^11.2.0",
 		"electron": "^1.8.4",
 		"electron-packager": "^12.0.1",
+		"eslint": "^5.1.0",
+		"eslint-plugin-react": "^7.10.0",
 		"gulp": "^3.9.0",
 		"gulp-util": "^3.0.6",
 		"husky": "^0.14.3",

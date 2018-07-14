@@ -19,8 +19,7 @@ class CorrespondentsActions {
 
 	// GET CORRESPONDENTS
 	getCorrespondents() {
-		var url =
-			localStorage.getItem("settings.host") + "/api/correspondents/";
+		var url = localStorage.getItem("settings.host") + "/api/correspondents/";
 
 		axios({
 			method: "get",
@@ -42,19 +41,14 @@ class CorrespondentsActions {
 		async.every(
 			ids,
 			(id, callback) => {
-				const url =
-					localStorage.getItem("settings.host") +
-					"/api/correspondents/" +
-					id;
+				const url = localStorage.getItem("settings.host") + "/api/correspondents/" + id;
 
 				// delete document
 				axios({
 					method: "delete",
 					url: url,
 					auth: {
-						username: localStorage.getItem(
-							"settings.auth.username"
-						),
+						username: localStorage.getItem("settings.auth.username"),
 						password: localStorage.getItem("settings.auth.password")
 					}
 				})
@@ -62,13 +56,10 @@ class CorrespondentsActions {
 						return callback(null, r);
 					})
 					.catch((e) => {
-						console.error(e);
 						return callback(e);
 					});
 			},
-			(err, result) => {
-				console.log(err, result);
-
+			(err) => {
 				if (err) {
 					return that.actions.deleteCorrespondentsFail(err);
 				}
@@ -81,8 +72,7 @@ class CorrespondentsActions {
 
 	// ADD CORRESPONDENT
 	addCorrespondent(data) {
-		var url =
-			localStorage.getItem("settings.host") + "/api/correspondents/";
+		var url = localStorage.getItem("settings.host") + "/api/correspondents/";
 
 		axios({
 			method: "post",
@@ -99,11 +89,7 @@ class CorrespondentsActions {
 
 	// EDIT CORRESPONDENT
 	editCorrespondent(data) {
-		const url =
-			localStorage.getItem("settings.host") +
-			"/api/correspondents/" +
-			data.id +
-			"/";
+		const url = localStorage.getItem("settings.host") + "/api/correspondents/" + data.id + "/";
 
 		axios({
 			method: "put",

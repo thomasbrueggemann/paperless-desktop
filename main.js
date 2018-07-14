@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const { app, Menu, BrowserWindow, session, ipcMain } = require("electron");
 const btoa = require("btoa");
 const { download } = require("electron-dl");
@@ -183,7 +185,7 @@ ipcMain.on("openDocument", (e, args) => {
 	}
 });
 
-/*
+/* 
  __  __      _       __      ___         _
 |  \/  |__ _(_)_ _   \ \    / (_)_ _  __| |_____ __ __
 | |\/| / _` | | ' \   \ \/\/ /| | ' \/ _` / _ \ V  V /
@@ -191,7 +193,9 @@ ipcMain.on("openDocument", (e, args) => {
 
 */
 
-// CREATE WINDOW
+/**
+ * Creates a new application window
+ */
 function createWindow() {
 	Menu.setApplicationMenu(menu);
 

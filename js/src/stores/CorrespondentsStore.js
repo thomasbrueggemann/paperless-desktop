@@ -30,10 +30,7 @@ class CorrespondentsStore {
 			return;
 		}
 
-		dialog.showErrorBox(
-			"Could not load correspondents!",
-			"Please try again."
-		);
+		dialog.showErrorBox("Could not load correspondents!", "Please try again.");
 	}
 
 	// DELETE CORRESPONDENTS SUCCESS
@@ -41,11 +38,9 @@ class CorrespondentsStore {
 		this.selection = [];
 
 		if (this.correspondents.results) {
-			this.correspondents.results = this.correspondents.results.filter(
-				t => {
-					return !ids.find(i => i === t.id);
-				}
-			);
+			this.correspondents.results = this.correspondents.results.filter((t) => {
+				return !ids.find((i) => i === t.id);
+			});
 		}
 
 		// remove the delete button
@@ -61,11 +56,7 @@ class CorrespondentsStore {
 			return;
 		}
 
-		console.error(err);
-		dialog.showErrorBox(
-			"Could not delete correspondent(s)!",
-			"Please try again."
-		);
+		dialog.showErrorBox("Could not delete correspondent(s)!", "Please try again.");
 	}
 
 	// ADD CORRESPONDENTS SUCCESS
@@ -81,7 +72,6 @@ class CorrespondentsStore {
 			return;
 		}
 
-		console.error(err);
 		dialog.showErrorBox(
 			"Could not add the correspondent!",
 			"Data might be missing or the correspondent may already exist."
@@ -93,7 +83,7 @@ class CorrespondentsStore {
 		if (!result.data) return;
 
 		// replace the correspondent with new edited one
-		this.correspondents.results = this.correspondents.results.map(c => {
+		this.correspondents.results = this.correspondents.results.map((c) => {
 			if (c.id === result.data.id) return result.data;
 			else return c;
 		});
@@ -106,7 +96,6 @@ class CorrespondentsStore {
 			return;
 		}
 
-		console.error(err);
 		dialog.showErrorBox(
 			"Could not edit the correspondent!",
 			"Data might be missing or the correspondent does not exist anymore."

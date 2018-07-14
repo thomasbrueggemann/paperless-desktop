@@ -53,22 +53,19 @@ class RemindersStore {
 		var id = parseInt(parts[parts.length - 2]);
 
 		// filter out the removed reminder
-		this.reminders = this.reminders.filter(r => {
+		this.reminders = this.reminders.filter((r) => {
 			return r.id !== id;
 		});
 	}
 
 	// REMOVE REMINDER FAIL
-	removeReminderFail() {
+	removeReminderFail(err) {
 		if (err.response && err.response.status === 403) {
 			$(window).trigger("goBackToLogin");
 			return;
 		}
 
-		dialog.showErrorBox(
-			"Could not remove the reminder!",
-			"Please try again."
-		);
+		dialog.showErrorBox("Could not remove the reminder!", "Please try again.");
 	}
 }
 
