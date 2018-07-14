@@ -1,6 +1,6 @@
 {
 	"name": "paperless-desktop",
-	"version": "0.0.10",
+	"version": "0.0.12-alpha",
 	"description": "Desktop app that uses the paperless API to manage your documents",
 	"main": "main.js",
 	"scripts": {
