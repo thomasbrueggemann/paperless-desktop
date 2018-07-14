@@ -2,8 +2,8 @@ import React from "react";
 
 class PaperlessComponent extends React.Component {
     // CONSTRUCTOR
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
     }
 
     // GET HOST
