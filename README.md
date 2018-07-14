@@ -2,7 +2,7 @@
 	<img src="https://i.imgur.com/F5GNK4X.png" width="150" />
 </p>
 
-# Paperless Desktop</h1>
+# Paperless Desktop [![Build Status](https://travis-ci.org/thomasbrueggemann/paperless-desktop.svg?branch=master)](https://travis-ci.org/thomasbrueggemann/paperless-desktop)
 
 Desktop app that uses the [paperless](https://github.com/danielquinn/paperless) API to manage your document scans.
 
@@ -47,7 +47,7 @@ $ npm run package:mac
 
 ## Credits
 
-*   &copy; icon design by [@pdiegmann](https://github.com/pdiegmann)
-*   [photon](https://github.com/connors/photon)
-*   [react](https://facebook.github.io/react/)
-*   [electron](http://electron.atom.io/)
+-   &copy; icon design by [@pdiegmann](https://github.com/pdiegmann)
+-   [photon](https://github.com/connors/photon)
+-   [react](https://facebook.github.io/react/)
+-   [electron](http://electron.atom.io/)
