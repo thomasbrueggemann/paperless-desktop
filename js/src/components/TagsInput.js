@@ -1,9 +1,10 @@
 import React from "react";
+import PaperlessComponent from "./PaperlessComponent";
 import TagsActions from "../actions/TagsActions";
 import TagsStore from "../stores/TagsStore";
 import Select from "react-select";
 
-class TagsInput extends React.Component {
+class TagsInput extends PaperlessComponent {
 	// CONSTRUCTOR
 	constructor(props) {
 		super(props);
@@ -70,7 +71,8 @@ class TagsInput extends React.Component {
 			possibles = this.state.tags.results.map(t => {
 				return {
 					label: t.name,
-					value: t.id
+					value: t.id,
+					style: { color: this.getTagColor(t.colour) }
 				};
 			});
 		}
