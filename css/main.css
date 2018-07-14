@@ -261,3 +261,9 @@
 .pane-two-third {
 	overflow: scroll;
 }
+
+.tags-match {
+	min-height: 1.5em;
+	min-width: 100px;
+	display: block;
+}

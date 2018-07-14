@@ -14,8 +14,7 @@ class DocumentActions {
 
 	// GET DOC
 	getDocument(id) {
-		const url =
-			localStorage.getItem("settings.host") + "/api/documents/" + id;
+		const url = localStorage.getItem("settings.host") + "/api/documents/" + id;
 
 		// fetch documents
 		axios({
@@ -32,13 +31,7 @@ class DocumentActions {
 
 	// UPDATE DOCUMENT
 	updateDocument(data) {
-		const url =
-			localStorage.getItem("settings.host") +
-			"/api/documents/" +
-			data.id +
-			"/";
-
-		console.log(data);
+		const url = localStorage.getItem("settings.host") + "/api/documents/" + data.id + "/";
 
 		// fetch documents
 		axios({

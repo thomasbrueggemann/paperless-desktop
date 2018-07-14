@@ -4,13 +4,18 @@ node_js:
 matrix:
   include:
   - os: osx
+
 notifications:
   email: false
+
 script:
+  - npm run lint
   - npm run package
+
 before_deploy:
   - cd build
   - zip -r Paperless-${TRAVIS_TAG}.zip Paperless-darwin-x64
+  
 deploy:
   provider: releases
   api_key:

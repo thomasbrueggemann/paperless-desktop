@@ -6,8 +6,9 @@
 	"scripts": {
 		"start": "gulp && electron .",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"package":
-			"gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
+		"lint": "eslint js/src",
+		"precommit": "pretty-quick --staged",
+		"package": "gulp && electron-packager ./ Paperless --platform=darwin --arch=all --out ./build --ignore='^/build$' --electron-version 1.8.4 --overwrite --icon=./icon.icns"
 	},
 	"repository": {
 		"type": "git",
@@ -41,16 +42,25 @@
 		"webpack": "^2.4.1"
 	},
 	"devDependencies": {
-		"electron-packager": "^12.0.1",
-		"electron": "^1.8.4",
 		"babelify": "^6.3.0",
 		"bower": "^1.6.3",
 		"browserify": "^11.2.0",
+		"electron": "^1.8.4",
+		"electron-packager": "^12.0.1",
+		"eslint": "^5.1.0",
+		"eslint-plugin-react": "^7.10.0",
 		"gulp": "^3.9.0",
 		"gulp-util": "^3.0.6",
+		"husky": "^0.14.3",
+		"prettier": "^1.13.7",
+		"pretty-quick": "^1.6.0",
 		"vinyl-source-stream": "^1.1.0"
 	},
-	"keywords": ["paperless", "desktop", "electron"],
+	"keywords": [
+		"paperless",
+		"desktop",
+		"electron"
+	],
 	"author": "Thomas Brüggemann",
 	"license": "GPL-3.0",
 	"bugs": {

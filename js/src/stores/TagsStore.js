@@ -35,8 +35,8 @@ class TagsStore {
 	// DELETE TAGS SUCCESS
 	deleteTagsSuccess(ids) {
 		if (this.tags.results) {
-			this.tags.results = this.tags.results.filter(t => {
-				return !ids.find(i => i === t.id);
+			this.tags.results = this.tags.results.filter((t) => {
+				return !ids.find((i) => i === t.id);
 			});
 		}
 
@@ -80,7 +80,7 @@ class TagsStore {
 		if (!result.data) return;
 
 		// replace the tag with new edited one
-		this.tags.results = this.tags.results.map(t => {
+		this.tags.results = this.tags.results.map((t) => {
 			if (t.id === result.data.id) return result.data;
 			else return t;
 		});
@@ -93,7 +93,6 @@ class TagsStore {
 			return;
 		}
 
-		console.error(err);
 		dialog.showErrorBox(
 			"Could not edit the tag!",
 			"Data might be missing or the tag does not exist anymore."

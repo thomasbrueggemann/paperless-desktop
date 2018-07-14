@@ -4,29 +4,29 @@ import CorrespondentsStore from "../stores/CorrespondentsStore";
 import Select from "react-select";
 
 class CorrespondentSelect extends React.Component {
-    // CONSTRUCTOR
-    constructor(props) {
-        super(props);
+	// CONSTRUCTOR
+	constructor(props) {
+		super(props);
 
-        this.state = CorrespondentsStore.getState();
-        this.onChange = this.onChange.bind(this);
-    }
+		this.state = CorrespondentsStore.getState();
+		this.onChange = this.onChange.bind(this);
+	}
 
-    // COMPONENT DID MOUNT
-    componentDidMount() {
-        CorrespondentsStore.listen(this.onChange);
-        CorrespondentsActions.getCorrespondents();
-    }
+	// COMPONENT DID MOUNT
+	componentDidMount() {
+		CorrespondentsStore.listen(this.onChange);
+		CorrespondentsActions.getCorrespondents();
+	}
 
-    // COMPONENT WILL UNMOUNT
-    componentWillUnmount() {
-        CorrespondentsStore.unlisten(this.onChange);
-    }
+	// COMPONENT WILL UNMOUNT
+	componentWillUnmount() {
+		CorrespondentsStore.unlisten(this.onChange);
+	}
 
-    // ON CHANGE
-    onChange(state) {
-        this.setState(state);
-    }
+	// ON CHANGE
+	onChange(state) {
+		this.setState(state);
+	}
 
 	// ON CHANGE
 	selectChanged(value) {
@@ -38,15 +38,10 @@ class CorrespondentSelect extends React.Component {
 		});
 	}
 
-    // RENDER
-    render() {
-
-		var options = this.state.correspondents.results.map(c => {
-
-			var value = localStorage.getItem("settings.host") +
-				"/api/correspondents/" +
-				c.id +
-				"/";
+	// RENDER
+	render() {
+		var options = this.state.correspondents.results.map((c) => {
+			var value = localStorage.getItem("settings.host") + "/api/correspondents/" + c.id + "/";
 
 			return {
 				value: value,
@@ -54,14 +49,14 @@ class CorrespondentSelect extends React.Component {
 			};
 		});
 
-        return (
-            <Select
-                value={this.props.value}
-                onChange={this.selectChanged.bind(this)}
+		return (
+			<Select
+				value={this.props.value}
+				onChange={this.selectChanged.bind(this)}
 				options={options}
 			/>
-        );
-    }
+		);
+	}
 }
 
 export default CorrespondentSelect;

@@ -19,7 +19,7 @@ class TagsActions {
 
 	// GET TAGS
 	getTags() {
-		const url = localStorage.getItem("settings.host") + "/api/tags/";
+		const url = localStorage.getItem("settings.host") + "/api/tags/?ordering=name";
 
 		axios({
 			method: "get",
@@ -41,17 +41,14 @@ class TagsActions {
 		async.every(
 			ids,
 			(id, callback) => {
-				var url =
-					localStorage.getItem("settings.host") + "/api/tags/" + id;
+				var url = localStorage.getItem("settings.host") + "/api/tags/" + id;
 
 				// delete document
 				axios({
 					method: "delete",
 					url: url,
 					auth: {
-						username: localStorage.getItem(
-							"settings.auth.username"
-						),
+						username: localStorage.getItem("settings.auth.username"),
 						password: localStorage.getItem("settings.auth.password")
 					}
 				})
@@ -62,7 +59,7 @@ class TagsActions {
 						return callback(e);
 					});
 			},
-			(err, result) => {
+			(err) => {
 				if (err) {
 					return that.actions.deleteTagsFail(err);
 				}
@@ -75,8 +72,6 @@ class TagsActions {
 
 	// ADD TAG
 	addTag(data) {
-		console.log(data);
-
 		var url = localStorage.getItem("settings.host") + "/api/tags/";
 
 		axios({
@@ -94,11 +89,7 @@ class TagsActions {
 
 	// EDIT TAG
 	editTag(data) {
-		var url =
-			localStorage.getItem("settings.host") +
-			"/api/tags/" +
-			data.id +
-			"/";
+		var url = localStorage.getItem("settings.host") + "/api/tags/" + data.id + "/";
 
 		axios({
 			method: "put",

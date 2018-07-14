@@ -65,6 +65,7 @@ class TagsListItem extends PaperlessComponent {
                         propName="match"
                         change={this.changeProp.bind(this)}
                         classEditing="inplace-edit"
+                        className="tags-match"
                     />
                 </td>
                 <td>
