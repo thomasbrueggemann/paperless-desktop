@@ -53,7 +53,7 @@ var menu = Menu.buildFromTemplate([
 		label: app.getName(),
 		submenu: [
 			{
-				label: "About App",
+				label: "About Paperless Desktop",
 				selector: "orderFrontStandardAboutPanel:"
 			},
 			{
