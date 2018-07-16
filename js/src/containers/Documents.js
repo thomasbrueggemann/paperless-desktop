@@ -35,9 +35,12 @@ class Documents extends React.Component {
 
 		// search documents
 		$(window).on("searchDocuments", this.onSearchDocuments.bind(this));
-
+		this.setState({
+			ordering: "-created"
+		});	
+		
 		DocumentsStore.listen(this.onChange);
-		DocumentsActions.getDocuments(this.state.correspondent, this.state.tag);
+		DocumentsActions.getDocuments(this.state.correspondent, this.state.tag, this.state.ordering);
 
 		// populate the selected correspondent
 		if (this.state.correspondent !== null) {
@@ -93,7 +96,7 @@ class Documents extends React.Component {
 			tag: tag
 		});
 
-		DocumentsActions.getDocuments(this.state.correspondent, tag);
+		DocumentsActions.getDocuments(this.state.correspondent, tag, this.state.ordering);
 	}
 
 	// SET CORRESPONDENT FILTER
@@ -102,7 +105,15 @@ class Documents extends React.Component {
 			correspondent: correspondent
 		});
 
-		DocumentsActions.getDocuments(correspondent, this.state.tag);
+		DocumentsActions.getDocuments(correspondent, this.state.tag, this.state.ordering);
+	}
+
+	setOrdering(ordering) {
+		this.setState({
+			ordering: ordering
+		});
+
+		DocumentsActions.getDocuments(this.state.correspondent, this.state.tag, ordering);
 	}
 
 	// LOAD MORE DOCUMENTS
@@ -110,6 +121,7 @@ class Documents extends React.Component {
 		DocumentsActions.getDocuments(
 			this.state.correspondent,
 			this.state.tag,
+			this.state.ordering,
 			this.state.page + 1
 		);
 	}
@@ -196,6 +208,8 @@ class Documents extends React.Component {
 				<Sidebar
 					setTagFilter={this.setTagFilter.bind(this)}
 					setCorrespondentFilter={this.setCorrespondentFilter.bind(this)}
+					setOrdering={this.setOrdering.bind(this)}
+					ordering={this.state.ordering}
 				/>
 				<div className="pane">
 					{docs.map((d) => {

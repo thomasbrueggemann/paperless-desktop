@@ -16,7 +16,7 @@ class DocumentsActions {
 	}
 
 	// GET DOCS
-	getDocuments(correspondent, tag, page = 1) {
+	getDocuments(correspondent, tag, ordering = "-created", page = 1) {
 		this.actions.setLoading(true);
 
 		var toQueryString = function(obj) {
@@ -32,14 +32,13 @@ class DocumentsActions {
 		};
 
 		var url = localStorage.getItem("settings.host") + "/api/documents/";
-
 		// add parameters to url
 		const parameters = toQueryString({
 			correspondent__slug_0: correspondent,
 			correspondent__slug_1: "contains",
 			tags__slug_0: tag,
 			tags__slug_1: "contains",
-			ordering: "name",
+			ordering: ordering,
 			page: page
 		});
 
