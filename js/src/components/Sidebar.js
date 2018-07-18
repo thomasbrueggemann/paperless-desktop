@@ -26,7 +26,7 @@ class Sidebar extends PaperlessComponent {
 	render() {
 		var options = [
 			{ value: "-created", label: "Document Date" },
-			{ value: "name", label: "Alphabetical" }
+			{ value: "title", label: "Alphabetical" }
 		];
 		var clearable = false;
 		return (
