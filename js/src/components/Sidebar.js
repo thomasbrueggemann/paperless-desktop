@@ -9,13 +9,13 @@ class Sidebar extends PaperlessComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selectValue: '-created'
+            selectValue: "-created"
         };
     }
 
     updateValue (newValue) {
         this.setState({
-            selectValue: newValue,
+            selectValue: newValue
         });
     }
 
@@ -25,13 +25,15 @@ class Sidebar extends PaperlessComponent {
 
     // RENDER
     render() {
-        var options =  [{ value: '-created', label: 'Document Date' },{ value: 'name', label: 'Alphabetical' }];
+        var options = [{ value: "-created", label: "Document Date" }, { value: "name", label: "Alphabetical" }];
         var clearable = false;
         return (
             <div className="pane pane-sm sidebar">
                 <Select
                     id="order-select"
-                    ref={(ref) => { this.select = ref; }}
+                    ref={(ref) => { 
+                        this.select = ref;
+                    }}
                     options={options}
                     clearable={clearable}
                     simpleValue

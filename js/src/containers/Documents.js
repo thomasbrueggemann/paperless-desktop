@@ -37,8 +37,8 @@ class Documents extends React.Component {
 		$(window).on("searchDocuments", this.onSearchDocuments.bind(this));
 		this.setState({
 			ordering: "-created"
-		});	
-		
+		});
+
 		DocumentsStore.listen(this.onChange);
 		DocumentsActions.getDocuments(this.state.correspondent, this.state.tag, this.state.ordering);
 

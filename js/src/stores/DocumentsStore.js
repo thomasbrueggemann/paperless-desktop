@@ -44,7 +44,7 @@ class DocumentsStore {
         this.correspondent = result.correspondent;
         this.tag = result.tag;
 		this.isLoading = false;
-		this.ordering = result.ordering
+		this.ordering = result.ordering;
 		this.next = result.data.next;
     }
 
