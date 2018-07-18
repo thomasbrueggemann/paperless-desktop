@@ -60,7 +60,8 @@ class DocumentsActions {
 				return this.actions.getDocumentsSuccess({
 					data: result.data,
 					correspondent: correspondent,
-					tag: tag
+					tag: tag,
+					ordering: ordering
 				});
 			})
 			.catch(this.actions.getDocumentsFail);
