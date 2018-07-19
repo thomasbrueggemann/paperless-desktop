@@ -12,6 +12,7 @@ class TagDot extends PaperlessComponent {
 		return (
 			<span
 				className="icon icon-record"
+				title={this.props.tag.name}
 				style={{
 					color: this.getTagColor(this.props.tag.colour)
 				}}
