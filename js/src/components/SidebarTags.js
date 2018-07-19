@@ -34,11 +34,11 @@ class SidebarTags extends React.Component {
 		return (
 			<nav className="nav-group">
 				<h5 className="nav-group-title">Tags</h5>
-				{this.state.tags.results.map(t => {
+				{this.state.tags.results.map((tag) => {
 					return (
 						<SidebarTagItem
-							tag={t}
-							key={"sidebar_tags_" + t.id}
+							tag={tag}
+							key={"sidebar_tags_" + tag.id}
 							setTagFilter={this.props.setTagFilter}
 						/>
 					);
