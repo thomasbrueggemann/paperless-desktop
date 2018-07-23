@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router";
 import PaperlessComponent from "./PaperlessComponent";
 import moment from "moment";
+import TagsStore from "../stores/TagsStore";
+import TagDot from "./TagDot";
 
 String.prototype.trunc =
 	String.prototype.trunc ||
@@ -13,7 +15,7 @@ class DocumentItem extends PaperlessComponent {
 	// CONSTRUCTOR
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = TagsStore.getState();
 	}
 
 	// COMPONENT DID MOUNT
@@ -35,7 +37,10 @@ class DocumentItem extends PaperlessComponent {
 		if ("data" in this.state) {
 			divStyle["backgroundImage"] = "url(" + this.state.data + ")";
 		}
-
+		var tags = [];
+		this.state.tags.results.map((tag) => {
+			tags[tag.id] = tag;
+		});
 		return (
 			<Link className="document-item" to={"/document/" + this.props.document.id}>
 				<div className="document-item-thumbnail" style={divStyle} />
@@ -48,6 +53,19 @@ class DocumentItem extends PaperlessComponent {
 					) : null}
 					{this.props.document.fresh ? " " : null}
 					{this.props.document.title.trunc(100)}
+					&nbsp;
+					{this.props.document.tags.map((tagUrl) => {
+						var tagRegex = /\/([0-9]+)\//;
+						var tagId = tagRegex.exec(tagUrl)[1];
+						var tag = tags[tagId];
+						return (
+							<TagDot
+								tag={tag}
+								key={"sidebar_tags_" + tag.id}
+								setTagFilter={this.props.setTagFilter}
+							/>
+						);
+					})}
 				</div>
 				<small>{moment(this.props.document.created).format("LLLL")}</small>
 			</Link>
