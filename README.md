@@ -16,7 +16,7 @@ Needs a running [paperless](https://github.com/danielquinn/paperless) instance o
 
 ### Pre-built executables
 
-Please keep in mind, that these are pre-releases. There is still plenty of work to do.
+Please keep in mind, that these are pre-releases. There is still some work to do.
 
 <center>
 	<p>
