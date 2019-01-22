@@ -12,7 +12,8 @@ class TagsListItem extends PaperlessComponent {
             { id: "1", text: "Any" },
             { id: "2", text: "All" },
             { id: "3", text: "Literal" },
-            { id: "4", text: "Regular Expression" }
+            { id: "4", text: "Regular Expression" },
+            { id: "5", text: "Fuzzy Match" }
         ];
     }
 
