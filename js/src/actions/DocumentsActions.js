@@ -35,10 +35,10 @@ class DocumentsActions {
 
 		// add parameters to url
 		const parameters = toQueryString({
-			correspondent__slug_0: correspondent,
-			correspondent__slug_1: "contains",
-			tags__slug_0: tag,
-			tags__slug_1: "contains",
+			correspondent__slug__startswith: correspondent,
+			correspondent__slug__endswith: correspondent,
+			tags__slug__startswith: tag,
+			tags__slug__endswith: tag,
 			ordering: "-created",
 			page: page
 		});
