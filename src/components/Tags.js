@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import TagsContext from "../contexts/TagsContext";
 
-function Tags() {
+export default function Tags() {
 	const tagsContext = useContext(TagsContext.Context);
 
-	// load tags
-	useEffect(async () => {
+	/**
+	 * Fetch tags from API
+	 */
+	async function fetchTags() {
 		// fetch tags from API
 		const res = await axios({
 			method: "get",
@@ -16,6 +18,11 @@ function Tags() {
 
 		// set to local store
 		tagsContext.dispatch({ type: "set", tags: res.data });
+	}
+
+	// load tags
+	useEffect(() => {
+		fetchTags();
 	}, []);
 
 	return (
@@ -30,5 +37,3 @@ function Tags() {
 		</>
 	);
 }
-
-export default Tags;

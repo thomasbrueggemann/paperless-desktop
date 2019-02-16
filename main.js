@@ -20,6 +20,7 @@ const createWindow = () => {
 	});
 
 	window.setMenu(null);
+	window.webContents.openDevTools();
 
 	// and load the index.html of the app.
 	window.loadFile("build/index.html");

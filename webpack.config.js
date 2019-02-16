@@ -33,7 +33,7 @@ module.exports = {
 				loaders: ["babel-loader"]
 			},
 			{
-				test: /\.scss$/,
+				test: /\.s?css$/,
 				loader: "style-loader!css-loader!sass-loader"
 			},
 			{
@@ -41,6 +41,14 @@ module.exports = {
 				loader: "url-loader",
 				options: {
 					limit: 10000
+				}
+			},
+			{
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				loader: "file-loader",
+				options: {
+					name: "[name].[ext]",
+					outputPath: "fonts/"
 				}
 			}
 		]

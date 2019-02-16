@@ -18,6 +18,8 @@ import App from "./App";
 import TagsContext from "./contexts/TagsContext";
 
 import "./styles/style.scss";
+import "../node_modules/bulma/css/bulma.css";
+import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 const root = document.getElementById("root");
 
