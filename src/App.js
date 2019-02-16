@@ -1,54 +1,47 @@
 import React from "react";
 import { Switch, Route, HashRouter } from "react-router-dom";
-import { Columns, Column } from "bloomer";
+import { Columns, Column, Section } from "bloomer";
 
-import Tags from "./components/Tags";
 import Toolbar from "./components/Toolbar";
+import Sidebar from "./components/Sidebar";
+import Documents from "./components/Documents";
+import Logs from "./components/Logs";
+
+import ToolbarContext from "./contexts/ToolbarContext";
+import Login from "./components/Login";
+import LoginContext from "./contexts/LoginContext";
 
 const App = () => (
 	<HashRouter>
-		<>
-			<Toolbar />
-
-			<section id="content">
-				<Columns isDesktop isGapless>
-					<Column isSize="1/4" className="sidebar">
-						<Sidebar />
-					</Column>
-					<div className="column">
-						<section id="tabs">
-							<div className="tabs is-boxed">
-								<ul>
-									<li className="is-active">
-										<a>
-											<span className="icon is-small">
-												<i className="fas fa-image" aria-hidden="true" />
-											</span>
-											<span>Documents</span>
-										</a>
-									</li>
-									<li>
-										<a>
-											<span className="icon is-small">
-												<i className="fas fa-music" aria-hidden="true" />
-											</span>
-											<span>Document 123</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</section>
-						<section>
+		<LoginContext.ContextProvider>
+			<Switch>
+				<Route exact path="/">
+					<Login />
+				</Route>
+				<Route>
+					<ToolbarContext.ContextProvider>
+						<Toolbar />
+						<Section id="content">
 							<Switch>
-								<Route exact path="/">
-									<Tags />
+								<Route path="/documents">
+									<Columns isDesktop isGapless>
+										<Column isSize="1/4" className="sidebar">
+											<Sidebar />
+										</Column>
+										<Column>
+											<Documents />
+										</Column>
+									</Columns>
+								</Route>
+								<Route path="/logs">
+									<Logs />
 								</Route>
 							</Switch>
-						</section>
-					</div>
-				</Columns>
-			</section>
-		</>
+						</Section>
+					</ToolbarContext.ContextProvider>
+				</Route>
+			</Switch>
+		</LoginContext.ContextProvider>
 	</HashRouter>
 );
 

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
+import { Input } from "bloomer";
 
 export default function Search() {
-	return <input className="input is-rounded" type="text" placeholder="Search" />;
+	return <Input className="is-rounded" type="text" placeholder="Search" />;
 }

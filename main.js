@@ -11,9 +11,9 @@ const createWindow = () => {
 	window = new BrowserWindow({
 		minWidth: 1000,
 		minHeight: 650,
-		width: 1200,
+		width: 1250,
 		height: 700,
-		title: "TraceMate - Unternehmenskarten",
+		title: "Paperless Desktop",
 		center: true,
 		fullscreenable: false,
 		maximizable: false
@@ -38,8 +38,6 @@ app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") {
 		app.quit();
 	}
-
-	Logger.log("Quit app");
 });
 
 app.on("activate", () => {

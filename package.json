@@ -5,8 +5,9 @@
 	"main": "main.js",
 	"scripts": {
 		"start": "npm run build && electron .",
-		"build": "cross-env NODE_ENV=production webpack",
-		"watch": "cross-env NODE_ENV=development webpack --watch"
+		"build": "npm run clean && cross-env NODE_ENV=production webpack",
+		"watch": "cross-env NODE_ENV=development webpack --watch",
+		"clean": "rm -R -f build/*"
 	},
 	"repository": {
 		"type": "git",

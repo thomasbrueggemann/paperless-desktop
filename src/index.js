@@ -11,11 +11,7 @@ import "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
-// hot reload for development
-import { AppContainer } from "react-hot-loader";
-
 import App from "./App";
-import TagsContext from "./contexts/TagsContext";
 
 import "./styles/style.scss";
 import "../node_modules/bulma/css/bulma.css";
@@ -24,20 +20,7 @@ import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 const root = document.getElementById("root");
 
 const render = (AppComponent) => {
-	ReactDOM.render(
-		<AppContainer>
-			<TagsContext.ContextProvider>
-				<AppComponent />
-			</TagsContext.ContextProvider>
-		</AppContainer>,
-		root
-	);
+	ReactDOM.render(<AppComponent />, root);
 };
 
 render(App);
-
-if (module.hot) {
-	module.hot.accept("./App", () => {
-		render(App);
-	});
-}

@@ -1,5 +1,12 @@
+html,
+body {
+	height: 100%;
+	overflow: auto;
+}
+
 .sidebar {
 	background-color: #ececec;
+	height: 100%;
 }
 
 .sidebar > .menu {
@@ -10,4 +17,8 @@
 .document-columns {
 	padding: 22px;
 	padding-bottom: 0px;
+}
+
+.section {
+	padding: 0 !important;
 }

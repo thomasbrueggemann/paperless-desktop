@@ -1,12 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Columns, Column, Tabs, TabList, TabLink, Tab } from "bloomer";
+import { Columns, Column, Tabs, TabList, Tab } from "bloomer";
 
 import Search from "./Search";
+import ToolbarContext from "../contexts/ToolbarContext";
 
 import "../styles/toolbar.scss";
 
 export default function Toolbar() {
+	const toolbarContext = useContext(ToolbarContext.Context);
+	console.log(toolbarContext.state);
+
 	return (
 		<section id="toolbar">
 			<Columns>
@@ -18,33 +22,33 @@ export default function Toolbar() {
 						className="is-toggle-rounded tabs-main-menu"
 					>
 						<TabList>
-							<Tab isActive>
-								<TabLink>
+							<Tab isActive={toolbarContext.state.active === "documents"}>
+								<Link to="/documents">
 									<span className="icon is-small">
 										<i className="fas fa-file" />
 									</span>
-								</TabLink>
+								</Link>
 							</Tab>
-							<Tab>
-								<TabLink>
+							<Tab isActive={toolbarContext.state.active === "correspondents"}>
+								<Link to="/correspondents">
 									<span className="icon is-small">
 										<i className="fas fa-users" />
 									</span>
-								</TabLink>
+								</Link>
 							</Tab>
-							<Tab>
-								<TabLink>
+							<Tab isActive={toolbarContext.state.active === "tags"}>
+								<Link to="/tags">
 									<span className="icon is-small">
 										<i className="fas fa-tag" />
 									</span>
-								</TabLink>
+								</Link>
 							</Tab>
-							<Tab>
-								<TabLink>
+							<Tab isActive={toolbarContext.state.active === "reminders"}>
+								<Link to="/reminders">
 									<span className="icon is-small">
 										<i className="fas fa-bell" />
 									</span>
-								</TabLink>
+								</Link>
 							</Tab>
 						</TabList>
 					</Tabs>
@@ -55,19 +59,19 @@ export default function Toolbar() {
 						className="is-toggle-rounded tabs-main-menu"
 					>
 						<TabList>
-							<Tab>
-								<TabLink>
+							<Tab isActive={toolbarContext.state.active === "settings"}>
+								<Link to="/settings">
 									<span className="icon is-small">
 										<i className="fas fa-cogs" />
 									</span>
-								</TabLink>
+								</Link>
 							</Tab>
-							<Tab>
-								<TabLink>
+							<Tab isActive={toolbarContext.state.active === "logs"}>
+								<Link to="/logs">
 									<span className="icon is-small">
 										<i className="fas fa-align-justify" />
 									</span>
-								</TabLink>
+								</Link>
 							</Tab>
 						</TabList>
 					</Tabs>

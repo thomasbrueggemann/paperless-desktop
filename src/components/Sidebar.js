@@ -1,39 +1,25 @@
 import React, { useContext, useEffect } from "react";
 import { Menu, MenuLabel, MenuList, MenuLink, Tag } from "bloomer";
 
-export default function Search() {
+import SidebarTags from "./SidebarTags";
+import TagsContext from "../contexts/TagsContext";
+import CorrespondentsContext from "../contexts/CorrespondentsContext";
+import SidebarCorrespondents from "./SidebarCorrespondents";
+
+export default function Sidebar() {
 	return (
 		<Menu>
 			<MenuLabel>Correspondents</MenuLabel>
 			<MenuList>
-				<li>
-					<MenuLink>
-						<i className="fas fa-user" /> Sparkasse Krefeld
-					</MenuLink>
-				</li>
-				<li>
-					<MenuLink>
-						<i className="fas fa-user" /> LVM Versicherungen
-					</MenuLink>
-				</li>
+				<CorrespondentsContext.ContextProvider>
+					<SidebarCorrespondents />
+				</CorrespondentsContext.ContextProvider>
 			</MenuList>
 			<MenuLabel>Tags</MenuLabel>
 			<MenuList>
-				<li>
-					<MenuLink>
-						<Tag isColor="primary">Primary</Tag>
-					</MenuLink>
-				</li>
-				<li>
-					<MenuLink>
-						<Tag isColor="info">Info</Tag>
-					</MenuLink>
-				</li>
-				<li>
-					<MenuLink>
-						<Tag isColor="danger">Danger</Tag>
-					</MenuLink>
-				</li>
+				<TagsContext.ContextProvider>
+					<SidebarTags />
+				</TagsContext.ContextProvider>
 			</MenuList>
 		</Menu>
 	);
