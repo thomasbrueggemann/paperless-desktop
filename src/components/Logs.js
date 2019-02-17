@@ -29,22 +29,22 @@ export default function Logs() {
 		});
 
 		// set to local store
-		logsContext.dispatch({ type: "set", logs: res.data.results });
+		logsContext.dispatch({ type: "SET", logs: res.data.results });
 	}
 
 	useEffect(() => {
 		// set active toolbar item
-		toolbarContext.dispatch({ type: "activate", active: "logs" });
+		toolbarContext.dispatch({ type: "ACTIVATE", active: "logs" });
 
 		fetchLogs();
 	}, []);
 
 	return (
 		<Container isFluid>
-			<Table isBordered isStriped>
+			<Table isStriped>
 				<thead>
 					<tr>
-						<th>Date</th>
+						<th width="200">Date</th>
 						<th>Log</th>
 					</tr>
 				</thead>

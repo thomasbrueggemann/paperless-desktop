@@ -41,7 +41,7 @@ export default function Login(props) {
 									autoFocus=""
 									onChange={(event) => {
 										loginContext.dispatch({
-											type: "set_host",
+											type: "SET_OST",
 											host: event.target.value
 										});
 									}}
@@ -56,7 +56,7 @@ export default function Login(props) {
 									autoFocus=""
 									onChange={(event) => {
 										loginContext.dispatch({
-											type: "set_username",
+											type: "SET_USERNAME",
 											username: event.target.value
 										});
 									}}
@@ -70,7 +70,7 @@ export default function Login(props) {
 									placeholder="Password"
 									onChange={(event) => {
 										loginContext.dispatch({
-											type: "set_password",
+											type: "SET_PASSWORD",
 											password: event.target.value
 										});
 									}}

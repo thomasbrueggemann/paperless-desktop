@@ -27,7 +27,7 @@ export default function SidebarCorrespondents() {
 		});
 
 		// set to local store
-		correspondentsContext.dispatch({ type: "set", tags: res.data.results });
+		correspondentsContext.dispatch({ type: "SET", tags: res.data.results });
 	}
 
 	useEffect(() => {

@@ -8,7 +8,7 @@ const initialState = {
 const reducer = (state, action) => {
 	switch (action.type) {
 		// set logs
-		case "set":
+		case "SET":
 			return { ...state, logs: action.logs };
 	}
 };

@@ -7,13 +7,14 @@ import Sidebar from "./components/Sidebar";
 import Documents from "./components/Documents";
 import Logs from "./components/Logs";
 import Document from "./components/Document";
+import DocumentsTabs from "./components/DocumentsTabs";
+import DocumentEditSidebar from "./components/DocumentEditSidebar";
+import Login from "./components/Login";
 
 import ToolbarContext from "./contexts/ToolbarContext";
-import Login from "./components/Login";
 import LoginContext from "./contexts/LoginContext";
 import LogsContext from "./contexts/LogsContext";
 import DocumentsContext from "./contexts/DocumentsContext";
-import DocumentEditSidebar from "./components/DocumentEditSidebar";
 
 const App = () => (
 	<HashRouter>
@@ -27,26 +28,31 @@ const App = () => (
 						<Toolbar />
 						<Section id="content">
 							<Switch>
-								<Route path="/documents">
-									<Columns isDesktop isGapless>
-										<Column isSize="1/4" className="sidebar">
-											<Sidebar />
-										</Column>
-										<Column>
-											<DocumentsContext.ContextProvider>
-												<Documents />
-											</DocumentsContext.ContextProvider>
-										</Column>
-									</Columns>
-								</Route>
-								<Route path="/document/:id">
+								<Route path="/document*">
 									<DocumentsContext.ContextProvider>
-										<Columns isDesktop isGapless>
+										<Columns isDesktop isGapless className="main-content">
 											<Column isSize="1/4" className="sidebar">
-												<DocumentEditSidebar />
+												<Switch>
+													<Route path="/documents">
+														<Sidebar />
+													</Route>
+
+													<Route path="/document/:id">
+														<DocumentEditSidebar />
+													</Route>
+												</Switch>
 											</Column>
 											<Column>
-												<Document />
+												<DocumentsTabs />
+												<Switch>
+													<Route path="/documents">
+														<Documents />
+													</Route>
+
+													<Route path="/document/:id">
+														<Document />
+													</Route>
+												</Switch>
 											</Column>
 										</Columns>
 									</DocumentsContext.ContextProvider>

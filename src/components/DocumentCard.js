@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, CardImage, CardContent, Content, Column } from "bloomer";
+import { Link } from "react-router-dom";
 import Axios from "axios";
 import { DateTime } from "luxon";
 
@@ -20,7 +21,7 @@ export default function DocumentCard(props) {
 	/**
 	 * Fetch the base64 data URI for the thumbnail image
 	 */
-	async function fetchImageBase64() {
+	async function fetchBase64() {
 		const { host, username, password } = loginContext.state;
 		const res = await Axios({
 			method: "get",
@@ -39,28 +40,30 @@ export default function DocumentCard(props) {
 	}
 
 	useEffect(() => {
-		fetchImageBase64();
+		fetchBase64();
 	}, []);
 
 	return (
 		<Column>
-			<Card className="document">
-				<CardImage>
-					<figure className="image is-4by3">
-						<img src={dataURI} alt={props.title} width="200" />
-					</figure>
-				</CardImage>
-				<CardContent>
-					<Content>
-						<b>{props.title.trunc(100)}</b>
-						<small>
-							{DateTime.fromISO(props.created).toLocaleString(
-								DateTime.DATETIME_MED_WITH_SECONDS
-							)}
-						</small>
-					</Content>
-				</CardContent>
-			</Card>
+			<Link to={`/document/${props.id}`}>
+				<Card className="document">
+					<CardImage>
+						<figure className="image is-4by3">
+							<img src={dataURI} alt={props.title} width="200" />
+						</figure>
+					</CardImage>
+					<CardContent>
+						<Content>
+							<b>{props.title.trunc(100)}</b>
+							<small>
+								{DateTime.fromISO(props.created).toLocaleString(
+									DateTime.DATETIME_MED_WITH_SECONDS
+								)}
+							</small>
+						</Content>
+					</CardContent>
+				</Card>
+			</Link>
 		</Column>
 	);
 }

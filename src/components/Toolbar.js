@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import { Switch, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Columns, Column, Tabs, TabList, Tab } from "bloomer";
 
@@ -76,7 +77,11 @@ export default function Toolbar() {
 					</Tabs>
 				</Column>
 				<Column className="is-one-quarter">
-					<Search />
+					<Switch>
+						<Route path="/documents">
+							<Search />
+						</Route>
+					</Switch>
 				</Column>
 			</Columns>
 		</section>

@@ -8,7 +8,7 @@ const initialState = {
 const reducer = (state, action) => {
 	switch (action.type) {
 		// set the active item
-		case "activate":
+		case "ACTIVATE":
 			return { ...state, active: action.active };
 	}
 };

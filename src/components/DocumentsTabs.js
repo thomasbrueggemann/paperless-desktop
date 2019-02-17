@@ -1,18 +1,23 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Section } from "bloomer";
 
+import DocumentsContext from "../contexts/DocumentsContext";
+
 export default function DocumentsTabs() {
+	const documentsContext = useContext(DocumentsContext.Context);
+
 	return (
 		<Section id="tabs">
 			<div className="tabs is-boxed">
 				<ul>
 					<li className="is-active">
-						<a>
+						<Link to="">
 							<span className="icon is-small">
 								<i className="fas fa-image" aria-hidden="true" />
 							</span>
 							<span>Documents</span>
-						</a>
+						</Link>
 					</li>
 					<li>
 						<a>

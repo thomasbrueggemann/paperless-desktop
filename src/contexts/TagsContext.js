@@ -8,11 +8,11 @@ const initialState = {
 const reducer = (state, action) => {
 	switch (action.type) {
 		// set the initial tags
-		case "set":
+		case "SET":
 			return { ...state, tags: action.tags };
 
 		// add a single tag to the list
-		case "add":
+		case "ADD":
 			let tags = state.tags;
 			tags.push(action.tag);
 

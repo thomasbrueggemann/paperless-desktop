@@ -26,7 +26,7 @@ export default function SidebarTags() {
 		});
 
 		// set to local store
-		tagsContext.dispatch({ type: "set", tags: res.data.results });
+		tagsContext.dispatch({ type: "SET", tags: res.data.results });
 	}
 
 	/**

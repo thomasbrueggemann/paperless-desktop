@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Axios from "axios";
 
-import DocumentsTabs from "./DocumentsTabs";
 import DocumentsRow from "./DocumentsRow";
 import DocumentCard from "./DocumentCard";
 
@@ -44,28 +43,23 @@ export default function Documents() {
 		});
 
 		// set to local store
-		documentsContext.dispatch({ type: "set_documents", documents: res.data.results });
+		documentsContext.dispatch({ type: "SET_DOCUMENTS", documents: res.data.results });
 	}
 
 	useEffect(() => {
 		// set active toolbar item
-		toolbarContext.dispatch({ type: "activate", active: "documents" });
+		toolbarContext.dispatch({ type: "ACTIVATE", active: "documents" });
 
 		fetchDocuments();
 	}, []);
 
-	return (
-		<>
-			<DocumentsTabs />
-			{documentsContext.state.documents.chunk(DOCUMENTS_PER_ROW).map((docChunk, i) => {
-				return (
-					<DocumentsRow key={i}>
-						{docChunk.map((doc) => {
-							return <DocumentCard key={doc.id} {...doc} />;
-						})}
-					</DocumentsRow>
-				);
-			})}
-		</>
-	);
+	return documentsContext.state.documents.chunk(DOCUMENTS_PER_ROW).map((docChunk, i) => {
+		return (
+			<DocumentsRow key={i}>
+				{docChunk.map((doc) => {
+					return <DocumentCard key={doc.id} {...doc} />;
+				})}
+			</DocumentsRow>
+		);
+	});
 }
