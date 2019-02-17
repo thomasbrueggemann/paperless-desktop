@@ -2,11 +2,9 @@ import React, { useContext, useEffect } from "react";
 import { Field, Control, Input, Box, Button, Columns, Column, Level, LevelItem } from "bloomer";
 
 import LoginContext from "../contexts/LoginContext";
-import { useRouter } from "../useRouter";
 
-export default function Login() {
+export default function Login(props) {
 	const loginContext = useContext(LoginContext.Context);
-	const routerContext = useRouter();
 
 	function validateLoginAndNavigateToDocuments() {
 		const { host, username, password } = loginContext.state;
@@ -15,7 +13,7 @@ export default function Login() {
 
 		// input is correct, move on
 		if (host.length > 0 && username.length > 0 && password.length > 0) {
-			routerContext.history.push("/documents");
+			window.location.href = "/#/documents";
 		}
 	}
 

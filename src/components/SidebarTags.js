@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import Axios from "axios";
 import TagsContext from "../contexts/TagsContext";
 import { MenuLink } from "bloomer";
 import LoginContext from "../contexts/LoginContext";
@@ -16,7 +16,7 @@ export default function SidebarTags() {
 		const { host, username, password } = loginContext.state;
 
 		// fetch tags from API
-		const res = await axios({
+		const res = await Axios({
 			method: "get",
 			url: `${host}/api/tags/?ordering=name`,
 			auth: {

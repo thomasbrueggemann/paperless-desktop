@@ -9,7 +9,6 @@ import "../styles/toolbar.scss";
 
 export default function Toolbar() {
 	const toolbarContext = useContext(ToolbarContext.Context);
-	console.log(toolbarContext.state);
 
 	return (
 		<section id="toolbar">

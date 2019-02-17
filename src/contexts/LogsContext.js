@@ -1,15 +1,15 @@
 import { buildContext } from "./Context";
 
 const initialState = {
-	active: "documents"
+	logs: []
 };
 
 // reducer actions to mutate state
 const reducer = (state, action) => {
 	switch (action.type) {
-		// set the active item
-		case "activate":
-			return { ...state, active: action.active };
+		// set logs
+		case "set":
+			return { ...state, logs: action.logs };
 	}
 };
 

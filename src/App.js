@@ -6,10 +6,14 @@ import Toolbar from "./components/Toolbar";
 import Sidebar from "./components/Sidebar";
 import Documents from "./components/Documents";
 import Logs from "./components/Logs";
+import Document from "./components/Document";
 
 import ToolbarContext from "./contexts/ToolbarContext";
 import Login from "./components/Login";
 import LoginContext from "./contexts/LoginContext";
+import LogsContext from "./contexts/LogsContext";
+import DocumentsContext from "./contexts/DocumentsContext";
+import DocumentEditSidebar from "./components/DocumentEditSidebar";
 
 const App = () => (
 	<HashRouter>
@@ -29,12 +33,28 @@ const App = () => (
 											<Sidebar />
 										</Column>
 										<Column>
-											<Documents />
+											<DocumentsContext.ContextProvider>
+												<Documents />
+											</DocumentsContext.ContextProvider>
 										</Column>
 									</Columns>
 								</Route>
+								<Route path="/document/:id">
+									<DocumentsContext.ContextProvider>
+										<Columns isDesktop isGapless>
+											<Column isSize="1/4" className="sidebar">
+												<DocumentEditSidebar />
+											</Column>
+											<Column>
+												<Document />
+											</Column>
+										</Columns>
+									</DocumentsContext.ContextProvider>
+								</Route>
 								<Route path="/logs">
-									<Logs />
+									<LogsContext.ContextProvider>
+										<Logs />
+									</LogsContext.ContextProvider>
 								</Route>
 							</Switch>
 						</Section>

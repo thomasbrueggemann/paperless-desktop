@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import Axios from "axios";
 import { MenuLink } from "bloomer";
 
 import CorrespondentsContext from "../contexts/CorrespondentsContext";
@@ -17,7 +17,7 @@ export default function SidebarCorrespondents() {
 		const { host, username, password } = loginContext.state;
 
 		// fetch tags from API
-		const res = await axios({
+		const res = await Axios({
 			method: "get",
 			url: `${host}/api/correspondents/?ordering=name`,
 			auth: {
