@@ -49,6 +49,7 @@ export default function Documents() {
 	useEffect(() => {
 		// set active toolbar item
 		toolbarContext.dispatch({ type: "ACTIVATE", active: "documents" });
+		documentsContext.dispatch({ type: "SET_ACTIVE_TAB", activeTab: "documents" });
 
 		fetchDocuments();
 	}, []);
@@ -56,8 +57,8 @@ export default function Documents() {
 	return documentsContext.state.documents.chunk(DOCUMENTS_PER_ROW).map((docChunk, i) => {
 		return (
 			<DocumentsRow key={i}>
-				{docChunk.map((doc) => {
-					return <DocumentCard key={doc.id} {...doc} />;
+				{docChunk.map((doc, j) => {
+					return <DocumentCard key={j} {...doc} />;
 				})}
 			</DocumentsRow>
 		);

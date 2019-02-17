@@ -1,34 +1,36 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Section } from "bloomer";
+import { Section, Tabs, TabList, Tab, Delete } from "bloomer";
 
 import DocumentsContext from "../contexts/DocumentsContext";
+import DocumentsTabItem from "./DocumentsTabItem";
+
+import "../styles/tabs.scss";
 
 export default function DocumentsTabs() {
 	const documentsContext = useContext(DocumentsContext.Context);
 
 	return (
 		<Section id="tabs">
-			<div className="tabs is-boxed">
-				<ul>
-					<li className="is-active">
-						<Link to="">
+			<Tabs isBoxed>
+				<TabList>
+					<Tab isActive={documentsContext.state.activeTab === "documents"}>
+						<Link to="/documents">
 							<span className="icon is-small">
-								<i className="fas fa-image" aria-hidden="true" />
+								<i className="fas fa-folder-open" aria-hidden="true" />
 							</span>
 							<span>Documents</span>
 						</Link>
-					</li>
-					<li>
-						<a>
-							<span className="icon is-small">
-								<i className="fas fa-music" aria-hidden="true" />
-							</span>
-							<span>Document 123</span>
-						</a>
-					</li>
-				</ul>
-			</div>
+					</Tab>
+					{documentsContext.state.tabs.map((tab) => {
+						return (
+							<Tab isActive={documentsContext.state.activeTab === tab.id}>
+								<DocumentsTabItem {...tab} />
+							</Tab>
+						);
+					})}
+				</TabList>
+			</Tabs>
 		</Section>
 	);
 }

@@ -15,16 +15,7 @@ const DefinePluginConfig = new webpack.DefinePlugin({
 });
 
 module.exports = {
-	devServer: {
-		host: "localhost",
-		port: "3000",
-		hot: true,
-		headers: {
-			"Access-Control-Allow-Origin": "*"
-		},
-		historyApiFallback: true
-	},
-	entry: ["react-hot-loader/patch", path.join(__dirname, "/src/index.js")],
+	entry: [path.join(__dirname, "/src/index.js")],
 	module: {
 		rules: [
 			{
@@ -61,7 +52,5 @@ module.exports = {
 		path: path.join(__dirname, "/build")
 	},
 	mode: dev ? "development" : "production",
-	plugins: dev
-		? [HTMLWebpackPluginConfig, new webpack.HotModuleReplacementPlugin()]
-		: [HTMLWebpackPluginConfig, DefinePluginConfig]
+	plugins: [HTMLWebpackPluginConfig, DefinePluginConfig]
 };

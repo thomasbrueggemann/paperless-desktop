@@ -6,6 +6,12 @@ import DocumentsContext from "../contexts/DocumentsContext";
 import LoginContext from "../contexts/LoginContext";
 import Axios from "axios";
 
+String.prototype.truncate =
+	String.prototype.truncate ||
+	function(n) {
+		return this.length > n ? this.substr(0, n - 1) : this;
+	};
+
 export default function Document() {
 	// contexts
 	const toolbarContext = useContext(ToolbarContext.Context);
@@ -58,6 +64,12 @@ export default function Document() {
 		// set to local store
 		documentsContext.dispatch({ type: "SET_DOCUMENT", documents: doc });
 
+		// add a tab
+		documentsContext.dispatch({
+			type: "ADD_TAB",
+			tab: { id, title: doc.title.truncate(15) + "...", type: doc.file_type }
+		});
+
 		setDoc(doc);
 
 		// fetch
@@ -67,7 +79,6 @@ export default function Document() {
 	useEffect(() => {
 		// set active toolbar item
 		toolbarContext.dispatch({ type: "ACTIVATE", active: "documents" });
-		documentsContext.dispatch({ type: "ADD_TAB", documents: id });
 
 		fetchDocument();
 	}, []);

@@ -23,28 +23,28 @@ export default function Toolbar() {
 					>
 						<TabList>
 							<Tab isActive={toolbarContext.state.active === "documents"}>
-								<Link to="/documents">
+								<Link to="/documents" title="Documents">
 									<span className="icon is-small">
-										<i className="fas fa-file" />
+										<i className="fas fa-folder-open" />
 									</span>
 								</Link>
 							</Tab>
 							<Tab isActive={toolbarContext.state.active === "correspondents"}>
-								<Link to="/correspondents">
+								<Link to="/correspondents" title="Correspondents">
 									<span className="icon is-small">
 										<i className="fas fa-users" />
 									</span>
 								</Link>
 							</Tab>
 							<Tab isActive={toolbarContext.state.active === "tags"}>
-								<Link to="/tags">
+								<Link to="/tags" title="Tags">
 									<span className="icon is-small">
 										<i className="fas fa-tag" />
 									</span>
 								</Link>
 							</Tab>
 							<Tab isActive={toolbarContext.state.active === "reminders"}>
-								<Link to="/reminders">
+								<Link to="/reminders" title="Reminders">
 									<span className="icon is-small">
 										<i className="fas fa-bell" />
 									</span>
@@ -60,14 +60,14 @@ export default function Toolbar() {
 					>
 						<TabList>
 							<Tab isActive={toolbarContext.state.active === "settings"}>
-								<Link to="/settings">
+								<Link to="/settings" title="Settings">
 									<span className="icon is-small">
 										<i className="fas fa-cogs" />
 									</span>
 								</Link>
 							</Tab>
 							<Tab isActive={toolbarContext.state.active === "logs"}>
-								<Link to="/logs">
+								<Link to="/logs" title="Logs">
 									<span className="icon is-small">
 										<i className="fas fa-align-justify" />
 									</span>
