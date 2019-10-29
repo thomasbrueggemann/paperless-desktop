@@ -16,7 +16,7 @@ class CorrespondentsListItem extends PaperlessComponent {
             { id: "5", text: "Fuzzy Match" }
         ];
     }
-    
+
     // CHANGE SELECTION
     changeSelection(event) {
         const target = event.target;
