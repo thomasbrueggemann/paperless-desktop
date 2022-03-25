@@ -46,7 +46,7 @@
 		"babelify": "^6.3.0",
 		"bower": "^1.8.8",
 		"browserify": "^11.2.0",
-		"electron": "^1.8.8",
+		"electron": "^13.6.6",
 		"electron-packager": "^12.0.1",
 		"eslint": "^5.1.0",
 		"eslint-config-prettier": "^2.9.0",
