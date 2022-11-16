@@ -40,7 +40,7 @@
 		"simple-react-pdf2": "^2.0.1",
 		"slug": "^0.9.1",
 		"underscore": "^1.8.3",
-		"webpack": "^2.4.1"
+		"webpack": "^5.75.0"
 	},
 	"devDependencies": {
 		"babelify": "^6.3.0",
